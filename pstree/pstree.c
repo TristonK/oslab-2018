@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
   int i;
   for (i = 0; i < argc; i++) {
     assert(argv[i]); // always true
-		int op=argv[i];
+		int op=(int)argv[i];
 		switch(op){
 			case '-p':
 							printf("print pid\n");
