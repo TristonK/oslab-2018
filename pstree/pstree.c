@@ -1,12 +1,22 @@
 #include <stdio.h>
 #include <assert.h>
-
+//test
 int main(int argc, char *argv[]) {
-  printf("Hello, World!\n");
   int i;
   for (i = 0; i < argc; i++) {
     assert(argv[i]); // always true
-    printf("argv[%d] = %s\n", i, argv[i]);
+		switch(argv[i]){
+			case '-p':
+							printf("print pid\n");
+							break;
+			case '-n':
+							printf("print num\n");
+							break;
+			default:
+							printf("no such a op\n");
+							break;
+		}
+    //printf("argv[%d] = %s\n", i, argv[i]);
   }
   assert(!argv[argc]); // always true
   return 0;
