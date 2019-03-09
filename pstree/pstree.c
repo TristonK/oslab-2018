@@ -11,7 +11,7 @@ void read_proc(){
 	DIR *dirptr = NULL;
 	struct dirent *entry;
 	dirptr = opendir("/proc");
-	assert(dirptr == NULL);
+	//assert(dirptr == NULL);
 	while((entry = readdir(dirptr))){
 		if(entry->d_type == DT_DIR)
 			printf("yes\n");		
