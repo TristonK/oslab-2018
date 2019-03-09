@@ -20,8 +20,10 @@ void read_proc(){
 				//printf("%s\n",proc_path);
 				FILE *fp = fopen(proc_path,"r");
 				if(fp){
-					fgets(buf,1024,fp);
-					printf("%s\n",buf);
+					while(!ferror(fp)){
+						fgets(buf,1024,fp);
+						printf("%s",buf);
+					}
 					fclose(fp);
 				}
 				else{
