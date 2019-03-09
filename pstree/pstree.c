@@ -40,8 +40,9 @@ void read_proc(){
 				FILE *fp = fopen(proc_path,"r");
 				if(fp){
 					printf("**********************\n");
+					char name[100],pid_str[100],ppid_str[100];
+					int pid,ppid;
 					while(!feof(fp)){
-						char name[100];
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
 							get_str(name,5,buf);
@@ -49,9 +50,15 @@ void read_proc(){
 							printf("%s",buf);
 						}
 						if(!strncmp(buf,"Pid",3)){
+							get_str(pid_str,4,buf);
+							pid = atoi(pid_str);
+							printf("%d\n",pid);
 							printf("%s",buf);
 						}
 						if(!strncmp(buf,"PPid",4)){
+							get_str(ppid_str,5,buf);
+							ppid = atoi(ppid_str);
+							printf("%d\n",ppid);
 							printf("%s",buf);
 						}
 					}
