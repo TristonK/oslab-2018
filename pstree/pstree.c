@@ -13,7 +13,7 @@ void read_proc(){
 	dirptr = opendir("/proc");
 	//assert(dirptr == NULL);
 	while((entry = readdir(dirptr))){
-		if(entry->d_type == DT_DIR)
+		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name >= 48)
 			printf("%s\n",entry->d_name);		
 	}
 }
