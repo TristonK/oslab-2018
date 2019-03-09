@@ -1,7 +1,24 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-//test
+#include <dirent.h>
+
+//variables
+
+
+
+void read_proc(){
+	DIR *dirptr = NULL;
+	struct dirent *entry;
+	dirptr = opendir("/proc");
+	assert(dirptr == NULL);
+	while(entry = readdir(dirptr)){
+		if(entry.d_type == DT_DIR)
+			printf("yes\n");		
+	}
+}
+
+
 int main(int argc, char *argv[]) {
   int i;
   for (i = 0; i < argc; i++) {
@@ -11,9 +28,11 @@ int main(int argc, char *argv[]) {
 		else if(!strcmp(argv[i],"-n") || !strcmp(argv[i],"--numeric-sort"))
 			printf("sort\n");
 		else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
-		  printf("pstree (kuangsl) 1.0\n Copyright (C) 2019-2019 what a sad lab\n");
-    //printf("argv[%d] = %s\n", i, argv[i]);
+		  printf("pstree (kuangsl) 1.0\Copyright (C) 2019-2019 what a sad lab\n");
+		else
+		 	printf("pstree\n");
   }
+	read_proc();
   assert(!argv[argc]); // always true
   return 0;
 }
