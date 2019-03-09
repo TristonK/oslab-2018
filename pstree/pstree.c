@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdlib.h>
 
 //variables
 char proc_path[100];
