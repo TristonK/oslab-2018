@@ -5,21 +5,32 @@
 
 //variables
 char proc_path[100];
-
+char buf[100];
 
 void read_proc(){
 	DIR *dirptr = NULL;
 	struct dirent *entry;
 	dirptr = opendir("/proc");
-	//assert(dirptr == NULL);
+	assert(dirptr != NULL);
 	while((entry = readdir(dirptr))){
 		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name[0] >= 48){
 				strcpy(proc_path,"/proc/");
 				strcat(proc_path,entry->d_name);
 				strcat(proc_path,"/status");
-				printf("%s\n",proc_path);	
+				//printf("%s\n",proc_path);
+				FILE *fp = fopen(proc_path,"r");
+				if(fp){
+					fgets(buf,1024,fp);
+					printf("%s\n",buf);
+					fclose(fp);
+				}
+				else{
+					printf("ERROR: Fail To Open %s\n",proc_path);
+					assert(0);
+				}	
 			}	
 	}
+	closedir(dirptr);
 }
 
 
