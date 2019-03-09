@@ -20,9 +20,18 @@ void read_proc(){
 				//printf("%s\n",proc_path);
 				FILE *fp = fopen(proc_path,"r");
 				if(fp){
+					printf("**********************\n");
 					while(!feof(fp)){
 						fgets(buf,1024,fp);
-						printf("%s",buf);
+						if(!strncmp(str,"Name",4)){
+							printf("%s",buf);
+						}
+						if(!strncmp(str,"Pid",3)){
+							printf("%s",buf);
+						}
+						if(!strncmp(str,"PPid",4)){
+							printf("%s",buf);
+						}
 					}
 					fclose(fp);
 				}
