@@ -7,7 +7,8 @@
 char proc_path[100];
 char buf[1024];
 
-char get_str(char* str[100],int start_pos,char buf[1024]){
+void get_str(char* ans,int start_pos,char buf[1024]){
+	char str[100];
 	int flag = 0;int k=0;
 	for(int i=start_pos;i<strlen(buf);++i){
 		if(flag){
@@ -22,7 +23,7 @@ char get_str(char* str[100],int start_pos,char buf[1024]){
 		}
 	}
 	str[k]='\0';
-	return str;	
+	strcpy(ans,str);	
 }
 
 void read_proc(){
