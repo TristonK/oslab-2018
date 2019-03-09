@@ -9,6 +9,7 @@ int proc_num=0;
 struct Proc{
 	char name[100];
 	int pid,ppid;
+	int print,generation;
 }p[1024];
 
 void get_str(char* ans,int start_pos,char buf[1024]){
@@ -66,6 +67,7 @@ void read_proc(){
 							//printf("%d\n",ppid);
 						}
 					}
+					p[proc_num].print = p[proc_num].generation = 0;
 					fclose(fp);
 				}
 				else{
@@ -76,8 +78,26 @@ void read_proc(){
 			}	
 	}
 	closedir(dirptr);
-	printf("%d\n",proc_num);
+	//printf("%d\n",proc_num);
 }
+
+void print_tree(int ppid,int father_num){
+		for(int i=0; i < proc_num; ++i){
+			if(!p[i].print && p[i].ppid==ppid){
+				for(int j=0;j<father_num;j++){
+					printf("      ");
+				}
+				printf("|");putchar(196);putchar(196);
+				printf("%s\n",p[i].name);
+				p[i].print = 1;
+				p[i].generation = father_num+1;
+				print_tree(p[i].pid,p[i].generation);
+			}
+		}
+}
+
+
+
 
 
 int main(int argc, char *argv[]) {
@@ -92,7 +112,7 @@ int main(int argc, char *argv[]) {
 		else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
 		  printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
 		else
-		 	printf("pstree\n");
+		 	print_tree(0,0);
   }
 	
   assert(!argv[argc]); // always true
