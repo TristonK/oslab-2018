@@ -22,8 +22,20 @@ void read_proc(){
 				if(fp){
 					printf("**********************\n");
 					while(!feof(fp)){
+						char name[100];
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
+							bool flag=false;int k=0;
+							for(int i=5;i<strlen(buf);++i){
+								if(flag){
+									name[k] = buf[i];
+									k++;
+									continue;
+								}
+								if(buf[i]!=' ')
+									flag = true;
+							}
+							printf("%s\n",name);
 							printf("%s",buf);
 						}
 						if(!strncmp(buf,"Pid",3)){
