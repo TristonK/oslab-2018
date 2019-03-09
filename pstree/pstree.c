@@ -13,7 +13,7 @@ void read_proc(){
 	dirptr = opendir("/proc");
 	assert(dirptr == NULL);
 	while(entry = readdir(dirptr)){
-		if(entry.d_type == DT_DIR)
+		if(entry->d_type == DT_DIR)
 			printf("yes\n");		
 	}
 }
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 		else if(!strcmp(argv[i],"-n") || !strcmp(argv[i],"--numeric-sort"))
 			printf("sort\n");
 		else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
-		  printf("pstree (kuangsl) 1.0\Copyright (C) 2019-2019 what a sad lab\n");
+		  printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
 		else
 		 	printf("pstree\n");
   }
