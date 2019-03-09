@@ -14,7 +14,7 @@ void read_proc(){
 	//assert(dirptr == NULL);
 	while((entry = readdir(dirptr))){
 		if(entry->d_type == DT_DIR)
-			printf("yes\n");		
+			printf("%s\n",entry->d_name);		
 	}
 }
 
