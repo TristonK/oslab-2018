@@ -23,13 +23,13 @@ void read_proc(){
 					printf("**********************\n");
 					while(!feof(fp)){
 						fgets(buf,1024,fp);
-						if(!strncmp(str,"Name",4)){
+						if(!strncmp(buf,"Name",4)){
 							printf("%s",buf);
 						}
-						if(!strncmp(str,"Pid",3)){
+						if(!strncmp(buf,"Pid",3)){
 							printf("%s",buf);
 						}
-						if(!strncmp(str,"PPid",4)){
+						if(!strncmp(buf,"PPid",4)){
 							printf("%s",buf);
 						}
 					}
