@@ -6,17 +6,12 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < argc; i++) {
     assert(argv[i]); // always true
 		int op=(int)argv[i];
-		switch(op){
-			case '-p':
-							printf("print pid\n");
-							break;
-			case '-n':
-							printf("print num\n");
-							break;
-			default:
-							printf("no such a op\n");
-							break;
-		}
+		if(argv[i]=="-p" || argv[i] == "--show-pids")
+			printf("print pids\n");
+		else if(argv[i] == "-n" || argv[i] == "--numeric-sort")
+			printf("sort\n");
+		else if(argv[i] == "-V" || argv[i] == "--version")
+		  printf("pstree (kuangsl) 1.0\n Copyright (C) 2019-2019 what a sad lab\n");
     //printf("argv[%d] = %s\n", i, argv[i]);
   }
   assert(!argv[argc]); // always true
