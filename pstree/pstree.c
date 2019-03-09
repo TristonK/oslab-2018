@@ -7,8 +7,7 @@
 char proc_path[100];
 char buf[1024];
 
-char get_str(int start_pos,char buf[1024]){
-	char str[100];
+char get_str(char* str[100],int start_pos,char buf[1024]){
 	int flag = 0;int k=0;
 	for(int i=start_pos;i<strlen(buf);++i){
 		if(flag){
@@ -44,7 +43,7 @@ void read_proc(){
 						char name[100];
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
-							name = get_str(5,buf);
+							get_str(&name,5,buf);
 							printf("%s",name);
 							printf("%s",buf);
 						}
