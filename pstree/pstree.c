@@ -5,7 +5,7 @@
 
 //variables
 char proc_path[100];
-char buf[100];
+char buf[1024];
 
 void read_proc(){
 	DIR *dirptr = NULL;
