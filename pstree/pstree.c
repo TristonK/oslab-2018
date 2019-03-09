@@ -4,7 +4,7 @@
 #include <dirent.h>
 
 //variables
-
+char proc_path[100];
 
 
 void read_proc(){
@@ -14,7 +14,10 @@ void read_proc(){
 	//assert(dirptr == NULL);
 	while((entry = readdir(dirptr))){
 		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name[0] >= 48)
-			printf("%s\n",entry->d_name);		
+			strcpy(proc_path,"/proc");
+			strcat(proc_path,entry->d_name);
+			strcat(proc_path,"/status");
+			printf("%s\n",proc_path);		
 	}
 }
 
