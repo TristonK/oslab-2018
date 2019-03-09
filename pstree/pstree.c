@@ -13,11 +13,12 @@ void read_proc(){
 	dirptr = opendir("/proc");
 	//assert(dirptr == NULL);
 	while((entry = readdir(dirptr))){
-		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name[0] >= 48)
-			strcpy(proc_path,"/proc");
-			strcat(proc_path,entry->d_name);
-			strcat(proc_path,"/status");
-			printf("%s\n",proc_path);		
+		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name[0] >= 48){
+				strcpy(proc_path,"/proc");
+				strcat(proc_path,entry->d_name);
+				strcat(proc_path,"/status");
+				printf("%s\n",proc_path);	
+			}	
 	}
 }
 
