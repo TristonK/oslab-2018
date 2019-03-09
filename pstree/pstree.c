@@ -7,6 +7,25 @@
 char proc_path[100];
 char buf[1024];
 
+char get_str(int start_pos,char buf[1024]){
+	char str[100];
+	int flag = 0;int k=0;
+	for(int i=start_pos;i<strlen(buf);++i){
+		if(flag){
+			str[k] = buf[i];
+			k++;
+			continue;
+		}
+		if(buf[i]!='\t' && buf[i]!=' '){
+			flag = 1;
+			str[k] = buf[i];
+			k++;
+		}
+	}
+	str[k]='\0';
+	return str;	
+}
+
 void read_proc(){
 	DIR *dirptr = NULL;
 	struct dirent *entry;
@@ -25,21 +44,8 @@ void read_proc(){
 						char name[100];
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
-							int flag = 0;int k=0;
-							for(int i=5;i<strlen(buf);++i){
-								if(flag){
-									name[k] = buf[i];
-									k++;
-									continue;
-								}
-								if(buf[i]!='\t' && buf[i]!=' '){
-									flag = 1;
-									name[k] = buf[i];
-									k++;
-								}
-							}
-							name[k]='\0';
-							printf("%s\n",name);
+							name = get_str(5,buf);
+							printf("%s",name);
 							printf("%s",buf);
 						}
 						if(!strncmp(buf,"Pid",3)){
