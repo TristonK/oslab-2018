@@ -44,7 +44,7 @@ void read_proc(){
 						char name[100];
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
-							get_str(&name,5,buf);
+							get_str(name,5,buf);
 							printf("%s",name);
 							printf("%s",buf);
 						}
