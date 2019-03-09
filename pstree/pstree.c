@@ -6,13 +6,10 @@
 
 //variables
 int proc_num=0;
-/*struct Proc{
+struct Proc{
 	char name[100];
 	int pid,ppid;
-};*/
-
-
-
+}p[1024];
 
 void get_str(char* ans,int start_pos,char buf[1024]){
 	char str[100];
@@ -42,7 +39,6 @@ void read_proc(){
 	assert(dirptr != NULL);
 	while((entry = readdir(dirptr))){
 		if(entry->d_type == DT_DIR && entry->d_name[0] <=57 && entry->d_name[0] >= 48){
-				proc_num++;
 				strcpy(proc_path,"/proc/");
 				strcat(proc_path,entry->d_name);
 				strcat(proc_path,"/status");
@@ -55,25 +51,28 @@ void read_proc(){
 						fgets(buf,1024,fp);
 						if(!strncmp(buf,"Name",4)){
 							get_str(name,5,buf);
+							strcpy(p[proc_num].name,name);
 						}
 						if(!strncmp(buf,"Pid",3)){
 							get_str(pid_str,4,buf);
 							pid = atoi(pid_str);
-							printf("%d\n",pid);
+							p[proc_num].pid=pid;
+							//printf("%d\n",pid);
 						}
 						if(!strncmp(buf,"PPid",4)){
 							get_str(ppid_str,5,buf);
 							ppid = atoi(ppid_str);
-							printf("%d\n",ppid);
+							p[proc_num].ppid=ppid;
+							//printf("%d\n",ppid);
 						}
 					}
-          
 					fclose(fp);
 				}
 				else{
 					printf("ERROR: Fail To Open %s\n",proc_path);
 					assert(0);
-				}	
+				}
+				proc_num++;	
 			}	
 	}
 	closedir(dirptr);
@@ -83,6 +82,7 @@ void read_proc(){
 
 int main(int argc, char *argv[]) {
   int i;
+	read_proc();
   for (i = 0; i < argc; i++) {
     assert(argv[i]); // always true
 		if(!strcmp(argv[i],"-p") || !strcmp(argv[i],"--show-pids"))
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
 		else
 		 	printf("pstree\n");
   }
-	read_proc();
+	
   assert(!argv[argc]); // always true
   return 0;
 }
