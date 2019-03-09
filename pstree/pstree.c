@@ -6,10 +6,10 @@
 
 //variables
 int proc_num=0;
-struct Proc{
+/*struct Proc{
 	char name[100];
 	int pid,ppid;
-};
+};*/
 
 
 
@@ -59,10 +59,12 @@ void read_proc(){
 						if(!strncmp(buf,"Pid",3)){
 							get_str(pid_str,4,buf);
 							pid = atoi(pid_str);
+							printf("%d\n",pid);
 						}
 						if(!strncmp(buf,"PPid",4)){
 							get_str(ppid_str,5,buf);
 							ppid = atoi(ppid_str);
+							printf("%d\n",ppid);
 						}
 					}
           
