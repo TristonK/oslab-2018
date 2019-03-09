@@ -85,10 +85,10 @@ void print_tree(int ppid,int father_num){
 		for(int i=0; i < proc_num; ++i){
 			if(!p[i].print && p[i].ppid==ppid){
 				for(int j=0;j<father_num;j++){
-					printf("    ");
+					printf("|    ");
 				}
 				printf("|——");
-				printf("%s\n",p[i].name);
+				printf("%s",p[i].name);
 				p[i].print = 1;
 				p[i].generation = father_num+1;
 				print_tree(p[i].pid,p[i].generation);
