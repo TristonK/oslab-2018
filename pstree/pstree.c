@@ -32,9 +32,13 @@ void read_proc(){
 									k++;
 									continue;
 								}
-								if(buf[i]!=' ')
+								if(buf[i]!=' '){
 									flag = 1;
+									name[k] = buf[i];
+									k++;
+								}
 							}
+							name[k]='\0';
 							printf("%s\n",name);
 							printf("%s",buf);
 						}
