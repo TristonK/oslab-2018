@@ -20,7 +20,7 @@ void read_proc(){
 				//printf("%s\n",proc_path);
 				FILE *fp = fopen(proc_path,"r");
 				if(fp){
-					while(feof(fp)){
+					while(!feof(fp)){
 						fgets(buf,1024,fp);
 						printf("%s",buf);
 					}
