@@ -7,6 +7,7 @@
 //variables
 int proc_num = 0;
 int print_pid = 0;
+int numeric_sort = 0;
 struct Proc{
 	char name[100];
 	int pid,ppid;
@@ -114,13 +115,19 @@ void read_proc(){
 }
 
 
-//void sort_tree(){
-
-//}
-
-
-
-
+void dic_sort_tree(){
+	for(int i=0;i<proc_num;++i){
+		for(int j=0; j<proc_num; ++j){
+			if(strcmp(p[i].name,p[j].name)>0){
+				Proc temp;
+				temp = p[i];p[i]=p[j];p[j]=temp;
+				//temp.name = p[i].name;temp.pid = a.pid;temp.ppid=a.ppid;
+				//temp.print=p[i].print;temp.generation=p[i].generation;
+				//temp.type=p[i].type;temp.child=p[i].child;temp.sibling=p[i].sibling; 
+			}
+		}
+	}
+}
 
 
 void print_tree(int ppid,int father_num){
@@ -160,10 +167,12 @@ int main(int argc, char *argv[]) {
 	if(!strcmp(argv[i],"-p") || !strcmp(argv[i],"--show-pids"))
 		print_pid = 1;
 	else if(!strcmp(argv[i],"-n") || !strcmp(argv[i],"--numeric-sort"))
-		printf("sort\n");
+		numeric_sort = 1;
 	else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
 	    printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
   }
+  if(!numeric_sort)
+	dic_sort_tree();
   print_tree(0,0);
   assert(!argv[argc]); // always true
   return 0;
