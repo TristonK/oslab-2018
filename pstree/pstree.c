@@ -11,6 +11,7 @@ struct Proc{
 	char name[100];
 	int pid,ppid;
 	int print,generation;
+	int type;
 	struct Proc *child;
 	struct Proc *sibling; 	
 }p[1024];
@@ -84,11 +85,13 @@ void read_proc(){
 									tgid = atoi(tgid_str);
 								}
 							}
-							if(ppid!=2){
+							if(ppid!=2 && pid!=2){
 								strcpy(p[proc_num].name,name);
 								p[proc_num].pid=pid;
+								p[proc_num].type = 0;
 								if(tgid == pid){
 									p[proc_num].ppid = ppid;
+									p[proc_num].type = 1;
 								}
 								else
 					      			p[proc_num].ppid = tgid;
@@ -110,6 +113,16 @@ void read_proc(){
 	//printf("%d\n",proc_num);
 }
 
+
+//void sort_tree(){
+
+//}
+
+
+
+
+
+
 void print_tree(int ppid,int father_num){
 		for(int i=0; i < proc_num; ++i){
 			if(!p[i].print && p[i].ppid==ppid){
@@ -117,11 +130,20 @@ void print_tree(int ppid,int father_num){
 					printf("|    ");
 				}
 				printf("|——");
-				if(print_pid==1){
-					printf("%s(%d)\n",p[i].name,p[i].pid);
+			    if(!p[i].type){
+					if(print_pid==1){
+						printf("[{%s}](%d)\n",p[i].name,p[i].pid);
+					}
+					else
+						printf("[{%s}]\n",p[i].name);
 				}
-				else
-					printf("%s\n",p[i].name);
+				else{
+					if(print_pid==1){
+						printf("%s(%d)\n",p[i].name,p[i].pid);
+					}
+					else
+						printf("%s\n",p[i].name);
+				}
 				p[i].print = 1;
 				p[i].generation = father_num+1;
 				print_tree(p[i].pid,p[i].generation);
