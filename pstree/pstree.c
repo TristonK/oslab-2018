@@ -36,7 +36,8 @@ void get_str(char* ans,int start_pos,char buf[1024]){
 
 void read_proc(){
 	char proc_path[100];
-  char buf[1024];
+    char thread_path;
+	char buf[1024];
 	DIR *dirptr = NULL;
 	struct dirent *entry;
 	dirptr = opendir("/proc");
@@ -51,7 +52,10 @@ void read_proc(){
 				dir_thread = opendir(proc_path);
 				assert(dir_thread != NULL);
 				while((entry_thread = readdir(dir_thread))){
-					FILE *fp = fopen(proc_path,"r");
+					strcpy(thread_path,proc_path);
+					strcat(thread_path,entry_thread->d_name);
+					strcat(thread_path,"/status");
+					FILE *fp = fopen(thread_path,"r");
 				 		if(fp){
 							char name[100],pid_str[100],ppid_str[100],tgid_str[100];
 							int pid=0,ppid=0,tgid=0;
