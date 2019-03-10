@@ -117,7 +117,6 @@ void print_tree(int ppid,int father_num){
 				}
 				printf("|——");
 				if(print_pid==1){
-					printf("111\n");
 					printf("%s(%d)",p[i].name,p[i].pid);
 				}
 				else
@@ -141,9 +140,8 @@ int main(int argc, char *argv[]) {
 		printf("sort\n");
 	else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
 	    printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
-	else
-	 	print_tree(0,0);
   }
+  pstree(0,0);
   assert(!argv[argc]); // always true
   return 0;
 }
