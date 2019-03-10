@@ -116,8 +116,10 @@ void print_tree(int ppid,int father_num){
 					printf("|    ");
 				}
 				printf("|——");
-				if(print_pid==1)
+				if(print_pid==1){
+					printf("111\n");
 					printf("%s(%d)",p[i].name,p[i].pid);
+				}
 				else
 					printf("%s",p[i].name);
 				p[i].print = 1;
