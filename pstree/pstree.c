@@ -118,7 +118,7 @@ void read_proc(){
 void dic_sort_tree(){
 	for(int i=0;i<proc_num;++i){
 		for(int j=0; j<proc_num; ++j){
-			if(strcmp(p[i].name,p[j].name)>0){
+			if(strcmp(p[i].name,p[j].name)<0){
 				struct Proc temp;
 				temp = p[i];p[i]=p[j];p[j]=temp;
 				//temp.name = p[i].name;temp.pid = a.pid;temp.ppid=a.ppid;
