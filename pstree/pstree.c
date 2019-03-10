@@ -115,16 +115,26 @@ void read_proc(){
 }
 
 
-void dic_sort_tree(){
+void sort_tree(){
 	for(int i=0;i<proc_num;++i){
 		for(int j=i+1; j<proc_num; ++j){
-			if(strcmp(p[i].name,p[j].name)>0){
-				struct Proc temp;
-				temp = p[i];p[i]=p[j];p[j]=temp;
-				//temp.name = p[i].name;temp.pid = a.pid;temp.ppid=a.ppid;
-				//temp.print=p[i].print;temp.generation=p[i].generation;
-				//temp.type=p[i].type;temp.child=p[i].child;temp.sibling=p[i].sibling; 
+			if(numeric_sort){
+				if(p[i].pid > p[j].pid){
+					struct Proc temp;
+					temp = p[i];p[i]=p[j];p[j]=temp;
+				}
 			}
+			else{
+				if(strcmp(p[i].name,p[j].name)>0){
+					struct Proc temp;
+					temp = p[i];p[i]=p[j];p[j]=temp;
+					//temp.name = p[i].name;temp.pid = a.pid;temp.ppid=a.ppid;
+					//temp.print=p[i].print;temp.generation=p[i].generation;
+					//temp.type=p[i].type;temp.child=p[i].child;temp.sibling=p[i].sibling; 
+				}
+			}
+			
+			
 		}
 	}
 }
@@ -170,8 +180,7 @@ int main(int argc, char *argv[]) {
 	else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
 	    printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
   }
-  if(!numeric_sort)
-	dic_sort_tree();
+  sort_tree();
   print_tree(0,0);
   assert(!argv[argc]); // always true
   return 0;
