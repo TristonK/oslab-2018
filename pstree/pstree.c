@@ -30,7 +30,7 @@ void get_str(char* ans,int start_pos,char buf[1024]){
 			k++;
 		}
 	}
-	str[k]='\0';
+	str[k-1]='\0';
 	strcpy(ans,str);	
 }
 
@@ -84,16 +84,17 @@ void read_proc(){
 									tgid = atoi(tgid_str);
 								}
 							}
-							//if(ppid)
-							strcpy(p[proc_num].name,name);
-							p[proc_num].pid=pid;
-							if(tgid == pid){
-								p[proc_num].ppid = ppid;
+							if(ppid!=2){
+								strcpy(p[proc_num].name,name);
+								p[proc_num].pid=pid;
+								if(tgid == pid){
+									p[proc_num].ppid = ppid;
+								}
+								else
+					      			p[proc_num].ppid = tgid;
+								p[proc_num].print = p[proc_num].generation = 0;
+								proc_num++;
 							}
-							else
-					      		p[proc_num].ppid = tgid;
-							p[proc_num].print = p[proc_num].generation = 0;
-							proc_num++;	
 							fclose(fp);
 						}
 						else{
