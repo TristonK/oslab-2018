@@ -52,7 +52,9 @@ void read_proc(){
 				dir_thread = opendir(proc_path);
 				assert(dir_thread != NULL);
 				while((entry_thread = readdir(dir_thread))){
+					if(entry_thread->d_type == DT_DIR && entry_thread->d_name[0] <=57 && entry_thread->d_name[0] >= 48){
 					strcpy(thread_path,proc_path);
+					strcat(thread_path,"/");
 					strcat(thread_path,entry_thread->d_name);
 					strcat(thread_path,"/status");
 					FILE *fp = fopen(thread_path,"r");
@@ -95,6 +97,7 @@ void read_proc(){
 							assert(0);
 						}
 						proc_num++;	
+						}
 					}
 				
 			}	
