@@ -54,7 +54,7 @@ void read_proc(){
 					FILE *fp = fopen(proc_path,"r");
 				 		if(fp){
 							char name[100],pid_str[100],ppid_str[100],tgid_str[100];
-							int pid,ppid,tgid=0;
+							int pid=0,ppid=0,tgid=0;
 							while(!feof(fp)){
 								fgets(buf,1024,fp);
 								if(!strncmp(buf,"Name",4)){
