@@ -4,6 +4,13 @@
 #include <dirent.h>
 #include <stdlib.h>
 
+/*TODO:
+* 1. change the name of the thread
+* 2. nemuric sort is wrong
+* 3. modify the line in the tree
+*/
+
+
 //variables
 int proc_num = 0;
 int print_pid = 0;
@@ -119,6 +126,7 @@ void sort_tree(){
 	for(int i=0;i<proc_num;++i){
 		for(int j=i+1; j<proc_num; ++j){
 			if(numeric_sort){
+				/*NEED CHANGE*/
 				if(p[i].pid > p[j].pid){
 					struct Proc temp;
 					temp = p[i];p[i]=p[j];p[j]=temp;
