@@ -65,12 +65,12 @@ void read_proc(){
 								fgets(buf,1024,fp);
 								if(!strncmp(buf,"Name",4)){
 									get_str(name,5,buf);
-									strcpy(p[proc_num].name,name);
+									//strcpy(p[proc_num].name,name);
 								}
 								if(!strncmp(buf,"Pid",3)){
 									get_str(pid_str,4,buf);
 									pid = atoi(pid_str);
-									p[proc_num].pid=pid;
+									//p[proc_num].pid=pid;
 									//printf("%d\n",pid);
 								}
 								if(!strncmp(buf,"PPid",4)){
@@ -84,19 +84,22 @@ void read_proc(){
 									tgid = atoi(tgid_str);
 								}
 							}
+							//if(ppid)
+							strcpy(p[proc_num].name,name);
+							p[proc_num].pid=pid;
 							if(tgid == pid){
 								p[proc_num].ppid = ppid;
 							}
 							else
 					      		p[proc_num].ppid = tgid;
 							p[proc_num].print = p[proc_num].generation = 0;
+							proc_num++;	
 							fclose(fp);
 						}
 						else{
 							printf("ERROR: Fail To Open %s\n",thread_path);
 							assert(0);
 						}
-						proc_num++;	
 						}
 					}
 				
@@ -113,6 +116,8 @@ void print_tree(int ppid,int father_num){
 					printf("|    ");
 				}
 				printf("|——");
+				if(print_pid==1)
+				printf("%s(%d)",p[i].name,p[i].pid);
 				printf("%s",p[i].name);
 				p[i].print = 1;
 				p[i].generation = father_num+1;
