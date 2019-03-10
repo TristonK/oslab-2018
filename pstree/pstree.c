@@ -36,7 +36,7 @@ void get_str(char* ans,int start_pos,char buf[1024]){
 
 void read_proc(){
 	char proc_path[100];
-    char thread_path;
+    char thread_path[100];
 	char buf[1024];
 	DIR *dirptr = NULL;
 	struct dirent *entry;
