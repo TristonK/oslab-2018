@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 	else if(!strcmp(argv[i],"-V") || !strcmp(argv[i],"--version"))
 	    printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
   }
-  pstree(0,0);
+  print_tree(0,0);
   assert(!argv[argc]); // always true
   return 0;
 }
