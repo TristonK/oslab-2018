@@ -115,7 +115,7 @@ void read_proc(){
 }
 
 
-void sort_tree(){
+void dic_sort_tree(){
 	for(int i=0;i<proc_num;++i){
 		for(int j=i+1; j<proc_num; ++j){
 			if(strcmp(p[i].name,p[j].name)>0){
