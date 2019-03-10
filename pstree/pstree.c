@@ -91,7 +91,7 @@ void read_proc(){
 							fclose(fp);
 						}
 						else{
-							printf("ERROR: Fail To Open %s\n",proc_path);
+							printf("ERROR: Fail To Open %s\n",thread_path);
 							assert(0);
 						}
 						proc_num++;	
