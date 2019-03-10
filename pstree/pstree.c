@@ -11,7 +11,7 @@ struct Proc{
 	char name[100];
 	int pid,ppid;
 	int print,generation;
-	strcut Proc *child;
+	struct Proc *child;
 	struct Proc *sibling; 	
 }p[1024];
 
