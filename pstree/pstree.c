@@ -231,6 +231,7 @@ int main(int argc, char *argv[])
 {
 	int i;
 	read_proc();
+	int print_version = 0;
 	for (i = 0; i < argc; i++)
 	{
 		assert(argv[i]); // always true
@@ -239,10 +240,14 @@ int main(int argc, char *argv[])
 		else if (!strcmp(argv[i], "-n") || !strcmp(argv[i], "--numeric-sort"))
 			numeric_sort = 1;
 		else if (!strcmp(argv[i], "-V") || !strcmp(argv[i], "--version"))
-			printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");
+			print_version=1;
 	}
-	sort_tree();
-	print_tree(0, 0);
+	if(print_version){
+		printf("pstree (kuangsl) 1.0\nCopyright (C) 2019-2019 what a sad lab\n");}
+	else{
+		sort_tree();
+		print_tree(0, 0);
+	}
 	assert(!argv[argc]); // always true
 	return 0;
 }
