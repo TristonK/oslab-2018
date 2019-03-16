@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 /*TODO:
-* 1. change the name of the thread
 * 2. nemuric sort is wrong
 * 3. modify the line in the tree
 */
@@ -14,6 +13,7 @@
 int proc_num = 0;
 int print_pid = 0;
 int numeric_sort = 0;
+int line[1024];
 struct Proc
 {
 	char name[100];
@@ -130,6 +130,7 @@ void read_proc()
 									if (p[i].pid == tgid)
 									{
 										strcpy(p[proc_num].name, p[i].name);
+										break;
 									}
 								}
 							}
@@ -196,20 +197,37 @@ void print_tree(int ppid, int father_num)
 	for (int i = 0; i < proc_num; ++i)
 	{
 		if (!p[i].print && p[i].ppid == ppid)
-		{
+		{ 
+			for (int j = 0;j<proc_num;j++){
+				if(p[j].pid == p[i].ppid){
+					for(int k=j;k<proc_num;k++){
+						if(!p[k].print&&p[k].ppid==p[j].pid){
+							line[father_num]=1;
+							break;
+						}
+					}
+					break;
+				}
+			}
 			for (int j = 0; j < father_num; j++)
 			{
-				printf("|    ");
+				if(line[j])
+					printf("|    ");
+				else
+				{
+					printf("     ");
+				}
+				
 			}
 			printf("|——");
 			if (!p[i].type)
 			{
 				if (print_pid == 1)
 				{
-					printf("[{%s}](%d)\n", p[i].name, p[i].pid);
+					printf("{%s}(%d)\n", p[i].name, p[i].pid);
 				}
 				else
-					printf("[{%s}]\n", p[i].name);
+					printf("{%s}\n", p[i].name);
 			}
 			else
 			{
