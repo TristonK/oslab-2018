@@ -67,7 +67,10 @@ void read_proc()
 			DIR *dir_thread = NULL;
 			struct dirent *entry_thread;
 			dir_thread = opendir(proc_path);
-			assert(dir_thread != NULL);
+			if(dir_thread==NULL){
+				printf("fail to open %s\n",proc_path);
+				assert(dir_thread != NULL);
+			}
 			while ((entry_thread = readdir(dir_thread)))
 			{
 				if (entry_thread->d_type == DT_DIR && entry_thread->d_name[0] <= 57 && entry_thread->d_name[0] >= 48)
