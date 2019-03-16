@@ -199,14 +199,14 @@ void print_tree(int ppid, int father_num)
 		if (!p[i].print && p[i].ppid == ppid)
 		{ 
 			for (int j = 0;j<proc_num;j++){
-				if(p[j].pid == p[i].ppid){
+				if(i!=j && p[j].pid == p[i].ppid){
 					for(int k=j;k<proc_num;k++){
 						if(!p[k].print&&p[k].ppid==p[j].pid){
-							line[father_num]=1;
+							line[father_num-1]=1;
 							break;
 						}
 						else{
-							line[father_num]=0;
+							line[father_num-1]=0;
 						}
 					}
 					break;
