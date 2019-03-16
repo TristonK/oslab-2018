@@ -215,7 +215,7 @@ void print_tree(int ppid, int father_num)
 			for (int j = 0; j < father_num; j++)
 			{
 				if(line[j])
-					printf("│     ");
+					printf("│    ");
 				else
 				{
 					printf("     ");
