@@ -4,9 +4,10 @@
 #include <dirent.h>
 #include <stdlib.h>
 
-/*TODO:
-* 2. nemuric sort is wrong
-* 3. modify the line in the tree
+/* Tips:
+* 有时候会出现读取进程到一半进程终止的情况，但是几率很小，目前的处理方式是直接assert掉
+* 所以出现了assert的情况一般多运行几次就好了
+* 想到的另一种处理方式是递归的将被终止的部分的清理掉
 */
 
 //variables
