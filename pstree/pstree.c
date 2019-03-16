@@ -223,9 +223,9 @@ void print_tree(int ppid, int father_num)
 				
 			}
 			if(line[father_num])
-				printf("|——");
+				printf(" ├─");
 			else
-				printf("└─—");
+				printf(" └─");
 			if (!p[i].type)
 			{
 				if (print_pid == 1)
