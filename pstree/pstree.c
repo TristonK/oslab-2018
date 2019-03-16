@@ -180,6 +180,12 @@ void sort_tree()
 					//temp.print=p[i].print;temp.generation=p[i].generation;
 					//temp.type=p[i].type;temp.child=p[i].child;temp.sibling=p[i].sibling;
 				}
+				else if(strcmp(p[i].name,p[j].name)==0 && p[i].pid>p[j].pid){
+					struct Proc temp;
+					temp = p[i];
+					p[i] = p[j];
+					p[j] = temp;
+				}
 			}
 		}
 	}
