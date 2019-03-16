@@ -205,6 +205,9 @@ void print_tree(int ppid, int father_num)
 							line[father_num]=1;
 							break;
 						}
+						else{
+							line[father_num]=0;
+						}
 					}
 					break;
 				}
