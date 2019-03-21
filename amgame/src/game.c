@@ -9,12 +9,14 @@ void delete_bird();
 void draw_bird();
 void draw_lose();
 void draw_start();
+void draw_win();
 int tube[50][2];
 int game_status;
 int newx,newy;
+int tube_num;
 int w, h;
 
-int main() {//flappy bird
+int main() {//go through
   // Operating system is a C program
   _ioe_init();
   init_screen();
@@ -68,9 +70,15 @@ int main() {//flappy bird
           game_status=2;
         }
       }
+      if(newx>tube_num*4){
+        game_status=3;
+      }
     }
     if(game_status==2){
       draw_lose();
+    }
+    if(game_status == 3){
+      draw_win();
     }
   }
   return 0;
@@ -135,7 +143,7 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
     }
   }
 }*/
-int tube_num;
+
 void get_tube(){
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
@@ -177,8 +185,16 @@ void draw_start(){
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
       if ((x & 1) ^ (y & 1)) {
-        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0x836fff); // white
+        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0x836fff); // blue
       }
+    }
+  }
+}
+
+void draw_win(){
+  for (int x = 0; x * SIDE <= w; x ++) {
+    for (int y = 0; y * SIDE <= h; y++) {
+        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xffb5c5);
     }
   }
 }
