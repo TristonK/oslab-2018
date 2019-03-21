@@ -5,7 +5,7 @@ void init_screen();
 void splash();
 int read_key1();
 void get_tube(); 
-//int white_block[100];
+int tube[50][2];
 
 int main() {//flappy bird
   // Operating system is a C program
@@ -75,9 +75,14 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
 
 void get_tube(){
   int tube_num = (w/SIDE)/4;
-  for(int x=0;x < tube_num; x++){
+  for(int i=0;i < tube_num-1;i++){
+    tube[i][0]=rand()%(h/SIDE/2);
+    tube[i][1]=2*rand()%(h/SIDE/2);
+  }
+  for(int x=0;x < tube_num-1; x++){
     for(int y = 0; y * SIDE <= h; y++){
-      draw_rect1((4*x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
+      if(y<tube[x][0]||y>tube[x][1])
+        draw_rect1((4*x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
     }
   }
 }
