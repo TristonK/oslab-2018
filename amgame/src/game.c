@@ -15,6 +15,7 @@ int game_status;
 int newx,newy;
 int tube_num;
 int w, h;
+int have_win,have_lose;
 
 int main() {//go through
   // Operating system is a C program
@@ -23,10 +24,12 @@ int main() {//go through
   //splash();
   draw_start();
   game_status = 0;
+  have_win=0;have_lose=0;
   while (1) {
     int op = read_key1();
     if(op == 1 && game_status!=1){
       game_status = 1;
+      have_lose=have_win=0;
       get_tube();
       newx =0;
       newy =tube[0][0]+2;
@@ -75,10 +78,16 @@ int main() {//go through
       }
     }
     if(game_status==2){
-      draw_lose();
+      if(!have_lose){
+        draw_lose();
+        have_lose=1;
+      }
     }
     if(game_status == 3){
-      draw_win();
+      if(!have_win){
+        draw_win();
+        have_win=1;
+      }
     }
   }
   return 0;
