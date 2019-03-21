@@ -31,18 +31,16 @@ int read_key1() {
   _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &event, sizeof(event));
   if (event.keycode != _KEY_NONE && event.keydown) {
     //puts("Key pressed: ");
-    //puts(key_names[event.keycode]);
-    //puts("\n");
+    puts(key_names[event.keycode]);
+    puts("\n");
     if(event.keycode==_KEY_UP)
-      puts(key_names[event.keycode]);
+      return 1;
     else if(event.keycode==_KEY_S)
-      puts(key_names[event.keycode]);
-    /*else if(key_names[event.keycode]=='J')
       return 2;
     else
-      return 0;*/
+      return 0;
   }
- // else
+  else
     return 0;
 }
 
@@ -76,14 +74,14 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
     }
   }
 }*/
-
+int tube_num;
 void get_tube(){
-  int tube_num = (w/SIDE)/4;
-  for(int i=0;i < tube_num-1;i++){
+  tube_num = (w/SIDE)/4-1;
+  for(int i=0;i < tube_num;i++){
     tube[i][0]=rand()%(h/SIDE/2)+2;
     tube[i][1]=tube[i][0]+5;
   }
-  for(int x=0;x < tube_num-1; x++){
+  for(int x=0;x < tube_num; x++){
     for(int y = 0; y * SIDE <= h; y++){
       if(y<tube[x][0]||y>tube[x][1])
         draw_rect1((4*x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
@@ -91,4 +89,6 @@ void get_tube(){
   }
 }
 
-void draw_bird(){}
+void draw_bird(){
+  draw_rect1(0,(tube[0][0]+1)*SIDE,SIDE,SIDE,0xee0000);
+}
