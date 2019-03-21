@@ -5,6 +5,7 @@ void init_screen();
 void splash();
 int read_key1();
 void get_tube(); 
+void draw_bird();
 int tube[50][2];
 
 int main() {//flappy bird
@@ -15,6 +16,7 @@ int main() {//flappy bird
   get_tube();
   while (1) {
     read_key1();
+    draw_bird();
   }
   return 0;
 }
@@ -29,11 +31,11 @@ int read_key1() {
   _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &event, sizeof(event));
   if (event.keycode != _KEY_NONE && event.keydown) {
     //puts("Key pressed: ");
-    puts(key_names[event.keycode]);
-    puts("\n");
-    /*if(key_names[event.keycode]=='S')
-      return 1;
-    else if(key_names[event.keycode]=='J')
+    //puts(key_names[event.keycode]);
+    //puts("\n");
+    if(event.keycode==_KEY_UP)
+      puts(key_names[event.keycode]);
+    /*else if(key_names[event.keycode]=='J')
       return 2;
     else
       return 0;*/
@@ -86,3 +88,5 @@ void get_tube(){
     }
   }
 }
+
+void draw_bird(){}
