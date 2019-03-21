@@ -75,10 +75,9 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
 
 void get_tube(){
   int tube_num = (w/SIDE)/4;
-  printf("yes");
   for(int x=0;x < tube_num; x++){
     for(int y = 0; y * SIDE <= h; y++){
-      draw_rect1((x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
+      draw_rect1((4*x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
     }
   }
 }
