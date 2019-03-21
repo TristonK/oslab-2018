@@ -1,6 +1,7 @@
 include Makefile.check
 
-AM_HOME ?= $(shell pwd)
+#AM_HOME ?= $(shell pwd)
+export AM_HOME = /home/kuangsl/os-workbench/abstract-machine
 
 all:
 	@$(MAKE) -s -C am
