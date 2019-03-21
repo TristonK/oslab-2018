@@ -62,8 +62,8 @@ int main() {//flappy bird
             break;
         }
       }
-      if(!(newx+1)%4){
-        int index=(newx)/4;
+      if(!((newx+1)%4)){
+        int index=newx/4;
         if(newy<tube[index][0]||newy>tube[index][1]){
           game_status=2;
         }
