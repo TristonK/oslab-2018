@@ -70,7 +70,7 @@ int main() {//go through
           game_status=2;
         }
       }
-      if(newx>tube_num*4){
+      if(newx>=tube_num*4){
         game_status=3;
       }
     }
