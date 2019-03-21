@@ -7,6 +7,8 @@ int read_key1();
 void get_tube(); 
 void delete_bird();
 void draw_bird();
+void draw_lose();
+void draw_start();
 int tube[50][2];
 int game_status;
 int newx,newy;
@@ -17,12 +19,13 @@ int main() {//flappy bird
   _ioe_init();
   init_screen();
   //splash();
-  get_tube();
+  draw_start();
   game_status = 0;
   while (1) {
     int op = read_key1();
     if(op == 1 && game_status!=1){
       game_status = 1;
+      get_tube();
       newx =0;
       newy =tube[0][0]+2;
       draw_bird();
@@ -59,6 +62,15 @@ int main() {//flappy bird
             break;
         }
       }
+      if(!(newx+1)%4){
+        int index=(newx)/4;
+        if(newy<tube[index][0]||newy>tube[index][1]){
+          game_status=2;
+        }
+      }
+    }
+    if(game_status==2){
+      draw_lose();
     }
   }
   return 0;
@@ -144,4 +156,24 @@ void delete_bird(){
 
 void draw_bird(){
   draw_rect1(newx*SIDE,newy*SIDE,SIDE,SIDE,0xee0000);
+}
+
+void draw_lose(){
+  for (int x = 0; x * SIDE <= w; x ++) {
+    for (int y = 0; y * SIDE <= h; y++) {
+      if ((x & 1) ^ (y & 1)) {
+        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xeed5b7); // white
+      }
+    }
+  }
+}
+
+void draw_start(){
+  for (int x = 0; x * SIDE <= w; x ++) {
+    for (int y = 0; y * SIDE <= h; y++) {
+      if ((x & 1) ^ (y & 1)) {
+        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0x836fff); // white
+      }
+    }
+  }
 }
