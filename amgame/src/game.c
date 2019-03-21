@@ -10,6 +10,7 @@ void draw_bird();
 int tube[50][2];
 int game_status;
 int newx,newy;
+int w, h;
 
 int main() {//flappy bird
   // Operating system is a C program
@@ -20,17 +21,43 @@ int main() {//flappy bird
   game_status = 0;
   while (1) {
     int op = read_key1();
-    if(op == 2 && game_status!=1){
+    if(op == 1 && game_status!=1){
       game_status = 1;
       newx =0;
       newy =tube[0][0]+2;
       draw_bird();
     }
     if(game_status==1){
-      if(op == 1){
-        delete_bird();
-        newy-=1;
-        draw_bird();
+      if(op !=0 ){
+        switch (op)
+        {
+          case 2:
+            delete_bird();
+            if(newy>=1)
+              newy-=1;
+            draw_bird();
+            break;
+          case 3:
+            delete_bird();
+            if((newy+2)*SIDE<=h)
+              newy+=1;
+            draw_bird();
+            break;
+          case 4:
+            delete_bird();
+            if(newx>=1)
+              newx-=1;
+            draw_bird();
+            break;
+          case 5:
+            delete_bird();
+            if((newx+2)*SIDE<=w)
+              newx+=1;
+            draw_bird();
+            break;
+          default:
+            break;
+        }
       }
     }
   }
@@ -49,10 +76,16 @@ int read_key1() {
     //puts("Key pressed: ");
     puts(key_names[event.keycode]);
     puts("\n");
-    if(event.keycode==_KEY_UP)
+    if(event.keycode==_KEY_S)
       return 1;
-    else if(event.keycode==_KEY_S)
+    else if(event.keycode==_KEY_UP)
       return 2;
+    else if(event.keycode==_KEY_DOWN)
+      return 3;
+    else if(event.keycode==_KEY_LEFT)
+      return 4;
+    else if(event.keycode==_KEY_RIGHT)
+      return 5;
     else
       return 0;
   }
@@ -60,7 +93,7 @@ int read_key1() {
     return 0;
 }
 
-int w, h;
+
 
 void init_screen() {
   _DEV_VIDEO_INFO_t info = {0};
