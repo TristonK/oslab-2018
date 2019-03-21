@@ -29,7 +29,7 @@ int main() {//flappy bird
     if(game_status==1){
       if(op == 1){
         delete_bird();
-        newy+=1;
+        newy-=1;
         draw_bird();
       }
     }
