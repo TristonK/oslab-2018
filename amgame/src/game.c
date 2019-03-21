@@ -1,5 +1,6 @@
 #include <game.h>
 #include <klib.h>
+#include "font.c"
 
 void init_screen();
 void splash();
@@ -194,7 +195,16 @@ void draw_start(){
 void draw_win(){
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
-        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xffb5c5);
+      draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00);
     }
   }
+  int index_x = (w/SIDE/2)-4;
+  int index_y = (h/SIDE/2)-3;
+  draw_rect1((index_x)* SIDE, (index_y+2) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+1)* SIDE, (index_y+3) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+2)* SIDE, (index_y+4) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+3)* SIDE, (index_y+3) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+4)* SIDE, (index_y+2) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+5)* SIDE, (index_y+1) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+6)* SIDE, (index_y) * SIDE, SIDE, SIDE, 0xff3030);
 }
