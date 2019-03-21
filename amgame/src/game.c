@@ -1,6 +1,5 @@
 #include <game.h>
 #include <klib.h>
-#include "font.c"
 
 void init_screen();
 void splash();
