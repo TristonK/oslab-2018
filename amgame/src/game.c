@@ -3,23 +3,23 @@
 
 void init_screen();
 void splash();
-void read_key1();
-//void get_white_block(); 
+int read_key1();
+void get_tube(); 
 //int white_block[100];
 
-int main() {//dont touch white blocks with max socre:100
+int main() {//flappy bird
   // Operating system is a C program
   _ioe_init();
   init_screen();
-  splash();
- // get_white_block();
+  //splash();
+  get_tube();
   while (1) {
     read_key1();
   }
   return 0;
 }
 
-void read_key1() {
+int read_key1() {
   _DEV_INPUT_KBD_t event = { .keycode = _KEY_NONE };
   #define KEYNAME(key) \
     [_KEY_##key] = #key,
@@ -31,17 +31,15 @@ void read_key1() {
     //puts("Key pressed: ");
     puts(key_names[event.keycode]);
     puts("\n");
-   /* if(key_names[event.keycode]=='1')
+    /*if(key_names[event.keycode]=='S')
       return 1;
-    else if(key_names[event.keycode]=='2')
+    else if(key_names[event.keycode]=='J')
       return 2;
-    else if(key_names[event.keycode]=='3')
-      return 3;
-    else if
+    else
       return 0;*/
   }
-  /*else
-    return 0;*/
+ // else
+    return 0;
 }
 
 int w, h;
@@ -65,7 +63,7 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
   _io_write(_DEV_VIDEO, _DEVREG_VIDEO_FBCTL, &event, sizeof(event));
 }
 
-void splash() {
+/*void splash() {
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
       if ((x & 1) ^ (y & 1)) {
@@ -73,10 +71,13 @@ void splash() {
       }
     }
   }
-}
-
-/*void get_white_block(){
-  for(int i=0;i<100;i++){
-    white_block[i]=(rnad()%3)+1;
-  }
 }*/
+
+void get_tube(){
+  int tube_num = (w/SIDE)/4;
+  for(int x=0;x < tube_num; x++){
+    for(int y = 0; y * SIDE <= h; y++){
+      draw_rect1((x+3)*SIDE, y * SIDE , SIDE, SIDE, 0x00ee00);
+    }
+  }
+}
