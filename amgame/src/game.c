@@ -76,8 +76,8 @@ void draw_rect1(int x, int y, int w, int h, uint32_t color) {
 void get_tube(){
   int tube_num = (w/SIDE)/4;
   for(int i=0;i < tube_num-1;i++){
-    tube[i][0]=rand()%(h/SIDE/2);
-    tube[i][1]=2*rand()%(h/SIDE/2);
+    tube[i][0]=rand()%(h/SIDE/2)+2;
+    tube[i][1]=tube[i][0]+5;
   }
   for(int x=0;x < tube_num-1; x++){
     for(int y = 0; y * SIDE <= h; y++){
