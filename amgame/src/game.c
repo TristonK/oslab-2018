@@ -183,11 +183,20 @@ void draw_bird(){
 void draw_lose(){
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
-      if ((x & 1) ^ (y & 1)) {
-        draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xeed5b7); // white
-      }
+      draw_rect1(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00);
     }
   }
+  int index_x = (w/SIDE/2)-3;
+  int index_y = (h/SIDE/2)-3;
+  draw_rect1((index_x)* SIDE, (index_y) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x)* SIDE, (index_y+4) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+1)* SIDE, (index_y+1) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+1)* SIDE, (index_y+3) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+2)* SIDE, (index_y+2) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+3)* SIDE, (index_y+1) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+3)* SIDE, (index_y+3) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+4)* SIDE, (index_y+4) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x+4)* SIDE, (index_y) * SIDE, SIDE, SIDE, 0xff3030);
 }
 
 void draw_start(){
