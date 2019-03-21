@@ -207,7 +207,7 @@ void draw_start(){
   }
   int index_x = (w/SIDE/2)-3;
   int index_y = (h/SIDE/2)-3;
-  draw_rect1((index_x)* SIDE, (index_y) * SIDE, SIDE, SIDE, 0xff3030);
+  draw_rect1((index_x)* SIDE, (index_y+1) * SIDE, SIDE, SIDE, 0xff3030);
   draw_rect1((index_x)* SIDE, (index_y+5) * SIDE, SIDE, SIDE, 0xff3030);
   draw_rect1((index_x+1)* SIDE, (index_y) * SIDE, SIDE, SIDE, 0xff3030);
   draw_rect1((index_x+1)* SIDE, (index_y+2) * SIDE, SIDE, SIDE, 0xff3030);
