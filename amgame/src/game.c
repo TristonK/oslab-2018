@@ -5,8 +5,11 @@ void init_screen();
 void splash();
 int read_key1();
 void get_tube(); 
+void delete_bird();
 void draw_bird();
 int tube[50][2];
+int game_status;
+int newx,newy;
 
 int main() {//flappy bird
   // Operating system is a C program
@@ -14,9 +17,22 @@ int main() {//flappy bird
   init_screen();
   //splash();
   get_tube();
+  game_status = 0;
   while (1) {
-    read_key1();
-    draw_bird();
+    int op = read_key1();
+    if(op == 2 && game_status!=1){
+      game_status = 1;
+      newx =0;
+      newy =tube[0][0]+2;
+      draw_bird();
+    }
+    if(game_status==1){
+      if(op == 1){
+        delete_bird();
+        newy+=1;
+        draw_bird();
+      }
+    }
   }
   return 0;
 }
@@ -89,6 +105,10 @@ void get_tube(){
   }
 }
 
+void delete_bird(){
+  draw_rect1(newx*SIDE,newy*SIDE,SIDE,SIDE,0x000000);
+}
+
 void draw_bird(){
-  draw_rect1(0,(tube[0][0]+1)*SIDE,SIDE,SIDE,0xee0000);
+  draw_rect1(newx*SIDE,newy*SIDE,SIDE,SIDE,0xee0000);
 }
