@@ -35,6 +35,8 @@ int read_key1() {
     //puts("\n");
     if(event.keycode==_KEY_UP)
       puts(key_names[event.keycode]);
+    else if(event.keycode==_KEY_S)
+      puts(key_names[event.keycode]);
     /*else if(key_names[event.keycode]=='J')
       return 2;
     else
