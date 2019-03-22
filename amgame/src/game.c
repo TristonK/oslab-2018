@@ -95,16 +95,16 @@ int main() {//go through
 
 int read_key1() {
   _DEV_INPUT_KBD_t event = { .keycode = _KEY_NONE };
-  #define KEYNAME(key) \
+  /*#define KEYNAME(key) \
     [_KEY_##key] = #key,
   static const char *key_names[] = {
     _KEYS(KEYNAME)
-  };
+  };*/
   _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &event, sizeof(event));
   if (event.keycode != _KEY_NONE && event.keydown) {
-    puts("Key pressed: ");
-    puts(key_names[event.keycode]);
-    puts("\n");
+    //puts("Key pressed: ");
+    //puts(key_names[event.keycode]);
+    //puts("\n");
     if(event.keycode==_KEY_S)
       return 1;
     else if(event.keycode==_KEY_UP)
@@ -160,6 +160,8 @@ void get_tube(){
     }
   }
   tube_num = (w/SIDE)/4-1;
+  if(tube_num>50)
+    tube_num=50;
   for(int i=0;i < tube_num;i++){
     tube[i][0]=rand()%(h/SIDE/2)+2;
     tube[i][1]=tube[i][0]+5;
