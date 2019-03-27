@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <klib.h>
 #include <setjmp.h>
 #include "co.h"
 
