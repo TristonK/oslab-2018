@@ -59,7 +59,6 @@ void co_yield() {
     while(!coroutines[pick_num].state){
       pick_num = rand()%(thread_cnt+1);
     }
-    printf("yield pick num is %d \n",pick_num);
     current = &coroutines[pick_num];
     longjmp(current->buf,1); 
   } else {
@@ -74,7 +73,6 @@ void co_wait(struct co *thd) {
     while(!coroutines[pick_num].state){
       pick_num = rand()%thread_cnt+1;
     }
-    printf("wait pick num is %d \n",pick_num);
     current = &coroutines[pick_num];
     longjmp(current->buf,1); 
   }
