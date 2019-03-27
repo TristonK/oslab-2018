@@ -69,9 +69,9 @@ void co_yield() {
 void co_wait(struct co *thd) {
   setjmp(current->buf);
   if(thd->state){
-     int pick_num = rand()%(thread_cnt+1);
+    int pick_num = rand()%thread_cnt+1;
     while(!coroutines[pick_num].state){
-      pick_num = rand()%(thread_cnt+1);
+      pick_num = rand()%thread_cnt+1;
     }
     current = &coroutines[pick_num];
     longjmp(current->buf,1); 
