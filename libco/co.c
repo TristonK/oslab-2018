@@ -43,8 +43,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     current = &coroutines[thread_cnt];
     func_temp(arg_temp);
     current->state=0;
-    longjmp(coroutines[0].buf,1);
     asm volatile("mov %0," SP : : "g"(coroutines[thread_cnt].stack_backup));
+    longjmp(coroutines[0].buf,1);
   }else{
     return &coroutines[thread_cnt];
   }
