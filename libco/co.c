@@ -28,6 +28,7 @@ void co_init() {
   thread_cnt = 0;
   current = &coroutines[0];
   current->state=1;
+  printf("have init\n");
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
