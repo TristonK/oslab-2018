@@ -45,8 +45,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     current = &coroutines[thread_cnt];
     func_temp(arg_temp);
     current->state=0;
-    asm volatile("mov %0," SP : : "g"(current->stack_backup));
+  //  asm volatile("mov %0," SP : : "g"(current->stack_backup));
     longjmp(coroutines[0].buf,1);
+    asm volatile("mov %0," SP : : "g"(current->stack_backup));
   }else{
     return &coroutines[thread_cnt];
   }
@@ -57,9 +58,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 void co_yield() {
   int val = setjmp(current->buf);
   if (val == 0) {
-    int pick_num = rand()%thread_cnt+1;
-    while(!coroutines[pick_num].state && (&coroutines[pick_num]!= current)){
-      pick_num = rand()%thread_cnt+1;
+    int pick_num = rand()%(thread_cnt+1);
+    while(!coroutines[pick_num].state || (&coroutines[pick_num]== current)){
+      pick_num = rand()%(thread_cnt+1);
     }
     printf("yield %d \n",pick_num);
     current = &coroutines[pick_num];
@@ -71,9 +72,9 @@ void co_yield() {
 
 void co_wait(struct co *thd) {
   setjmp(current->buf);
-  while(thd->state){
+  while(thd->state!=0){
     int pick_num = rand()%thread_cnt+1;
-    while(!coroutines[pick_num].state&& (&coroutines[pick_num]!= current)){
+    while(!coroutines[pick_num].state|| (&coroutines[pick_num]== current)){
       pick_num = rand()%thread_cnt+1;
     }
     printf("wait %d \n",pick_num);
