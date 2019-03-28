@@ -45,9 +45,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     current = &coroutines[thread_cnt];
     func_temp(arg_temp);
     current->state=0;
-  //  asm volatile("mov %0," SP : : "g"(current->stack_backup));
-    longjmp(coroutines[0].buf,1);
     asm volatile("mov %0," SP : : "g"(current->stack_backup));
+    longjmp(coroutines[0].buf,1);
+   // asm volatile("mov %0," SP : : "g"(current->stack_backup));
   }else{
     return &coroutines[thread_cnt];
   }
@@ -62,7 +62,6 @@ void co_yield() {
     while(!coroutines[pick_num].state || (&coroutines[pick_num]== current)){
       pick_num = rand()%(thread_cnt+1);
     }
-    //printf("yield %d \n",pick_num);
     current = &coroutines[pick_num];
     longjmp(current->buf,1); 
   } else {
@@ -77,7 +76,6 @@ void co_wait(struct co *thd) {
     while(!coroutines[pick_num].state|| (&coroutines[pick_num]== current)){
       pick_num = rand()%thread_cnt+1;
     }
-    //printf("wait %d \n",pick_num);
     current = &coroutines[pick_num];
     longjmp(current->buf,1); 
   }
