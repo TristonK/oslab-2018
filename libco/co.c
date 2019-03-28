@@ -30,6 +30,8 @@ void co_init() {
   current->state=1;
 }
 
+
+void* backup;
 struct co* co_start(const char *name, func_t func, void *arg) {
   thread_cnt++;
   func_temp = func;
@@ -37,9 +39,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int val = setjmp(coroutines[0].buf);
   if(val == 0){
     asm volatile("mov " SP ", %0; mov %1, " SP :
-                 "=g"(coroutines[thread_cnt].stack_backup) :
+                 "=g"(backup) :
                  "g"(coroutines[thread_cnt].stack + sizeof(coroutines[thread_cnt].stack)));
-  //  coroutines[thread_cnt].stack_backup=backup;
+    coroutines[thread_cnt].stack_backup=backup;
     coroutines[thread_cnt].state=1;
     current = &coroutines[thread_cnt];
     func_temp(arg_temp);
