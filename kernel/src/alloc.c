@@ -19,10 +19,10 @@ static inline void sti(){
 
 void spin_lock(uintptr_t lk){
   cli();
-  while(atomic_xchg(lk, 1)){}
+  while(_atomic_xchg(lk, 1)){}
 }
 void spin_unlock(){
-   while(atomic_xchg(lk, 0)){}
+   while(_atomic_xchg(lk, 0)){}
    sti();
 } 
 
