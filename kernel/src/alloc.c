@@ -3,7 +3,7 @@
 
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
-uintptr_t alloc_lk;
+intptr_t alloc_lk;
 struct run{
   struct run *next;
 };
@@ -17,11 +17,11 @@ static inline void sti(){
   asm volatile("sti");
 }
 
-void spin_lock(uintptr_t lk){
+void spin_lock(intptr_t *lk){
   cli();
   while(_atomic_xchg(lk, 1)){}
 }
-void spin_unlock(){
+void spin_unlock(intptr_t *lk){
    while(_atomic_xchg(lk, 0)){}
    sti();
 } 
