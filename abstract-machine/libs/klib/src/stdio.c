@@ -59,19 +59,19 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 			  break;
 			case 'x':
 				num=va_arg(ap,int);
-			  int i=0;char tmp[20];
+			  int i2=0;char tmp2[20];
 			  if(num==0){
 				  *str++='0';
 				  break;
 			  }
 			  while(num){
-				  tmp[i]=numtrans[num%16];
+				  tmp2[i2]=numtrans[num%16];
 				  num/=16;
-				  i++;
+				  i2++;
 			  }
-			  while(i){
-				  i--;
-				  *str++=tmp[i];
+			  while(i2){
+				  i2--;
+				  *str++=tmp2[i2];
 			  }
 			  break;
 		default:;
