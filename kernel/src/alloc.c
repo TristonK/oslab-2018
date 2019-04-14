@@ -29,7 +29,9 @@ void spin_unlock(){
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  alloc_lk = 0;
+  printf("heap start at %x\n",pm_start);
+	printf("heap end at %x\n",pm_end);
+	alloc_lk = 0;
 }
 
 void *alloc_unsafe(size_t size){
