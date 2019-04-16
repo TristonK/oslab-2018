@@ -66,17 +66,17 @@ static void block_cut(kblock *block,uintptr_t need_size){
     uintptr_t rest_block_size=block->size-need_size;
     block->size = need_size;
     kblock *p_block = block->prev;
-    kblock *new_block;
+    kblock new_block;
     if(block->next==NULL){
-        new_block->state=0;
-        new_block->size=rest_block_size;
-        new_block->end_addr=block->end_addr;
+        new_block.state=0;
+        new_block.size=rest_block_size;
+        new_block.end_addr=block->end_addr;
         block->end_addr=block->begin_addr+need_size;
-        new_block->begin_addr=block->end_addr;
+        new_block.begin_addr=block->end_addr;
         block->next=NULL;
         block->prev=NULL;
-        new_block->next=NULL;
-        new_block->prev=p_block;
+        new_block.next=NULL;
+        new_block.prev=p_block;
         p_block->next=new_block;
         return;
     }
@@ -90,15 +90,15 @@ static void block_cut(kblock *block,uintptr_t need_size){
         block->prev=NULL;
         return;
     }
-    new_block->state=0;
-    new_block->size=rest_block_size;
-    new_block->end_addr=block->end_addr;
+    new_block.state=0;
+    new_block.size=rest_block_size;
+    new_block.end_addr=block->end_addr;
     block->end_addr=block->begin_addr+need_size;
-    new_block->begin_addr=block->end_addr;
+    new_block.begin_addr=block->end_addr;
     block->next=NULL;
     block->prev=NULL;
-    new_block->next=n_block;
-    new_block->prev=p_block;
+    new_block.next=n_block;
+    new_block.prev=p_block;
     n_block->prev=new_block;
     p_block->next=new_block;
 }
