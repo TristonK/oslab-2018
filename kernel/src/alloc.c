@@ -56,7 +56,7 @@ static void pmm_init() {
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
-    printf("you used memory from 0x%x to 0x%x",block->begin_addr,block->begin_addr+need_size);
+    printf("you used memory from 0x%x to 0x%x\n",block->begin_addr,block->begin_addr+need_size);
     if(block->size==need_size){
         block->prev->next=block->next;
         block->next=NULL;
