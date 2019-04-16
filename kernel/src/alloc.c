@@ -47,15 +47,15 @@ static void pmm_init() {
   block.end_addr = pm_end;
   block.size = (pm_end-pm_start);
   block.state = 0;
-  block->prev = freelist.head;
-  block->next = NULL;
+  block.prev = freelist.head;
+  block.next = NULL;
   freelist.head->prev=NULL;
   freelist.head->next=&block;
   runlist.head->next=NULL;
   runlist.size=0;
 }
 
-static void block_cut(kblock *block,uintpr_t need_size){
+static void block_cut(kblock *block,uintptr_t need_size){
     printf("you used memory from 0x%x to 0x%x",block->begin_addr,block->begin_addr+need_size);
     if(block->size==need_size){
         block->prev->next=block->next;
@@ -121,18 +121,18 @@ static void *alloc_unsafe(size_t size){
   if(size == 0)
     return NULL;
   uintptr_t block_size = (size % 1024 +1)*1024;
-  kblock block = *freelist.head->next;
-  while(block.size<block_size&&block.next!=NULL){
-      block = block.next;
+  kblock *block = *freelist.head->next;
+  while(block->size<block_size&&block->next!=NULL){
+      block = block->next;
   }
-  if(block.size<block_size){
+  if(block->size<block_size){
       printf("you need %lld but you dont have it\n",block_size);
       assert(0);
   }
-  block.state=1;
+  block->state=1;
   block_cut(block,block_size);
   add_runlist(block);
-  return (void*)block.begin_addr;
+  return (void*)block->begin_addr;
 }
 
 void free_unsafe(uintptr_t b_addr){
