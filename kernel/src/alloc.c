@@ -77,7 +77,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
         block->prev=NULL;
         new_block.next=NULL;
         new_block.prev=p_block;
-        p_block->next=new_block;
+        p_block->next=&new_block;
         return;
     }
     kblock *n_block = block->next;
@@ -99,8 +99,8 @@ static void block_cut(kblock *block,uintptr_t need_size){
     block->prev=NULL;
     new_block.next=n_block;
     new_block.prev=p_block;
-    n_block->prev=new_block;
-    p_block->next=new_block;
+    n_block->prev=&new_block;
+    p_block->next=&new_block;
 }
 
 static void add_runlist(kblock *block){
