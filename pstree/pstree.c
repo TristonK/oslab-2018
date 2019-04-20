@@ -14,7 +14,7 @@
 int proc_num = 0;
 int print_pid = 0;
 int numeric_sort = 0;
-int line[1024];
+int line[60000];
 struct Proc
 {
 	char name[100];
@@ -23,7 +23,7 @@ struct Proc
 	int type;
 	struct Proc *child;
 	struct Proc *sibling;
-} p[600000];
+} p[60000];
 
 void get_str(char *ans, int start_pos, char buf[1024])
 {
