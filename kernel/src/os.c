@@ -95,7 +95,7 @@ static void os_run() {
     }
     else{
       if(used_cnt == 0){
-        my_test[0] = pmm->alloc(2048);
+        my_test[0] = (uintptr_t)pmm->alloc(2048);
         used_cnt++;
       }
       int free_index = rand()%500;
