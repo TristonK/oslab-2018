@@ -40,6 +40,7 @@ static void os_run() {
           my_test[i]=0;
         }
         printf("you now free all the blocks\n");
+        _yield();
       }
       int size_mode = rand()%10;
       /*
