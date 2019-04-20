@@ -120,7 +120,7 @@ static void add_runlist(kblock *block){
 static void *alloc_unsafe(size_t size){
   if(size == 0)
     return NULL;
-  uintptr_t block_size = (size % 1024 +1)*1024;
+  uintptr_t block_size = (size / 1024 +1)*1024;
   kblock *block = freelist.head->next;
   while(block->size<block_size&&block->next!=NULL){
       block = block->next;
