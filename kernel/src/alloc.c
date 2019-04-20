@@ -127,7 +127,8 @@ static void *alloc_unsafe(size_t size){
   }
   if(block->size<block_size){
       printf("you need %lld but you dont have it\n",block_size);
-      assert(0);
+      return NULL;
+      //assert(0);
   }
   block->state=1;
   block_cut(block,block_size);
@@ -136,6 +137,7 @@ static void *alloc_unsafe(size_t size){
 }
 
 void free_unsafe(uintptr_t b_addr){
+    printf("you want to free block from %x\n",b_addr);
     if(!runlist.size){
         printf("WRONG : WE DONT USE THE ADDR!\n");
         return;
