@@ -36,7 +36,7 @@ static void os_run() {
       if(used_cnt==500){
         printf("you have alloc 500 blocks\n");
         for(int i=0;i<500;i++){
-          pmm->free(my_test[i]);
+          pmm->free((void*)my_test[i]);
           my_test[i]=0;
         }
         printf("you now free all the blocks\n");
@@ -50,11 +50,12 @@ static void os_run() {
         int small_order = rand()%11+2;
         int small_add = rand()%(1<<small_order);
         size_t small_size= (1<<small_order)+small_add;
-        uintptr_t alloc_addr = pmm->alloc(small_size);
+        uintptr_t alloc_addr = (uintptr_t)pmm->alloc(small_size);
         if(!alloc_addr){
           for(int i=0;i<500;i++){
-            pmm->free(my_test[i]);
+            pmm->free((void*)my_test[i]);
             my_test[i]=0;
+            used_cnt=0;
           }
           printf("you now free all the blocks\n");
         }
@@ -72,18 +73,19 @@ static void os_run() {
         int big_order = rand()%5+10;
         int big_add = rand()%(1<<big_order);
         size_t big_size= (1<<big_order)+big_add;
-        uintptr_t big_alloc_addr = pmm->alloc(big_size);
+        uintptr_t big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
         if(!big_alloc_addr){
           for(int i=0;i<500;i++){
-            pmm->free(my_test[i]);
+            pmm->free((void *)my_test[i]);
             my_test[i]=0;
           }
+          used_cnt=0;
           printf("you now free all the blocks\n");
         }
         else{
           for(int i = 0;i<=499;i++){
             if(!my_test[i]){
-              my_test[i]=big_lloc_addr;
+              my_test[i]=big_alloc_addr;
               used_cnt++;
               break;
             }
@@ -103,7 +105,7 @@ static void os_run() {
           free_index = 0;
         }
       }
-      pmm->free(my_test[free_index]);
+      pmm->free((void*)my_test[free_index]);
       my_test[free_index]=0;
       used_cnt--;
     }
