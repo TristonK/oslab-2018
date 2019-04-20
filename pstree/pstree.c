@@ -23,7 +23,7 @@ struct Proc
 	int type;
 	struct Proc *child;
 	struct Proc *sibling;
-} p[1024];
+} p[600000];
 
 void get_str(char *ans, int start_pos, char buf[1024])
 {
