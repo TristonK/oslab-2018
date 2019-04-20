@@ -61,13 +61,12 @@ static void os_run() {
           used_cnt=0;
           printf("you now free all the blocks\n");
         }
-        else{
-          for(int i = 0;i<=499;i++){
-            if(!my_test[i]){
-              my_test[i]=alloc_addr;
-              used_cnt++;
-              break;
-            }
+        alloc_addr = (uintptr_t)pmm->alloc(small_size);
+        for(int i = 0;i<=499;i++){
+          if(!my_test[i]){
+            my_test[i]=alloc_addr;
+            used_cnt++;
+            break;
           }
         }
       }
@@ -86,13 +85,12 @@ static void os_run() {
           used_cnt=0;
           printf("you now free all the blocks\n");
         }
-        else{
-          for(int i = 0;i<=499;i++){
-            if(!my_test[i]){
-              my_test[i]=big_alloc_addr;
-              used_cnt++;
-              break;
-            }
+        big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
+        for(int i = 0;i<=499;i++){
+          if(!my_test[i]){
+            my_test[i]=big_alloc_addr;
+            used_cnt++;
+            break;
           }
         }
       }
