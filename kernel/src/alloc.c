@@ -56,7 +56,7 @@ static void pmm_init() {
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
-    printf("you used memory from 0x%x to 0x%x\n",block->begin_addr,block->begin_addr+need_size);
+    printf("you used memory from 0x%d to 0x%d\n",block->begin_addr,block->begin_addr+need_size);
     if(block->size==need_size){
         block->prev->next=block->next;
         block->next=NULL;
@@ -126,7 +126,7 @@ static void *alloc_unsafe(size_t size){
       block = block->next;
   }
   if(block->size<block_size){
-      printf("you need %lld but you dont have it\n",block_size);
+      printf("you need %d but you dont have it\n",block_size);
       return NULL;
       //assert(0);
   }
@@ -137,7 +137,7 @@ static void *alloc_unsafe(size_t size){
 }
 
 void free_unsafe(uintptr_t b_addr){
-    printf("you want to free block from %x\n",b_addr);
+    printf("you want to free block from %d\n",b_addr);
     if(!runlist.size){
         printf("WRONG : WE DONT USE THE ADDR!\n");
         return;
