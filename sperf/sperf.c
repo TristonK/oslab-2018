@@ -17,15 +17,19 @@ void phase_st(char phase[1024]){
     char temp_name[32];
     char temp_time[32];
     int i=0;
-    printf("%s\n",phase);
+    //printf("%s\n",phase);
     while (phase[i]!='('){
         temp_name[i]=phase[i];
         i++;
+        if(i>=32)
+            return;
     }
     temp_name[i]='\0';
     i=strlen(phase);
     while(phase[i]!='<'){
         i--;
+        if(i<0)
+            return;
     }
     i++;
     int time_cnt=0;
