@@ -44,8 +44,9 @@ void phase_st(char phase[1024]){
         }
     }
     if(!have_it){
-        p[proc_cnt].proc_name=temp_name;
-        p[proc_cnt].proc_time=temp_timeval;
+        strcpy(p[proc_cnt].proc_name,temp_name);
+        //p[proc_cnt].proc_name = temp_name;
+        p[proc_cnt].proc_time = temp_timeval;
         proc_cnt++;
     }
 }
