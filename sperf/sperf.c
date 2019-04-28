@@ -19,15 +19,16 @@ int main(int argc, char *argv[]) {
     //printf("hi is son\n");
     close(fildes[0]);
     dup2(fildes[1],2);
+    printf("\u001b[44m A");
     execve("/usr/bin/strace",input_op,environ);
-    printf("we shouldnt go here]\n");
+    printf("You shouldn't go here\n");
+    assert(0);
   } else{
     close(fildes[1]);
     dup2(fildes[0],0);
-    char read_info[50000];
-
+    char read_info[10240];
     while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
-      printf("%s\n",read_info);
+      printf("%s",read_info);
     }
   }
 
