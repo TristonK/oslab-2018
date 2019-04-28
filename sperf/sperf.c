@@ -94,7 +94,7 @@ void paint_line(){
                 default:
                     printf("\x1b[46m");
             }
-            printf("%s:\t%d%%\n",p[i].proc_name,p[i].proc_rate);
+            printf("%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
             sum_rate+=p[i].proc_rate;
             judge_color=(judge_color+1)%4;
         }
