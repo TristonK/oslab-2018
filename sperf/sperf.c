@@ -19,8 +19,8 @@ int main(int argc, char *argv[]) {
     printf("hi is son\n");
     close(fildes[0]);
     dup2(fildes[1],2);
-    for(int i=0;i<argc+2;i++){
-      printf("input_op %d is %s\n",i,input_op[i]);
+    for(int i=0;i<2;i++){
+      printf("input_op %d is %s\n",i,environ[i]);
     }
     execve("/use/bin/strace",input_op,environ);
     printf("we shouldnt go here]\n");
