@@ -40,6 +40,8 @@ void phase_st(char phase[1024]){
     }
     temp_time[time_cnt]='\0';
     double temp_timeval = atof(temp_time);
+    if(temp_timeval<1e-6)
+        return;
     int have_it = 0;
     for(int j=0;j<proc_cnt;j++){
         if(strcmp(temp_name,p[j].proc_name)==0){
@@ -91,7 +93,7 @@ int main(int argc, char *argv[]) {
   }
   pid_t pid = fork();
   if(!pid){
-        printf("hi is son\n");
+        //printf("hi is son\n");
         close(fildes[0]);
         dup2(fildes[1],2);
         //printf("\x1b[44mA\n");
@@ -102,7 +104,7 @@ int main(int argc, char *argv[]) {
   } else{
         close(fildes[1]);
         dup2(fildes[0],0);
-        printf("father is here\n");
+        //printf("father is here\n");
         char read_info[1024];
         while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
             phase_st(read_info);
