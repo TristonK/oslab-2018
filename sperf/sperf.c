@@ -59,6 +59,7 @@ void phase_st(char phase[1024]){
 }
 
 void paint_line(){
+    printf("\x1b[2J");
     double sum_time=0;
     for(int i=0;i<proc_cnt;i++){
         sum_time+=p[i].proc_time;
@@ -141,9 +142,16 @@ int main(int argc, char *argv[]) {
         dup2(fildes[0],STDIN_FILENO);
         //printf("father is here\n");
         char read_info[1024];
+        time_t last_time,now_time;
+        time(&last_time);
         while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
             //printf("%s",read_info;
             phase_st(read_info);
+            time(&now_time);
+            if(now_time-last_time>=2){
+                paint_line();
+                time(&last_time);
+            }
         }
         //printf("end read\n");
         paint_line();
