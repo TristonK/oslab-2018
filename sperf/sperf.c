@@ -101,7 +101,7 @@ void paint_line(){
     }
     if(sum_rate<100){
         printf("\x1b[45m");
-        printf("others:\t%d%%\n",100-sum_rate);
+        printf("others:  %d%%\n",100-sum_rate);
     }
     printf("\x1b[0m");
 }
