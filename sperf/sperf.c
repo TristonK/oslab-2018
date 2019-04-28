@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
   if(!pid){
         //printf("hi is son\n");
         close(fildes[0]);
-        if(dup2(fildes[1],2)==-1){
+        if(dup2(fildes[1],STDERR_FILENO)==-1){
             printf("WRONG ON DUP2\n");
         }
         //printf("\x1b[44mA\n");
@@ -117,11 +117,11 @@ int main(int argc, char *argv[]) {
         assert(0);
   } else{
         close(fildes[1]);
-        dup2(fildes[0],0);
+        dup2(fildes[0],STDIN_FILENO);
         //printf("father is here\n");
         char read_info[1024];
         while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
-            //printf("%s",read_info);
+            //printf("%s",read_info;
             phase_st(read_info);
         }
         //printf("end read\n");
