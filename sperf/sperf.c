@@ -83,25 +83,24 @@ void paint_line(){
         if(p[i].proc_rate){
             switch (judge_color){
                 case 0:
-                    printf("\x1b[42m");
+                    printf("\x1b[42m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
                     break;
                 case 1:
-                    printf("\x1b[43m");
+                    printf("\x1b[43m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
                     break;
                 case 2:
-                    printf("\x1b[44m");
+                    printf("\x1b[44m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
                     break;
                 default:
-                    printf("\x1b[46m");
+                    printf("\x1b[46m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
             }
-            printf("%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
+            //printf("%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
             sum_rate+=p[i].proc_rate;
             judge_color=(judge_color+1)%4;
         }
     }
     if(sum_rate<100){
-        printf("\x1b[45m");
-        printf("others:  %d%%\n",100-sum_rate);
+        printf("\x1b[45mothers:  %d%%\n",100-sum_rate);
     }
     printf("\x1b[0m");
 }
