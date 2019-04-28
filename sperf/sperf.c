@@ -130,6 +130,7 @@ int main(int argc, char *argv[]) {
         if(dup2(fildes[1],STDERR_FILENO)==-1){
             printf("SOMETHING WRONG ON CLOSE OUTPUT\n");
         }
+        close(1);
         //printf("\x1b[44mA\n");
         //printf("\x1b[32mHello, World\\n")
         execve("/usr/bin/strace",input_op,environ);
