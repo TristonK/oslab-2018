@@ -63,7 +63,8 @@ void paint_line(){
     //printf("\x1b[2J");
     //system("clear");
     //printf("\x1B[2J\x1B[0;0f");
-    printf("\033[2J");
+    //printf("\033[2J");
+    printf("\033c");
     double sum_time=0;
     for(int i=0;i<proc_cnt;i++){
         sum_time+=p[i].proc_time;
