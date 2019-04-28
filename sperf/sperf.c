@@ -19,7 +19,8 @@ int main(int argc, char *argv[]) {
     //printf("hi is son\n");
     close(fildes[0]);
     dup2(fildes[1],2);
-    printf("\xlb[44m A\n");
+    printf("\x1b[44mA\n");
+    //printf("\x1b[32mHello, World\\n")
     execve("/usr/bin/strace",input_op,environ);
     printf("You shouldn't go here\n");
     assert(0);
