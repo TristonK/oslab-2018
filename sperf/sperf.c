@@ -78,15 +78,32 @@ void paint_line(){
     }
     int sum_rate=0;
    // printf("proc_cnt is %d\n",proc_cnt);
-    for(int i=0;i<proc_cnt;i++){
+   int judge_color=0;
+   for(int i=0;i<proc_cnt;i++){
         if(p[i].proc_rate){
+            switch (judge_color){
+                case 0:
+                    printf("\x1b[42m");
+                    break;
+                case 1:
+                    printf("\x1b[43m");
+                    break;
+                case 2:
+                    printf("\x1b[44m");
+                    break;
+                default:
+                    printf("\x1b[46m");
+            }
             printf("%s:\t%d%%\n",p[i].proc_name,p[i].proc_rate);
             sum_rate+=p[i].proc_rate;
+            judge_color=(judge_color+1)%4;
         }
     }
     if(sum_rate<100){
+        printf("\x1b[45m");
         printf("others:\t%d%%\n",100-sum_rate);
     }
+    printf("\x1b[0m");
 }
 
 int main(int argc, char *argv[]) {
@@ -108,7 +125,7 @@ int main(int argc, char *argv[]) {
         //printf("hi is son\n");
         close(fildes[0]);
         if(dup2(fildes[1],STDERR_FILENO)==-1){
-            printf("WRONG ON DUP2\n");
+            printf("SOMETHING WRONG ON CLOSE OUTPUT\n");
         }
         //printf("\x1b[44mA\n");
         //printf("\x1b[32mHello, World\\n")
