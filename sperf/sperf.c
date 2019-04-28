@@ -107,7 +107,9 @@ int main(int argc, char *argv[]) {
   if(!pid){
         //printf("hi is son\n");
         close(fildes[0]);
-        dup2(fildes[1],2);
+        if(dup2(fildes[1],2)==-1){
+            printf("WRONG ON DUP2\n");
+        }
         //printf("\x1b[44mA\n");
         //printf("\x1b[32mHello, World\\n")
         execve("/usr/bin/strace",input_op,environ);
