@@ -77,7 +77,7 @@ void paint_line(){
         }
     }
     int sum_rate=0;
-    printf("proc_cnt is %d\n",proc_cnt);
+   // printf("proc_cnt is %d\n",proc_cnt);
     for(int i=0;i<proc_cnt;i++){
         if(p[i].proc_rate){
             printf("%s:\t%d%%\n",p[i].proc_name,p[i].proc_rate);
