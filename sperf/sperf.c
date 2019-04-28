@@ -60,7 +60,8 @@ void phase_st(char phase[1024]){
 }
 
 void paint_line(){
-    printf("\x1b[2J");
+    //printf("\x1b[2J");
+    system("clear");
     double sum_time=0;
     for(int i=0;i<proc_cnt;i++){
         sum_time+=p[i].proc_time;
