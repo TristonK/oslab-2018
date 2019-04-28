@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <time.h>
 int fildes[2];
 struct proc{
     char proc_name[32];
