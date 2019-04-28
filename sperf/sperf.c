@@ -11,7 +11,7 @@ struct proc{
 };
 struct proc p[1024];
 int proc_cnt=0;
-
+extern char**environ;
 
 void phase_st(char phase[1024]){
     char temp_name[32];
@@ -83,7 +83,7 @@ void paint_line(){
 
 int main(int argc, char *argv[]) {
   char *input_op[50]={"strace","-T"};
-  char *environ[2] = {"PATH=/bin",NULL};
+  //char *environ[2] = {"PATH=/bin",NULL};
   for(int i=1;i<argc;i++){
     input_op[i+1]=argv[i];
   }
@@ -91,10 +91,10 @@ int main(int argc, char *argv[]) {
     printf("Fail to create pipe\n");
     assert(0);
   }
-  for(int i=0;i<argc+2;i++){
+  /*for(int i=0;i<argc+2;i++){
       printf("%s  ",input_op[i]);
   }
-  printf("\n");
+  printf("\n");*/
   pid_t pid = fork();
   if(!pid){
         printf("hi is son\n");
