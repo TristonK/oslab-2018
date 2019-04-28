@@ -83,7 +83,8 @@ void paint_line(){
         if(p[i].proc_rate){
             switch (judge_color){
                 case 0:
-                    printf("\x1b[42m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[42m%s:  %d%%",p[i].proc_name,p[i].proc_rate);
+                    printf("\n");
                     break;
                 case 1:
                     printf("\x1b[43m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
