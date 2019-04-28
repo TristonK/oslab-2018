@@ -87,13 +87,16 @@ void paint_line(){
                     printf("\x1b[0m\n");
                     break;
                 case 1:
-                    printf("\x1b[43m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[43m%s:  %d%%",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[0m\n");
                     break;
                 case 2:
-                    printf("\x1b[44m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[44m%s:  %d%%",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[0m\n");
                     break;
                 default:
-                    printf("\x1b[46m%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[46m%s:  %d%%",p[i].proc_name,p[i].proc_rate);
+                    printf("\x1b[0m\n");
             }
             //printf("%s:  %d%%\n",p[i].proc_name,p[i].proc_rate);
             sum_rate+=p[i].proc_rate;
@@ -101,9 +104,9 @@ void paint_line(){
         }
     }
     if(sum_rate<100){
-        printf("\x1b[45mothers:  %d%%\n",100-sum_rate);
+        printf("\x1b[45mothers:  %d%%",100-sum_rate);
     }
-    printf("\x1b[0m");
+    printf("\x1b[0m\n");
 }
 
 int main(int argc, char *argv[]) {
