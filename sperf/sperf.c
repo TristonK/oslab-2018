@@ -76,8 +76,15 @@ void paint_line(){
             }
         }
     }
+    int sum_rate=0;
     for(int i=0;i<proc_cnt;i++){
-        printf("%s:\t%d%%\n",p[i].proc_name,p[i].proc_rate);
+        if(p[i].proc_rate){
+            printf("%s:\t%d%%\n",p[i].proc_name,p[i].proc_rate);
+            sum_rate+=p[i].proc_rate;
+        }
+    }
+    if(sum_rate<100){
+        printf("others:\t%d%%\n",100-sum_rate);
     }
 }
 
