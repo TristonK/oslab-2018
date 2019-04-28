@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     //printf("hi is son\n");
     close(fildes[0]);
     dup2(fildes[1],2);
-    puts("\xlb[44m A");
+    printf("\xlb[44m A\n");
     execve("/usr/bin/strace",input_op,environ);
     printf("You shouldn't go here\n");
     assert(0);
