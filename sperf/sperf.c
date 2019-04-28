@@ -64,7 +64,7 @@ void paint_line(){
         sum_time+=p[i].proc_time;
     }
     for(int i=0;i<proc_cnt;i++){
-        p[i].proc_rate = (int)(p[i].proc_time*100/sum_time);
+        p[i].proc_rate = (int)(p[i].proc_time*100/sum_time + 0.5);
     }
     for(int i=0;i<proc_cnt-1;i++){
         for(int j=i+1;j<proc_cnt;j++){
