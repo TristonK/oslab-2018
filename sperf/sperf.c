@@ -4,9 +4,12 @@
 #include <assert.h>
 #include <stdlib.h>
 int fildes[2];
-char proc_name[128][32];
-double proc_time[128];
-double proc_rate[128];
+struct proc{
+    char proc_name[32];
+    double proc_time;
+    int proc_rate;
+};
+struct proc p[1024];
 int proc_cnt=0;
 
 
@@ -34,16 +37,40 @@ void phase_st(char phase[1024]){
     double temp_timeval = atof(temp_time);
     int have_it = 0;
     for(int j=0;j<proc_cnt;j++){
-        if(strcmp(temp_name,proc_name[j])==0){
+        if(strcmp(temp_name,p[j].proc_name)==0){
             have_it=1;
-            proc_name[j]+=temp_timeval;
+            p[j].proc_time+=temp_timeval;
             break;
         }
     }
     if(!have_it){
-        
+        p[proc_cnt].proc_name=temp_name;
+        p[proc_cnt].proc_time=temp_timeval;
+        proc_cnt++;
     }
+}
 
+void paint_line(){
+    double sum_time=0;
+    for(int i=0;i<proc_cnt;i++){
+        sum_time+=p[i].proc_time;
+    }
+    for(int i=0;i<proc_cnt;i++){
+        p[i].proc_rate = (int)(p[i].proc_time*100/sum_time);
+    }
+    for(int i=0;i<proc_cnt-1;i++){
+        for(int j=i+1;j<proc_cnt;j++){
+            if(p[i].proc_rate < p[j].proc_rate){
+                struct proc temp;
+                temp = p[i];
+                p[i]=p[j];
+                p[j]=temp;
+            }
+        }
+    }
+    for(int i=0;i<proc_cnt;i++){
+        printf("%s:  %d\n",p[i].proc_name,p[i].proc_rate);
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -71,13 +98,10 @@ int main(int argc, char *argv[]) {
     dup2(fildes[0],0);
     char read_info[1024];
     while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
-
-      printf("%s",read_info);
+        phase_st(read_info);
+      //printf("%s",read_info);
     }
+    paint_line();
   }
-
-
-
-
   return 0;
 }
