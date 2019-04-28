@@ -111,8 +111,10 @@ int main(int argc, char *argv[]) {
         printf("father is here\n");
         char read_info[1024];
         while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
+            printf("%s",read_info);
             phase_st(read_info);
         }
+        printf("end read\n");
         paint_line();
   }
   return 0;
