@@ -91,6 +91,10 @@ int main(int argc, char *argv[]) {
     printf("Fail to create pipe\n");
     assert(0);
   }
+  for(int i=0;i<argc+2;i++){
+      printf("%s  ",input_op[i]);
+  }
+  printf("\n");
   pid_t pid = fork();
   if(!pid){
         printf("hi is son\n");
