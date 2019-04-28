@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
   }
   pid_t pid = fork();
   if(!pid){
-    //printf("hi is son\n");
+    printf("hi is son\n");
     close(fildes[0]);
     dup2(fildes[1],2);
     //printf("\x1b[44mA\n");
@@ -95,14 +95,14 @@ int main(int argc, char *argv[]) {
     printf("You shouldn't go here\n");
     assert(0);
   } else{
-    close(fildes[1]);
-    dup2(fildes[0],0);
-    char read_info[1024];
-    while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
-        phase_st(read_info);
-      //printf("%s",read_info);
-    }
-    paint_line();
+        close(fildes[1]);
+        dup2(fildes[0],0);
+        printf("father is here\n");
+        char read_info[1024];
+        while(fgets(read_info, sizeof(read_info),stdin)!=NULL){
+            phase_st(read_info);
+        }
+        paint_line();
   }
   return 0;
 }
