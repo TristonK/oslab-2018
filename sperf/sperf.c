@@ -25,7 +25,9 @@ int main(int argc, char *argv[]) {
     close(fildes[1]);
     dup2(fildes[0],0);
     char read_info[50000];
-    fgets(read_info, sizeof(read_info),0);
+    printf("111\n");
+    fgets(read_info, sizeof(read_info),stdin);
+    printf("222\n");
     printf("%s\n",read_info);
     printf("father is here\n");
   }
