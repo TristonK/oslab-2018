@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
         {
           fputc(c,ex);
         }
-        fclose(c);
+        fclose(ex);
         fclose(fp);
         ex = fopen("/tmp/lab4exec.c","a+");
         sprintf(ex,"%s",exec_func);
@@ -60,7 +60,11 @@ int main(int argc, char *argv[]) {
           assert(0);
         }
         EXEC_FUNC = dlsym(handle, func_name);
-        printf(">> %s = %d.\n",s_input, (*EXEC_FUNC()));
+        if((error=dlerror())!=NULL){
+          printf("ERROR: %s\n",error);
+        }
+        printf(">> %s = %d.\n",s_input, (*EXEC_FUNC)());
+        dlclose(handle);
       }
     }
   }
