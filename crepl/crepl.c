@@ -45,7 +45,8 @@ int main(int argc, char *argv[]) {
         fclose(ex);
         ex = fopen("/tmp/lab4exec.c","a+");
         fp = fopen("/tmp/lab4.c","r");
-        char c;
+        char c
+        printf("here\n");
         while((c = fgetc(fp)) != EOF)
         {
           fputc(c,ex);
@@ -55,6 +56,7 @@ int main(int argc, char *argv[]) {
         ex = fopen("/tmp/lab4exec.c","a+");
         fprintf(ex,"%s",exec_func);
         fclose(ex);
+        printf("here2\n");
         if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
           printf("\x1b[31mCompile Error Or No such Function\n");
           printf("\x1b[0m");
