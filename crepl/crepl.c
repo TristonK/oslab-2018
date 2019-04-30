@@ -24,6 +24,24 @@ int main(int argc, char *argv[]) {
     if(fgets(s_input, sizeof(s_input),stdin)!=NULL){
       if(!strncmp(s_input,int_string,3)){
         /*Add a new function*/
+        fp = fopen("/tmp/m4check_func.c","w");
+        fprintf(fp,"%s",s_input);
+        fclose(fp);
+      #ifdef __x86_64__
+        // printf("__x86_64__");
+          if(system("gcc -shared -fPIC /tmp/m4check_func.c -o /tmp/m4check_func.so -ldl")!=0){
+            printf("\x1b[31mCompile Error\n");
+            printf("\x1b[0m");
+            continue;
+        }
+          #elif __i386__
+        //printf("__i386__");
+          if(system("gcc -m32 -shared -fPIC /tmp/m4check_func.c -o /tmp/m4check_func.so -ldl")!=0){
+            printf("\x1b[31mCompile Error\n");
+            printf("\x1b[0m");
+            continue;
+          }
+        #endif
         fp = fopen("/tmp/lab4.c","a+");
         if(fp==NULL){
           printf("FAIL to open file to add func\n");
