@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
         fclose(ex);
         ex = fopen("/tmp/lab4exec.c","a+");
         fp = fopen("/tmp/lab4.c","r");
-        char c
+        char c;
         printf("here\n");
         while((c = fgetc(fp)) != EOF)
         {
