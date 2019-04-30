@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
         fprintf(fp,"%s",s_input);
         fclose(fp);
         printf("\x1b[32mAdded: ");
-        printf("\x1b[0m%s\n",s_input);
+        printf("\x1b[0m%s",s_input);
       } else{
         /*Expression*/
         memset(exec_func,'\0', sizeof(exec_func));
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
         fprintf(ex,"%s",exec_func);
         fclose(ex);
         if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
-          printf("\x1b[31mCompile Error\n");
+          printf("\x1b[31mCompile Error Or No such Function\n");
           printf("\x1b[0m");
           continue;
         }
