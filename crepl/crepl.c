@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
           if(system("gcc -shared -fPIC /tmp/m4check_func.c -o /tmp/m4check_func.so -ldl")!=0){
             printf("\x1b[31mCompile Error\n");
             printf("\x1b[0m");
+            printf(">> ");
             continue;
         }
           #elif __i386__
@@ -39,6 +40,7 @@ int main(int argc, char *argv[]) {
           if(system("gcc -m32 -shared -fPIC /tmp/m4check_func.c -o /tmp/m4check_func.so -ldl")!=0){
             printf("\x1b[31mCompile Error\n");
             printf("\x1b[0m");
+            printf(">> ");
             continue;
           }
         #endif
@@ -79,12 +81,14 @@ int main(int argc, char *argv[]) {
           if(system("gcc -Werror -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
+            printf(">> ");
             continue;
         }
         #elif __i386__
           if(system("gcc -Werror -m32 -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
+            printf(">> ");
             continue;
           }
           #endif
