@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     assert(0);
   }
   strcpy(int_string,"int");
+  printf(">> ");
   while(1){
     if(fgets(s_input, sizeof(s_input),stdin)!=NULL){
       if(!strncmp(s_input,int_string,3)){
@@ -32,6 +33,7 @@ int main(int argc, char *argv[]) {
         fclose(fp);
         printf("\x1b[32mAdded: ");
         printf("\x1b[0m%s",s_input);
+        printf(">> ");
       } else{
         /*Expression*/
         memset(exec_func,'\0', sizeof(exec_func));
@@ -56,14 +58,14 @@ int main(int argc, char *argv[]) {
         fprintf(ex,"%s",exec_func);
         fclose(ex);
         #ifdef __x86_64__
-          printf("__x86_64__");
+         // printf("__x86_64__");
           if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
             continue;
         }
         #elif __i386__
-          printf("__i386__");
+          //printf("__i386__");
           if(system("gcc -m32 -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
@@ -82,7 +84,8 @@ int main(int argc, char *argv[]) {
         if((error=dlerror())!=NULL){
           printf("ERROR: %s\n",error);
         }
-        printf(">> %s = %d.\n",s_input, (*EXEC_FUNC)());
+        printf("%s = %d.\n",s_input, (*EXEC_FUNC)());
+        printf(">> ");
         dlclose(handle);
       }
     }
