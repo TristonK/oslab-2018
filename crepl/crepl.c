@@ -30,16 +30,20 @@ int main(int argc, char *argv[]) {
         }
         fprintf(fp,"%s",s_input);
         fclose(fp);
+        printf("\x1b[32mAdded: ");
+        printf("\x1b[0m%s\n",s_input);
       } else{
         /*Expression*/
         memset(exec_func,'\0', sizeof(exec_func));
         memset(func_name,'\0', sizeof(func_name));
+        if(s_input[strlen(s_input)-1]=='\n')
+          s_input[strlen(s_input)-1]='\0';
         sprintf(func_name,"__expr_wrap_%d",func_id);
         sprintf(exec_func,"int %s(){return %s;}",func_name,s_input);
         FILE* ex;
-        ex = fopen("lab4exec.c","w");
+        ex = fopen("/tmp/lab4exec.c","w");
         fclose(ex);
-        ex = fopen("lab4exec.c","a+");
+        ex = fopen("/tmp/lab4exec.c","a+");
         fp = fopen("/tmp/lab4.c","r");
         char c;
         while((c = fgetc(fp)) != EOF)
@@ -48,10 +52,14 @@ int main(int argc, char *argv[]) {
         }
         fclose(ex);
         fclose(fp);
-        ex = fopen("lab4exec.c","a+");
+        ex = fopen("/tmp/lab4exec.c","a+");
         fprintf(ex,"%s",exec_func);
         fclose(ex);
-        system("gcc -shared -fPIC lab4exec.c -o /tmp/lab4exec.so -ldl");
+        if(system("gcc -shared -fPIC lab4exec.c -o /tmp/lab4exec.so -ldl")==-1){
+          printf("\x1b[31mCompile Error\n");
+          printf("\x1b[0m");
+          continue;
+        }
         void *handle;
         char *error;
         handle = dlopen("/tmp/lab4exec.so", RTLD_LAZY);
