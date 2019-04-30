@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
           assert(0);
         }
         EXEC_FUNC = dlsym(handle, func_name);
-        printf(">> %s = %d.\n", cmd, value);
+        printf(">> %s = %d.\n",s_input, (*EXEC_FUNC()));
       }
     }
   }
