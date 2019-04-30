@@ -76,15 +76,13 @@ int main(int argc, char *argv[]) {
         fprintf(ex,"%s",exec_func);
         fclose(ex);
         #ifdef __x86_64__
-         // printf("__x86_64__");
-          if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
+          if(system("gcc -Werror -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
             continue;
         }
         #elif __i386__
-          //printf("__i386__");
-          if(system("gcc -m32 -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
+          if(system("gcc -Werror -m32 -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
             printf("\x1b[31mCompile Error Or No such Function\n");
             printf("\x1b[0m");
             continue;
