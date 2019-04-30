@@ -37,9 +37,9 @@ int main(int argc, char *argv[]) {
         sprintf(func_name,"__expr_wrap_%d()",func_id);
         sprintf(exec_func,"int %s{return %s;}",func_name,s_input);
         FILE* ex;
-        ex = fopen("/tmp/lab4exec.c","w");
+        ex = fopen("lab4exec.c","w");
         fclose(ex);
-        ex = fopen("/tmp/lab4exec.c","a+");
+        ex = fopen("lab4exec.c","a+");
         fp = fopen("/tmp/lab4.c","r");
         char c;
         while((c = fgetc(fp)) != EOF)
@@ -48,10 +48,10 @@ int main(int argc, char *argv[]) {
         }
         fclose(ex);
         fclose(fp);
-        ex = fopen("/tmp/lab4exec.c","a+");
+        ex = fopen("lab4exec.c","a+");
         fprintf(ex,"%s",exec_func);
         fclose(ex);
-        system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl");
+        system("gcc -shared -fPIC lab4exec.c -o /tmp/lab4exec.so -ldl");
         void *handle;
         char *error;
         handle = dlopen("/tmp/lab4exec.so", RTLD_LAZY);
