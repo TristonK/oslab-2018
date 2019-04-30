@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
         fclose(ex);
         fclose(fp);
         ex = fopen("/tmp/lab4exec.c","a+");
-        sprintf(ex,"%s",exec_func);
+        fprintf(ex,"%s",exec_func);
         fclose(ex);
         system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl");
         void *handle;
