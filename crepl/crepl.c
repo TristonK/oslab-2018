@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
         ex = fopen("/tmp/lab4exec.c","a+");
         fprintf(ex,"%s",exec_func);
         fclose(ex);
-        if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")==-1){
+        if(system("gcc -shared -fPIC /tmp/lab4exec.c -o /tmp/lab4exec.so -ldl")!=0){
           printf("\x1b[31mCompile Error\n");
           printf("\x1b[0m");
           continue;
