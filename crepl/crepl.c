@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         memset(exec_func,'\0', sizeof(exec_func));
         memset(func_name,'\0', sizeof(func_name));
         sprintf(func_name,"__expr_wrap_%d()",func_id);
-        sprintf(exec_func,"int %s(){return %s}",func_name,s_input);
+        sprintf(exec_func,"int %s{return %s;}",func_name,s_input);
         FILE* ex;
         ex = fopen("/tmp/lab4exec.c","w");
         fclose(ex);
