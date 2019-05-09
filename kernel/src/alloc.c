@@ -20,20 +20,20 @@ kmem freelist;
 kmem runlist;
 
 //****************** code ************************
-void cli(){
+static inline void cli(){
   asm volatile("cli");
 }
-void sti(){
+static inline void sti(){
   asm volatile("sti");
 }
 
 void spin_lock(intptr_t *lk){
   cli();
-  while(_atomic_xchg(lk, 1));
+  while(_atomic_xchg(&lk, 1));
   __sync_synchronize();
 }
 void spin_unlock(intptr_t *lk){
-   while(_atomic_xchg(lk, 0));
+   while(_atomic_xchg(&lk, 0));
    sti();
 } 
 
