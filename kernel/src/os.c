@@ -48,7 +48,7 @@ static void os_run() {
   pmm -> free(t5);
   /*while (1) {
     spin_lock(&lk);
-    int op = rand()%2;
+    int op = rand()%2;*/
     /*0: randomly free 
     * 1: randomly alloc
     * maxrandom num = 32768*/
@@ -66,7 +66,7 @@ static void os_run() {
         spin_unlock(&print_lk);
         //_yield();
       }
-      int size_mode = rand()%10;
+      int size_mode = rand()%10;*/
       /*
       * 90%: small size need to be alloc
       * 10%: big size need to be alloc
