@@ -76,6 +76,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
     kblock *p_block = block->prev;
     kblock new_block;
     if(block->next==NULL){
+      printf("here3\n");
         new_block.state=0;
         new_block.size=rest_block_size;
         new_block.end_addr=block->end_addr;
@@ -90,6 +91,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
     }
     kblock *n_block = block->next;
     if(n_block->begin_addr==block->end_addr){
+      printf("here1\n");
         n_block->size+=rest_block_size;
         n_block->begin_addr-=rest_block_size;
         block->end_addr=block->begin_addr+need_size;
@@ -109,7 +111,6 @@ static void block_cut(kblock *block,uintptr_t need_size){
     new_block.prev=p_block;
     n_block->prev=&new_block;
     p_block->next=&new_block;
-    printf("here1\n");
 }
 
 static void add_runlist(kblock *block){
