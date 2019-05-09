@@ -77,7 +77,7 @@ static void pmm_init() {
 static void block_cut(kblock *block,uintptr_t need_size){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you used memory from %d to %d\n",&block->begin_addr,&block->begin_addr+need_size);
+    printf("you used memory from %d to %d from cpu %d\n",&block->begin_addr,&block->begin_addr+need_size,_cpu());
     //spin_unlock(&print_lk);
     print_unlock();
     if(block->size==need_size){
