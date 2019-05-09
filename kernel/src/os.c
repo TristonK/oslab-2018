@@ -29,10 +29,11 @@ static void os_run() {
   _intr_write(1);
   void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
   t1 = pmm ->alloc(13*1024);
-  printf("hi siri\n");
+  //printf("hi siri\n");
   t2 = pmm -> alloc(17*1024);
   printf("hi alex\n");
   pmm->free(t2);
+  printf("siri\n");
   t3 = pmm -> alloc(15*1024);
   t4 = pmm -> alloc (17244);
   t5 = pmm -> alloc (15222);
