@@ -1,6 +1,6 @@
 #include <common.h>
-//#include <klib.h>
-#include <stdio.h>
+#include <klib.h>
+//#include <stdio.h>
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
 intptr_t alloc_lk;
