@@ -63,7 +63,7 @@ static void pmm_init() {
 
 static void block_cut(kblock *block,uintptr_t need_size){
     spin_lock(&print_lk);
-    printf("you used memory from %d to %d\n",block->begin_addr,block->begin_addr+need_size);
+    printf("you used memory from %d to %d\n",&block->begin_addr,&block->begin_addr+need_size);
     spin_unlock(&print_lk);
     if(block->size==need_size){
         block->prev->next=block->next;
@@ -202,7 +202,7 @@ static void *kalloc(size_t size) {
   spin_lock(&alloc_lk);
   void *ret = alloc_unsafe(size);
   spin_unlock(&alloc_lk);
-  printf("hi\n");
+  //printf("hi\n");
   return ret;
 }
 
