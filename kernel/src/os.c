@@ -32,12 +32,12 @@ static void os_run() {
   //printf("hi siri\n");
   t2 = pmm -> alloc(17*1024);
   //printf("hi alex\n");
-  pmm->free(t2);
+  pmm->free(t1);
   //printf("siri\n");
   t3 = pmm -> alloc(15*1024);
   t4 = pmm -> alloc (17244);
   t5 = pmm -> alloc (15222);
-  pmm -> free (t1);
+  pmm -> free (t2);
   pmm -> free (t4);
   t6 = pmm -> alloc (122222);
   pmm -> free(t6);
