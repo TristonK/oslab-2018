@@ -6,7 +6,7 @@
 
 #define LOCKDEF(name) \
   static volatile intptr_t name##_locked = 0; \
-  static int name##_lock_flags[MAX_CPU]; \
+  static int name##_lock_flags[8]; \
   void name##_lock() { \
     name##_lock_flags[_cpu()] = _intr_read(); \
     _intr_write(0); \
