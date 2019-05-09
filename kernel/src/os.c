@@ -27,13 +27,32 @@ static void hello() {
 static void os_run() {
   hello();
   _intr_write(1);
-  while (1) {
+  void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
+  t1 = pmm ->alloc(13*1024);
+  t2 = pmm -> alloc(17*1024);
+  pmm->free(t2);
+  t3 = pmm -> alloc(15*1024);
+  t4 = pmm -> alloc (17244);
+  t5 = pmm -> alloc (15222);
+  pmm -> free (t1);
+  pmm -> free (t4);
+  t6 = pmm -> alloc (122222);
+  pmm -> free(t6);
+  t7 = pmm -> alloc(123);
+  t1 = pmm -> alloc(32*1024);
+  t2 = pmm -> alloc(16*1024);
+  pmm -> free(t7);
+  pmm -> free(t2);
+  pmm -> free(t1);
+  pmm -> free(t3);
+  pmm -> free(t5);
+  /*while (1) {
     spin_lock(&lk);
     int op = rand()%2;
     /*0: randomly free 
     * 1: randomly alloc
     * maxrandom num = 32768*/
-    if(op){
+    /*if(op){
       if(used_cnt==500){
         spin_lock(&print_lk);
         printf("you have alloc 500 blocks\n");
@@ -52,7 +71,7 @@ static void os_run() {
       * 90%: small size need to be alloc
       * 10%: big size need to be alloc
       */
-      if(size_mode<=8){
+      /*if(size_mode<=8){
         int small_order = rand()%11+2;
         int small_add = rand()%(1<<small_order);
         size_t small_size= (1<<small_order)+small_add;
@@ -123,7 +142,7 @@ static void os_run() {
     }
     spin_unlock(&lk);
     //_yield();
-  }
+  }*/
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
