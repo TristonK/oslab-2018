@@ -76,7 +76,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
     kblock *p_block = block->prev;
     kblock new_block;
     if(block->next==NULL){
-      printf("here3\n");
+        //printf("here3\n");
         new_block.state=0;
         new_block.size=rest_block_size;
         new_block.end_addr=block->end_addr;
@@ -91,7 +91,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
     }
     kblock *n_block = block->next;
     if(n_block->begin_addr==block->end_addr){
-      printf("here1\n");
+        //printf("here1\n");
         n_block->size+=rest_block_size;
         n_block->begin_addr-=rest_block_size;
         block->end_addr=block->begin_addr+need_size;
@@ -145,7 +145,7 @@ static void *alloc_unsafe(size_t size){
   block->state=1;
   block_cut(block,block_size);
   add_runlist(block);
-  printf("here2\n");
+  //printf("here2\n");
   return (void*)block->begin_addr;
 }
 
@@ -202,6 +202,7 @@ static void *kalloc(size_t size) {
   spin_lock(&alloc_lk);
   void *ret = alloc_unsafe(size);
   spin_unlock(&alloc_lk);
+  printf("hi\n");
   return ret;
 }
 
