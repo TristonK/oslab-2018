@@ -1,10 +1,11 @@
 #include <common.h>
 #include <klib.h>
+#include <x86.h>
 //#include <stdio.h>
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
 struct spinlock{
-  uintptr_t status;
+  intptr_t status;
   uintptr_t flags[8];
 };
 struct spinlock alloc_lk;
