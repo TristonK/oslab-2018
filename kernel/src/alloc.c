@@ -1,6 +1,6 @@
 #include <common.h>
 #include <klib.h>
-#include <x86-qemu.h>
+#include <x86.h>
 //#include <stdio.h>
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
