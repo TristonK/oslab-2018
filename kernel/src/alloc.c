@@ -173,9 +173,11 @@ void free_unsafe(uintptr_t b_addr){
     print_unlock();
     //spin_unlock(&print_lk);
     if(!runlist.size){
-        spin_lock(&print_lk);
+        //spin_lock(&print_lk);
+        print_lock();
         printf("WRONG : WE DONT USE THE ADDR!\n");
-        spin_unlock(&print_lk);
+        print_unlock();
+        //spin_unlock(&print_lk);
         return;
     }
     kblock *used_block = runlist.head->next;
