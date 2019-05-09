@@ -1,7 +1,23 @@
 #include <common.h>
 #include <klib.h>
-#include <src/x86/x86-qemu.h>
+//#include <src/x86/x86-qemu.h>
 //#include <stdio.h>
+
+
+#define LOCKDEF(name) \
+  static volatile intptr_t name##_locked = 0; \
+  static int name##_lock_flags[MAX_CPU]; \
+  void name##_lock() { \
+    name##_lock_flags[_cpu()] = _intr_read(); \
+    _intr_write(0); \
+    while (1) { \
+      if (0 == _atomic_xchg(&name##_locked, 1)) break; \
+    } \
+  } \
+  void name##_unlock() { \
+    _atomic_xchg(&name##_locked, 0); \
+    if (name##_lock_flags[_cpu()]) _intr_write(1); \
+  }
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
 struct spinlock{
@@ -32,7 +48,7 @@ static inline void sti(){
   asm volatile("sti");
 }*/
 
-void spin_lock(struct spinlock *lk){
+/*void spin_lock(struct spinlock *lk){
   //printf("you locked it\n");
   lk->flags[_cpu()] = get_efl() & FL_IF;
   cli();
@@ -48,7 +64,7 @@ void spin_unlock(struct spinlock *lk){
   if(lk->flags[_cpu()])
     sti();
   //printf("ublock!\n");
-} 
+} */
 
 LOCKDEF(alloc);
 LOCKDEF(print);
@@ -75,11 +91,11 @@ static void pmm_init() {
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
-    spin_lock(&print_lk);
-    //print_lock();
+    //spin_lock(&print_lk);
+    print_lock();
     printf("you used memory from %d to %d from cpu %d\n",&block->begin_addr,&block->begin_addr+need_size,_cpu());
-    spin_unlock(&print_lk);
-    //print_unlock();
+    //spin_unlock(&print_lk);
+    print_unlock();
     if(block->size==need_size){
         block->prev->next=block->next;
         block->next=NULL;
@@ -151,11 +167,11 @@ static void *alloc_unsafe(size_t size){
       block = block->next;
   }
   if(block->size<block_size){
-      spin_lock(&print_lk);
-      //print_lock();
+      //spin_lock(&print_lk);
+      print_lock();
       printf("you need %d but you dont have it\n",block_size);
-      spin_unlock(&print_lk);
-      //print_unlock();
+      //spin_unlock(&print_lk);
+      print_unlock();
       return NULL;
       //assert(0);
   }
@@ -167,17 +183,17 @@ static void *alloc_unsafe(size_t size){
 }
 
 void free_unsafe(uintptr_t b_addr){
-    spin_lock(&print_lk);
-    //print_lock();
+    //spin_lock(&print_lk);
+    print_lock();
     printf("you want to free block from %I64u\n",b_addr);
-    //print_unlock();
-    spin_unlock(&print_lk);
+    print_unlock();
+    //spin_unlock(&print_lk);
     if(!runlist.size){
-        spin_lock(&print_lk);
-        //print_lock();
+        //spin_lock(&print_lk);
+        print_lock();
         printf("WRONG : WE DONT USE THE ADDR!\n");
-        //print_unlock();
-        spin_unlock(&print_lk);
+        print_unlock();
+        //spin_unlock(&print_lk);
         return;
     }
     kblock *used_block = runlist.head->next;
@@ -185,11 +201,11 @@ void free_unsafe(uintptr_t b_addr){
         used_block=used_block->next;
         }
     if(used_block->begin_addr!=b_addr){
-        spin_lock(&print_lk);
-        //print_lock();
+        //spin_lock(&print_lk);
+        print_lock();
         printf("WRONG : WE DONT USE THE ADDR!\n");
-        //print_unlock();
-        spin_unlock(&print_lk);
+        print_unlock();
+        //spin_unlock(&print_lk);
         return;
     }
     used_block->state=0;
@@ -223,22 +239,22 @@ void free_unsafe(uintptr_t b_addr){
 
 
 static void *kalloc(size_t size) {
-  spin_lock(&alloc_lk);
-  //alloc_lock();
+  //spin_lock(&alloc_lk);
+  alloc_lock();
   void *ret = alloc_unsafe(size);
   printf("finish\n");
-  //alloc_unlock();
-  spin_unlock(&alloc_lk);
+  alloc_unlock();
+  //spin_unlock(&alloc_lk);
   //printf("hi\n");
   return ret;
 }
 
 static void kfree(void *ptr) {
-  spin_lock(&alloc_lk);
-  //alloc_lock();
+  //spin_lock(&alloc_lk);
+  alloc_lock();
   free_unsafe((uintptr_t)(ptr));
-  //alloc_unlock();
-  spin_unlock(&alloc_lk);
+  alloc_unlock();
+  //spin_unlock(&alloc_lk);
 }
 
 MODULE_DEF(pmm) {
