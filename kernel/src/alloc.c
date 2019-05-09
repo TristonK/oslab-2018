@@ -4,6 +4,7 @@
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
 intptr_t alloc_lk;
+intptr_t print_lk;
 typedef struct run{
   int state;
   uintptr_t begin_addr,end_addr;
@@ -28,10 +29,11 @@ static inline void sti(){
 
 void spin_lock(intptr_t *lk){
   cli();
-  while(_atomic_xchg(lk, 1)){}
+  while(_atomic_xchg(lk, 1));
+  __sync_synchronize();
 }
 void spin_unlock(intptr_t *lk){
-   while(_atomic_xchg(lk, 0)){}
+   while(_atomic_xchg(lk, 0));
    sti();
 } 
 
@@ -56,7 +58,9 @@ static void pmm_init() {
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
+    spin_lock(&print_lk);
     printf("you used memory from %d to %d\n",block->begin_addr,block->begin_addr+need_size);
+    spin_unlock(&print_lk);
     if(block->size==need_size){
         block->prev->next=block->next;
         block->next=NULL;
@@ -126,7 +130,9 @@ static void *alloc_unsafe(size_t size){
       block = block->next;
   }
   if(block->size<block_size){
+      spin_lock(&print_lk);
       printf("you need %d but you dont have it\n",block_size);
+      spin_unlock(&print_lk);
       return NULL;
       //assert(0);
   }
@@ -137,16 +143,22 @@ static void *alloc_unsafe(size_t size){
 }
 
 void free_unsafe(uintptr_t b_addr){
+    spin_lock(&print_lk);
     printf("you want to free block from %d\n",b_addr);
+    spin_unlock(&print_lk);
     if(!runlist.size){
+        spin_lock(&print_lk);
         printf("WRONG : WE DONT USE THE ADDR!\n");
+        spin_unlock(&print_lk);
         return;
     }
     kblock *used_block = runlist.head->next;
     while(used_block->begin_addr!=b_addr)
         used_block=used_block->next;
     if(used_block->begin_addr!=b_addr){
+        spin_lock(&print_lk);
         printf("WRONG : WE DONT USE THE ADDR!\n");
+        spin_unlock(&print_lk);
         return;
     }
     used_block->state=0;
