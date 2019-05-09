@@ -28,7 +28,7 @@ static void os_run() {
   hello();
   _intr_write(1);
   while (1) {
-    spin_lock(&lk);
+    //spin_lock(&lk);
     int op = rand()%2;
     /*0: randomly free 
     * 1: randomly alloc
@@ -121,7 +121,7 @@ static void os_run() {
       my_test[free_index]=0;
       used_cnt--;
     }
-    spin_unlock(&lk);
+    //spin_unlock(&lk);
     //_yield();
   }
 }
