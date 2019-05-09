@@ -162,8 +162,9 @@ void free_unsafe(uintptr_t b_addr){
         return;
     }
     kblock *used_block = runlist.head->next;
-    while(used_block->begin_addr!=b_addr)
+    while(used_block->begin_addr!=b_addr && used_block->next !=NULL){
         used_block=used_block->next;
+        }
     if(used_block->begin_addr!=b_addr){
         spin_lock(&print_lk);
         printf("WRONG : WE DONT USE THE ADDR!\n");
