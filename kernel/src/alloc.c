@@ -235,7 +235,7 @@ static void *kalloc(size_t size) {
 static void kfree(void *ptr) {
   //spin_lock(&alloc_lk);
   alloc_lock();
-  free_unsafe((uintptr_t)(&ptr));
+  free_unsafe((uintptr_t)(ptr));
   alloc_unlock();
   //spin_unlock(&alloc_lk);
 }
