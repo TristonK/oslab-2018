@@ -28,10 +28,11 @@ static inline void sti(){
 }
 
 void spin_lock(intptr_t *lk){
-  printf("you locked it\n");
+  //printf("you locked it\n");
   cli();
   while(_atomic_xchg(lk, 1));
   __sync_synchronize();
+  printf("aaa\n");
 }
 void spin_unlock(intptr_t *lk){
    //printf("unlock it\n");
