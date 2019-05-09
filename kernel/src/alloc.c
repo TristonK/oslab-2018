@@ -3,8 +3,12 @@
 //#include <stdio.h>
 //***************** Variables ******************
 static uintptr_t pm_start, pm_end;
-intptr_t alloc_lk;
-intptr_t print_lk;
+struct spinlock{
+  uintptr_t status;
+  uintptr_t flags[8];
+}
+struct spinlock alloc_lk;
+struct spinlock print_lk;
 typedef struct run{
   int state;
   uintptr_t begin_addr,end_addr;
@@ -27,20 +31,22 @@ static inline void sti(){
   asm volatile("sti");
 }
 
-void spin_lock(intptr_t *lk){
+void spin_lock(struct spinlock *lk){
   //printf("you locked it\n");
+  lk->flags[_cpu()] = get_efl() & FL_IF;
   cli();
-  while(_atomic_xchg(lk, 1));
+  while(_atomic_xchg(&lk->status, 1));
   __sync_synchronize();
   //printf("aaa\n");
 }
-void spin_unlock(intptr_t *lk){
-   //printf("unlock it\n");
-   while(_atomic_xchg(lk, 0));
-   __sync_synchronize();
-   //asm volatile("movl $0, %0" : "+m" (lk) : );
-   sti();
-   //printf("ublock!\n");
+void spin_unlock(struct spinlock *lk){
+  //printf("unlock it\n");
+  while(_atomic_xchg(&lk->status, 0));
+  __sync_synchronize();
+  //asm volatile("movl $0, %0" : "+m" (lk) : );
+  if(lk->flags[_cpu()])
+    sti();
+  //printf("ublock!\n");
 } 
 
 static void pmm_init() {
@@ -49,7 +55,8 @@ static void pmm_init() {
   printf("heap start at 0x%x\n",pm_start);
   printf("heap end at 0x%x\n",pm_end);
   printf("you could use %d space\n",pm_end-pm_start);
-  alloc_lk = 0;
+  alloc_lk.status = 0;
+  print_lk.status =0;
   kblock block;
   block.begin_addr = pm_start;
   block.end_addr = pm_end;
