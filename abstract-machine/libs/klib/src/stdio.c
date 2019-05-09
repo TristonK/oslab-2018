@@ -27,6 +27,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   char * str;
   const char* s;
   int num;
+	unsigned int num32;
+	unsigned long int num64;
   static char numtrans[16]="0123456789ABCDEF";
   for(str=out;*fmt;fmt++){
 	  if(*fmt!='%'){
@@ -57,6 +59,45 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				  *str++=tmp[i];
 			  }
 			  break;
+			case 'I':
+				++fmt;
+				if(*fmt == '6'){
+					fmt++;++fmt;
+					num64=va_arg(ap,unsigned long int);
+			  	int i=0;char tmp[20];
+			  		if(num64==0){
+				  	*str++='0';
+				  	break;
+			  	}
+			  	while(num64){
+				  	tmp[i]=numtrans[num64%10];
+				  	num64/=10;
+				  	i++;
+			  	}
+			  	while(i){
+				  	i--;
+				  	*str++=tmp[i];
+			  	}
+				}
+				else if(*fmt == '3'){
+					++fmt;++fmt;
+					num32=va_arg(ap,unsigned int);
+			  	int i=0;char tmp[20];
+			  	if(num32==0){
+				  	*str++='0';
+				  	break;
+			  	}
+			  	while(num32){
+				  	tmp[i]=numtrans[num32%10];
+				  	num32/=10;
+				  	i++;
+			  	}
+			  	while(i){
+				  	i--;
+				  	*str++=tmp[i];
+			  	}
+				}
+				break;	
 			case 'x':
 				num=va_arg(ap,int);
 			  int i2=0;char tmp2[20];
