@@ -109,6 +109,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
     new_block.prev=p_block;
     n_block->prev=&new_block;
     p_block->next=&new_block;
+    printf("here1\n");
 }
 
 static void add_runlist(kblock *block){
@@ -143,6 +144,7 @@ static void *alloc_unsafe(size_t size){
   block->state=1;
   block_cut(block,block_size);
   add_runlist(block);
+  printf("here2\n");
   return (void*)block->begin_addr;
 }
 
