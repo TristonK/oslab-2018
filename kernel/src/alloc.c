@@ -32,7 +32,7 @@ void spin_lock(intptr_t *lk){
   cli();
   while(_atomic_xchg(lk, 1));
   __sync_synchronize();
-  printf("aaa\n");
+  //printf("aaa\n");
 }
 void spin_unlock(intptr_t *lk){
    //printf("unlock it\n");
@@ -40,7 +40,7 @@ void spin_unlock(intptr_t *lk){
    __sync_synchronize();
    //asm volatile("movl $0, %0" : "+m" (lk) : );
    sti();
-   printf("ublock!\n");
+   //printf("ublock!\n");
 } 
 
 static void pmm_init() {

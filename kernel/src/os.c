@@ -48,6 +48,7 @@ static void os_run() {
   pmm -> free(t1);
   pmm -> free(t3);
   pmm -> free(t5);
+  printf("done done done\n");
   /*while (1) {
     spin_lock(&lk);
     int op = rand()%2;*/
