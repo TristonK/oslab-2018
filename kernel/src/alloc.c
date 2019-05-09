@@ -25,12 +25,12 @@ kmem freelist;
 kmem runlist;
 
 //****************** code ************************
-static inline void cli(){
+/*static inline void cli(){
   asm volatile("cli");
 }
 static inline void sti(){
   asm volatile("sti");
-}
+}*/
 
 void spin_lock(struct spinlock *lk){
   //printf("you locked it\n");
