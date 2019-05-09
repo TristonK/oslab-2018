@@ -169,7 +169,7 @@ static void *alloc_unsafe(size_t size){
 void free_unsafe(uintptr_t b_addr){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you want to free block from %I32u\n",b_addr);
+    printf("you want to free block from %I64u\n",b_addr);
     print_unlock();
     //spin_unlock(&print_lk);
     if(!runlist.size){
@@ -235,7 +235,7 @@ static void *kalloc(size_t size) {
 static void kfree(void *ptr) {
   //spin_lock(&alloc_lk);
   alloc_lock();
-  free_unsafe((uintptr_t)(ptr));
+  free_unsafe((uintptr_t)(&ptr));
   alloc_unlock();
   //spin_unlock(&alloc_lk);
 }
