@@ -29,11 +29,12 @@ static inline void sti(){
 
 void spin_lock(intptr_t *lk){
   cli();
-  while(_atomic_xchg(&lk, 1));
+  while(_atomic_xchg(lk, 1));
   __sync_synchronize();
 }
 void spin_unlock(intptr_t *lk){
-   while(_atomic_xchg(&lk, 0));
+   //while(_atomic_xchg(lk, 0));
+   asm volatile("movl $0, %0" : "+m" (lk) : );
    sti();
 } 
 
