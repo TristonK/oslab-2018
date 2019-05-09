@@ -39,6 +39,7 @@ void spin_unlock(intptr_t *lk){
    __sync_synchronize();
    asm volatile("movl $0, %0" : "+m" (lk) : );
    sti();
+   printf("ublock!\n");
 } 
 
 static void pmm_init() {
