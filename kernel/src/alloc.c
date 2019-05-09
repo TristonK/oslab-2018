@@ -20,10 +20,10 @@ kmem freelist;
 kmem runlist;
 
 //****************** code ************************
-static inline void cli(){
+void cli(){
   asm volatile("cli");
 }
-static inline void sti(){
+void sti(){
   asm volatile("sti");
 }
 
