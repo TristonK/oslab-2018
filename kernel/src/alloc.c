@@ -6,7 +6,7 @@ static uintptr_t pm_start, pm_end;
 struct spinlock{
   uintptr_t status;
   uintptr_t flags[8];
-}
+};
 struct spinlock alloc_lk;
 struct spinlock print_lk;
 typedef struct run{
