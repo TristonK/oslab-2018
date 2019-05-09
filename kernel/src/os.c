@@ -122,7 +122,7 @@ static void os_run() {
       used_cnt--;
     }
     spin_unlock(&lk);
-    _yield();
+    //_yield();
   }
 }
 
