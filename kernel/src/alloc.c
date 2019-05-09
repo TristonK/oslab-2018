@@ -28,11 +28,13 @@ static inline void sti(){
 }
 
 void spin_lock(intptr_t *lk){
+  printf("you locked it\n");
   cli();
   while(_atomic_xchg(lk, 1));
   __sync_synchronize();
 }
 void spin_unlock(intptr_t *lk){
+    printf("unlock it\n");
    //while(_atomic_xchg(lk, 0));
    asm volatile("movl $0, %0" : "+m" (lk) : );
    sti();
