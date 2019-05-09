@@ -226,6 +226,7 @@ static void *kalloc(size_t size) {
   //spin_lock(&alloc_lk);
   alloc_lock();
   void *ret = alloc_unsafe(size);
+  printf("finish\n");
   alloc_unlock();
   //spin_unlock(&alloc_lk);
   //printf("hi\n");
