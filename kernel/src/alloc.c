@@ -35,13 +35,13 @@ void spin_lock(struct spinlock *lk){
   //printf("you locked it\n");
   lk->flags[_cpu()] = get_efl() & FL_IF;
   cli();
-  while(_atomic_xchg(&lk->status, 1));
+  while(_atomic_xchg(lk->status, 1));
   __sync_synchronize();
   //printf("aaa\n");
 }
 void spin_unlock(struct spinlock *lk){
   //printf("unlock it\n");
-  while(_atomic_xchg(&lk->status, 0));
+  while(_atomic_xchg(lk->status, 0));
   __sync_synchronize();
   //asm volatile("movl $0, %0" : "+m" (lk) : );
   if(lk->flags[_cpu()])
