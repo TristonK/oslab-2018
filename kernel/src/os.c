@@ -4,6 +4,7 @@
 extern void spin_lock(intptr_t *lk);
 extern void spin_unlock(intptr_t *lk);
 intptr_t lk;
+extern intptr_t print_lk;
 uintptr_t my_test[500];
 int used_cnt;
 
@@ -34,12 +35,16 @@ static void os_run() {
     * maxrandom num = 32768*/
     if(op){
       if(used_cnt==500){
+        spin_lock(&print_lk);
         printf("you have alloc 500 blocks\n");
+        spin_unlock(&print_lk);
         for(int i=0;i<500;i++){
           pmm->free((void*)my_test[i]);
           my_test[i]=0;
         }
+        spin_lock(&print_lk);
         printf("you now free all the blocks\n");
+        spin_unlock(&print_lk);
         //_yield();
       }
       int size_mode = rand()%10;
@@ -60,7 +65,9 @@ static void os_run() {
             } 
           } 
           used_cnt=0;
+          spin_lock(&print_lk);
           printf("you now free all the blocks\n");
+          spin_unlock(&print_lk);
         }
         alloc_addr = (uintptr_t)pmm->alloc(small_size);
         for(int i = 0;i<=499;i++){
@@ -84,7 +91,9 @@ static void os_run() {
             }
           }
           used_cnt=0;
+          spin_lock(&print_lk);
           printf("you now free all the blocks\n");
+          spin_unlock(&print_lk);
         }
         big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
         for(int i = 0;i<=499;i++){
