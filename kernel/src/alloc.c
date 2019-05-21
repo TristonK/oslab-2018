@@ -76,7 +76,7 @@ void show_alloc(){
   if(runlist.size){
     kblock *pr = runlist.head -> next;
     while(1){
-      printf("begin at %I64u and end at %I64u and size is %I64u\n",pr->begin_addr, pr->end_addr, pr->size);
+      printf("begin at %I64u and end at %2u and size is %2u\n",pr->begin_addr, pr->end_addr, pr->size);
       if(pr->next==NULL)
         break;
       pr = pr->next;
@@ -86,7 +86,7 @@ void show_alloc(){
   if(freelist.size){
     kblock *pr2 = freelist.head ->next;
     while(1){
-      printf("begin at %I64u and end at %I64u and size is %I64u\n",pr2->begin_addr,pr2->end_addr,pr2->size);
+      printf("begin at %I64u and end at %2u and size is %2u\n",pr2->begin_addr,pr2->end_addr,pr2->size);
       if(pr2->next==NULL)
         break;
       pr2 = pr2->next;
@@ -99,8 +99,8 @@ void show_alloc(){
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  printf("heap start at 0x%I64u\n",pm_start);
-  printf("heap end at 0x%I64u\n",pm_end);
+  printf("heap start at 0x%x\n",pm_start);
+  printf("heap end at 0x%x\n",pm_end);
   printf("you could use %d space\n",pm_end-pm_start);
   alloc_lk.status = 0;
   print_lk.status =0;
