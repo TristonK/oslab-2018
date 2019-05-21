@@ -29,6 +29,7 @@ static void os_run() {
   hello();
   _intr_write(1);
   void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
+  show_alloc();
   t1 = pmm ->alloc(13*1024);
   show_alloc();
   //printf("hi siri\n");
