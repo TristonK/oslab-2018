@@ -3,6 +3,7 @@
 
 extern void spin_lock(intptr_t *lk);
 extern void spin_unlock(intptr_t *lk);
+extern void show_alloc();
 intptr_t lk;
 extern intptr_t print_lk;
 uintptr_t my_test[500];
@@ -29,10 +30,12 @@ static void os_run() {
   _intr_write(1);
   void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
   t1 = pmm ->alloc(13*1024);
+  show_alloc();
   //printf("hi siri\n");
   t2 = pmm -> alloc(17*1024);
   //printf("hi alex\n");
   pmm->free(t1);
+  show_alloc();
   //printf("siri\n");
   t3 = pmm -> alloc(15*1024);
   t4 = pmm -> alloc (17244);

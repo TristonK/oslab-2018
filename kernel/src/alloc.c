@@ -51,7 +51,7 @@ static inline void sti(){
 /*void spin_lock(struct spinlock *lk){
   //printf("you locked it\n");
   lk->flags[_cpu()] = get_efl() & FL_IF;
-  cli();
+  _intr_write(0);
   while(_atomic_xchg(&(lk->status), 1));
   __sync_synchronize();
   //printf("aaa\n");
@@ -62,18 +62,45 @@ void spin_unlock(struct spinlock *lk){
   __sync_synchronize();
   //asm volatile("movl $0, %0" : "+m" (lk) : );
   if(lk->flags[_cpu()])
-    sti();
+  _intr_write(1); 
   //printf("ublock!\n");
 } */
 
 LOCKDEF(alloc);
 LOCKDEF(print);
 
+
+void show_alloc(){
+  print_lock();
+  printf("now i will show runlist with size %d\n",runlist.size);
+  if(runlist.size){
+    kblock pr = runlist.head ->next;
+    while(1){
+      printf("begin at %d and end at %d and size is %d\n",pr.begin_addr,pr.end_addr,pr.size);
+      if(pr.next==NULL)
+        break;
+      pr = pr.next;
+    }
+  }
+  printf("now i will show you the freelist\n");
+  if(freelist.size){
+    kblock pr = freelist.head ->next;
+    while(1){
+      printf("begin at %d and end at %d and size is %d\n",pr.begin_addr,pr.end_addr,pr.size);
+      if(pr.next==NULL)
+        break;
+      pr = pr.next;
+    }
+  }
+  print_unlock();
+}
+
+
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  printf("heap start at 0x%x\n",pm_start);
-  printf("heap end at 0x%x\n",pm_end);
+  printf("heap start at 0x%d\n",pm_start);
+  printf("heap end at 0x%d\n",pm_end);
   printf("you could use %d space\n",pm_end-pm_start);
   alloc_lk.status = 0;
   print_lk.status =0;
