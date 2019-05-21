@@ -74,22 +74,22 @@ void show_alloc(){
   print_lock();
   printf("now i will show runlist with size %d\n",runlist.size);
   if(runlist.size){
-    kblock pr = runlist.head ->next;
+    kblock *pr = runlist.head -> next;
     while(1){
-      printf("begin at %d and end at %d and size is %d\n",pr.begin_addr,pr.end_addr,pr.size);
-      if(pr.next==NULL)
+      printf("begin at %d and end at %d and size is %d\n",pr->begin_addr,pr->end_addr,pr->size);
+      if(pr->next==NULL)
         break;
-      pr = pr.next;
+      pr = pr->next;
     }
   }
   printf("now i will show you the freelist\n");
   if(freelist.size){
-    kblock pr = freelist.head ->next;
+    kblock *pr = freelist.head ->next;
     while(1){
-      printf("begin at %d and end at %d and size is %d\n",pr.begin_addr,pr.end_addr,pr.size);
-      if(pr.next==NULL)
+      printf("begin at %d and end at %d and size is %d\n",pr->begin_addr,pr->end_addr,pr->size);
+      if(pr->next==NULL)
         break;
-      pr = pr.next;
+      pr = pr->next;
     }
   }
   print_unlock();
