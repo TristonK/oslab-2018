@@ -82,7 +82,7 @@ void show_alloc(){
       pr = pr->next;
     }
   }
-  printf("now i will show you the freelist\n");
+  printf("now i will show you the freelist  with size %d\n",freelist.size);
   if(freelist.size){
     kblock *pr = freelist.head ->next;
     while(1){
