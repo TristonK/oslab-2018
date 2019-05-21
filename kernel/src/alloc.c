@@ -84,12 +84,12 @@ void show_alloc(){
   }
   printf("now i will show you the freelist  with size %d\n",freelist.size);
   if(freelist.size){
-    kblock *pr = freelist.head ->next;
+    kblock *pr2 = freelist.head ->next;
     while(1){
-      printf("begin at %I64u and end at %I64u and size is %I64u\n",pr->begin_addr,pr->end_addr,pr->size);
-      if(pr->next==NULL)
+      printf("begin at %I64u and end at %I64u and size is %I64u\n",pr2->begin_addr,pr2->end_addr,pr2->size);
+      if(pr2->next==NULL)
         break;
-      pr = pr->next;
+      pr2 = pr2->next;
     }
   }
   print_unlock();
