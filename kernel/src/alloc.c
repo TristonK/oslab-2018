@@ -99,8 +99,8 @@ void show_alloc(){
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  printf("heap start at 0x%d\n",pm_start);
-  printf("heap end at 0x%d\n",pm_end);
+  printf("heap start at 0x%I64u\n",pm_start);
+  printf("heap end at 0x%I64u\n",pm_end);
   printf("you could use %d space\n",pm_end-pm_start);
   alloc_lk.status = 0;
   print_lk.status =0;
