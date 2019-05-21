@@ -115,6 +115,7 @@ static void pmm_init() {
   freelist.head->next=&block;
   runlist.head->next=NULL;
   runlist.size=0;
+  freelist.size = 1;
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
@@ -127,6 +128,7 @@ static void block_cut(kblock *block,uintptr_t need_size){
         block->prev->next=block->next;
         block->next=NULL;
         block->prev=NULL;
+        freelist.size--;
         return;
     }
     uintptr_t rest_block_size=block->size-need_size;
@@ -240,6 +242,7 @@ void free_unsafe(uintptr_t b_addr){
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
         used_block->prev=freelist.head;
+        freelist.size++;
         return;
     }
     kblock *used_prev=freelist.head->next;
