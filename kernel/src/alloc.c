@@ -207,6 +207,7 @@ static void add_runlist(kblock *blockadd){
     if(!runlist.size){
         runlist.head->next=blockadd;
         blockadd ->prev = runlist.head;
+        blockadd ->next = NULL;
     }
     else{
         kblock *tail_block=runlist.head->next;
@@ -215,6 +216,7 @@ static void add_runlist(kblock *blockadd){
         }
         tail_block->next= blockadd;
         blockadd ->prev = tail_block;
+        blockadd -> next = NULL;
     }
     runlist.size++;
 }
