@@ -50,6 +50,7 @@ static void os_run() {
   t7 = pmm -> alloc(123);
   t1 = pmm -> alloc(32*1024);
   t2 = pmm -> alloc(16*1024);
+  show_alloc();
   pmm -> free(t7);
   pmm -> free(t2);
   pmm -> free(t1);
