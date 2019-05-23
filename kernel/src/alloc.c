@@ -239,7 +239,7 @@ static void *alloc_unsafe(size_t size){
   block_cut(block1,block_size);
   add_runlist(block1);
   //printf("here2\n");
-  return (void*)block->begin_addr;
+  return (void*)block1->begin_addr;
 }
 
 void free_unsafe(uintptr_t b_addr){
