@@ -79,7 +79,7 @@ void show_alloc(){
   if(runlist.size){
     kblock *pr = runlist.head -> next;
     while(1){
-      printf("begin at %d and end at %d and size is %x\n",pr->begin_addr, pr->end_addr, pr->size);
+      printf("begin at %d and end at %d and size is %d\n",pr->begin_addr, pr->end_addr, pr->size);
       if(pr->next==NULL)
         break;
       pr = pr->next;
@@ -177,10 +177,12 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     kblock *n_block = blockc->next;
     if(n_block->begin_addr==blockc->end_addr){
         //printf("here1\n");
+        new_block ->state = 0;
         n_block->size+=rest_block_size;
         n_block->begin_addr-=rest_block_size;
         blockc->end_addr=blockc->begin_addr+need_size;
         p_block->next=n_block;
+        n_block->prev = p_block;
         blockc->next=NULL;
         blockc->prev=NULL;
         return;
@@ -201,6 +203,7 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
 static void add_runlist(kblock *block){
     if(!runlist.size){
         runlist.head->next=block;
+        block ->prev = runlist.head;
     }
     else{
         kblock *tail_block=runlist.head->next;
@@ -208,6 +211,7 @@ static void add_runlist(kblock *block){
             tail_block=tail_block->next;
         }
         tail_block->next=block;
+        block ->prev = tail_block;
     }
     runlist.size++;
 }
