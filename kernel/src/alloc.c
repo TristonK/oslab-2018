@@ -242,6 +242,19 @@ static void *alloc_unsafe(size_t size){
   return (void*)block1->begin_addr;
 }
 
+statci void check_block(){
+    kblock *chek = freelist.head->next;
+    while(chek -> next != NULL){
+      if(chek->end_addr == chek->next->begin_addr){
+        chek->end_addr = chek->next->end_addr;
+        chek->size += chek->next->size;
+        chek ->next = chek ->next ->next;
+        chek ->next ->state = 0;
+      }
+      chek = chek ->next;
+    }
+}
+
 void free_unsafe(uintptr_t b_addr){
     //spin_lock(&print_lk);
     print_lock();
@@ -318,7 +331,10 @@ void free_unsafe(uintptr_t b_addr){
         used_block->prev=used_prev;
         used_prev->next=used_block;
     }
+    check_block();
 }
+
+
 
 
 static void *kalloc(size_t size) {
@@ -340,8 +356,9 @@ static void kfree(void *ptr) {
     printf("WRONG: YOU WANT TO FREE A NULL SPACE\n");
     print_unlock();
   }
-  else
+  else{
     free_unsafe((uintptr_t)(ptr));
+  }
   alloc_unlock();
   //spin_unlock(&alloc_lk);
 }
