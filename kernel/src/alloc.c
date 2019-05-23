@@ -87,6 +87,7 @@ void show_alloc(){
     kblock *pr2 = freelist.head ->next;
     while(1){
       printf("begin at %d and end at %d and size is %d\n",pr2->begin_addr,pr2->end_addr,pr2->size);
+      printf("state is %d\n",pr2->state);
       if(pr2->next==NULL)
         break;
       pr2 = pr2->next;
@@ -108,7 +109,7 @@ static void pmm_init() {
   block.begin_addr = pm_start;
   block.end_addr = pm_end;
   block.size = (pm_end-pm_start);
-  block.state = 0;
+  block.state = 3;
   block.prev = freelist.head;
   block.next = NULL;
   freelist.head->prev=NULL;
