@@ -279,6 +279,11 @@ void free_unsafe(uintptr_t b_addr){
         return;
     }
     kblock *used_prev=freelist.head->next;
+    if(used_block->next!=NULL)
+          used_block->prev->next = used_block->next;
+    else{
+          used_block->prev->next = NULL;
+    }
     if(used_block->end_addr < used_prev->begin_addr){
         freelist.head->next=used_block;
         used_block->next = used_prev;
