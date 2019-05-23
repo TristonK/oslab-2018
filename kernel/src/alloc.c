@@ -96,7 +96,7 @@ void show_alloc(){
   print_unlock();
 }
 
-
+kblock block;
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
@@ -105,7 +105,6 @@ static void pmm_init() {
   printf("you could use %d space\n",pm_end-pm_start);
   alloc_lk.status = 0;
   print_lk.status =0;
-  kblock block;
   block.begin_addr = pm_start;
   block.end_addr = pm_end;
   block.size = (pm_end-pm_start);
