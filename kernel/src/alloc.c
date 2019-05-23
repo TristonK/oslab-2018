@@ -75,6 +75,7 @@ LOCKDEF(print);
 
 void show_alloc(){
   print_lock();
+  printf("|----------------------------|\n");
   printf("now i will show runlist with size %d\n",runlist.size);
   if(runlist.size){
     kblock *pr = runlist.head -> next;
@@ -96,6 +97,7 @@ void show_alloc(){
       pr2 = pr2->next;
     }
   }
+  printf("|----------------------------|\n");
   print_unlock();
 }
 
@@ -146,7 +148,7 @@ static int find_free_block(){
 static void block_cut(kblock *blockc,uintptr_t need_size){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,_cpu()+1);
+    printf("you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,(_cpu()+1));
     //spin_unlock(&print_lk);
     print_unlock();
     if(blockc->size==need_size){
