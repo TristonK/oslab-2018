@@ -242,7 +242,7 @@ static void *alloc_unsafe(size_t size){
   return (void*)block1->begin_addr;
 }
 
-statci void check_block(){
+static void check_block(){
     kblock *chek = freelist.head->next;
     while(chek -> next != NULL){
       if(chek->end_addr == chek->next->begin_addr){
