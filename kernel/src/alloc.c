@@ -146,7 +146,7 @@ static int find_free_block(){
 static void block_cut(kblock *block,uintptr_t need_size){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you used memory from %x to %x from cpu %d\n",&block->begin_addr,&block->begin_addr+need_size,_cpu());
+    printf("you used memory from %d to %d from cpu %d\n",&block->begin_addr,&block->begin_addr+need_size,_cpu());
     //spin_unlock(&print_lk);
     print_unlock();
     if(block->size==need_size){
@@ -229,7 +229,7 @@ static void *alloc_unsafe(size_t size){
       return NULL;
       //assert(0);
   }
-  block1->state=1;
+  block1->state=2;
   block_cut(block1,block_size);
   add_runlist(block1);
   //printf("here2\n");
@@ -239,7 +239,7 @@ static void *alloc_unsafe(size_t size){
 void free_unsafe(uintptr_t b_addr){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you want to free block from %I64u\n",b_addr);
+    printf("you want to free block from %d\n",b_addr);
     print_unlock();
     //spin_unlock(&print_lk);
     if(!runlist.size){
@@ -262,8 +262,9 @@ void free_unsafe(uintptr_t b_addr){
         //spin_unlock(&print_lk);
         return;
     }
-    used_block->state=0;
+    used_block->state=1;
     runlist.size--;
+    freelist.size++;
     //freelist is null 
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
@@ -277,6 +278,13 @@ void free_unsafe(uintptr_t b_addr){
         used_block->next = used_prev;
         used_block->prev=freelist.head;
         used_prev->prev=used_block;
+        return;
+    }
+    if(used_block ->end_addr == used_prev -> begin_addr){
+      used_prev->begin_addr = used_block ->begin_addr;
+      used_prev->size += used_block->size;
+      used_block->state = 0;
+      return;
     }
     while(used_prev->next!=NULL && used_prev->next->end_addr < used_block->begin_addr){
         used_prev=used_prev->next;
@@ -284,6 +292,11 @@ void free_unsafe(uintptr_t b_addr){
     if(used_prev->next==NULL){
         used_prev->next=used_block;
         used_block->prev=used_prev;
+    }
+    else if(used_prev->end_addr == used_block->begin_addr){
+      used_prev->end_addr = used_block ->end_addr;
+      used_prev->size += used_block->size;
+      used_block->state = 0;
     }
     else{
         used_block->next=used_prev->next;
