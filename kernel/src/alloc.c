@@ -250,6 +250,7 @@ static void check_block(){
         chek->size += chek->next->size;
         chek ->next = chek ->next ->next;
         chek ->next ->state = 0;
+        freelist.size--;
       }
       chek = chek ->next;
     }
