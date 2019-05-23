@@ -87,7 +87,7 @@ void show_alloc(){
     kblock *pr2 = freelist.head ->next;
     while(1){
       printf("begin at %d and end at %d and size is %d\n",pr2->begin_addr,pr2->end_addr,pr2->size);
-      printf("state is %d\n",pr2->state);
+      printf("state is %x\n",pr2->state);
       if(pr2->next==NULL)
         break;
       pr2 = pr2->next;
