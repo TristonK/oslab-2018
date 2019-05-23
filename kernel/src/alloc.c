@@ -140,6 +140,7 @@ static int find_free_block(){
   print_lock();
   printf("NO FREE BLOCK TO USE");
   print_unlock();
+  assert(0);
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
