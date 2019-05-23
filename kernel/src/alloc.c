@@ -151,8 +151,9 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     printf("*** you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,(_cpu()+1));
     //spin_unlock(&print_lk);
     print_unlock();
-    if(blockc->size==need_size){
-        blockc->prev->next=blockc->next;
+    if(blockc->size == need_size){
+        blockc->prev->next = blockc->next;
+        blockc->next->prev = blockc ->prev;
         blockc->next=NULL;
         blockc->prev=NULL;
         freelist.size--;
@@ -212,7 +213,7 @@ static void add_runlist(kblock *blockadd){
         while (tail_block->next!=NULL){
             tail_block=tail_block->next;
         }
-        tail_block->next=blockadd;
+        tail_block->next= blockadd;
         blockadd ->prev = tail_block;
     }
     runlist.size++;
