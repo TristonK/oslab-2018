@@ -277,7 +277,7 @@ void free_unsafe(uintptr_t b_addr){
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
         used_block->prev=freelist.head;
-        used_block->next =NULL;
+        //used_block->next =NULL;
         freelist.size++;
         return;
     }
