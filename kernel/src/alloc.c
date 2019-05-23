@@ -272,15 +272,12 @@ void free_unsafe(uintptr_t b_addr){
     runlist.size--;
     freelist.size++;
     kblock *ppblock = used_block->prev;
-    if(used_block->next!=NULL)
-          ppblock->next = used_block->next;
-    else{
-          ppblock->next = NULL;
-    }
+    ppblock->next = used_block->next;
     //freelist is null 
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
         used_block->prev=freelist.head;
+        used_block->next =NULL;
         freelist.size++;
         return;
     }
@@ -310,6 +307,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->end_addr = used_block ->end_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
+      used_block -> next =NULL;
       freelist.size--;
     }
     else{
