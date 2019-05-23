@@ -23,13 +23,14 @@ int printf(const char *fmt, ...) {
   return i;
 }
 
+static char numtrans[16]="0123456789ABCDEF";
+
 int vsprintf(char *out, const char *fmt, va_list ap) {
   char * str;
   const char* s;
   int num;
 	unsigned int num32;
 	unsigned long int num64;
-  static char numtrans[16]="0123456789ABCDEF";
   for(str=out;*fmt;fmt++){
 	  if(*fmt!='%'){
 		  *str++=*fmt;
@@ -43,14 +44,16 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				  *str++=*s++;
 			  break;
 		 case 'd':
-			  num=va_arg(ap,int);
-			  int i=0;char tmp[20];
+			  num=va_arg(ap,long);
+			  int i=0;char tmp[32];
 			  if(num==0){
 				  *str++='0';
 				  break;
 			  }
+			//	if(num < 0)
+			//		num = -num;
 			  while(num){
-				  tmp[i]=numtrans[num%10];
+				  tmp[i]=numtrans[((unsigned long)num)%10];
 				  num/=10;
 				  i++;
 			  }
@@ -59,48 +62,48 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 				  *str++=tmp[i];
 			  }
 			  break;
-			case 'I':
+		  case 'I':
 				++fmt;
 				if(*fmt == '6'){
 					fmt++;++fmt;
 					num64=va_arg(ap,unsigned long int);
-			  	int i=0;char tmp[20];
+			  	int i64=0;char tmp64[20];
 			  		if(num64==0){
 				  	*str++='0';
 				  	break;
 			  	}
 			  	while(num64){
-				  	tmp[i]=numtrans[num64%10];
+				  	tmp64[i64]=numtrans[num64%10];
 				  	num64/=10;
-				  	i++;
+				  	i64++;
 			  	}
-			  	while(i){
-				  	i--;
-				  	*str++=tmp[i];
+			  	while(i64){
+				  	i64--;
+				  	*str++=tmp64[i64];
 			  	}
 				}
 				else if(*fmt == '3'){
 					++fmt;++fmt;
 					num32=va_arg(ap,unsigned int);
-			  	int i=0;char tmp[20];
+			  	int i32=0;char tmp32[20];
 			  	if(num32==0){
 				  	*str++='0';
 				  	break;
 			  	}
 			  	while(num32){
-				  	tmp[i]=numtrans[num32%10];
+				  	tmp32[i32]=numtrans[num32%10];
 				  	num32/=10;
-				  	i++;
+				  	i32++;
 			  	}
-			  	while(i){
-				  	i--;
-				  	*str++=tmp[i];
+			  	while(i32){
+				  	i32--;
+				  	*str++=tmp32[i32];
 			  	}
 				}
-				break;	
+				break;
 			case 'x':
-				num=va_arg(ap,int);
-			  int i2=0;char tmp2[20];
+				num=va_arg(ap,unsigned int);
+			  int i2=0;char tmp2[32];
 			  if(num==0){
 				  *str++='0';
 				  break;

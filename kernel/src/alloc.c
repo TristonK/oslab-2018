@@ -19,6 +19,7 @@
     if (name##_lock_flags[_cpu()]) _intr_write(1); \
   }
 //***************** Variables ******************
+#define block_num 4096
 static uintptr_t pm_start, pm_end;
 struct spinlock{
   intptr_t status;
@@ -41,6 +42,7 @@ kmem freelist;
 kmem runlist;
 kblock freehead;
 kblock runhead;
+kblock block[block_num];
 //****************** code ************************
 /*static inline void cli(){
   asm volatile("cli");
@@ -88,7 +90,7 @@ void show_alloc(){
     kblock *pr2 = freelist.head -> next ;
     while(1){
       printf("begin at %d and end at %d and size is %d\n",pr2->begin_addr,pr2->end_addr,pr2->size);
-      printf("state is %d\n",pr2->state);
+      //printf("state is %d\n",pr2->state);
       if(pr2->next==NULL)
         break;
       pr2 = pr2->next;
@@ -97,7 +99,6 @@ void show_alloc(){
   print_unlock();
 }
 
-kblock block;
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
@@ -112,19 +113,33 @@ static void pmm_init() {
   freehead.end_addr = freehead.begin_addr = 0;
   freehead.prev = NULL;
   freelist.head = &freehead;
-  runlist.head = &runhead; 
-  block.begin_addr = pm_start;
-  block.end_addr = pm_end;
-  block.size = (pm_end-pm_start);
-  block.state = 3;
-  block.prev = freelist.head;
-  block.next = NULL;
+  runlist.head = &runhead;
+  for(int i=0;i<block_num;i++){
+    block[i].state = 0;  // 0: unused 1:in freelist 2:in runlist
+  } 
+  block[0].begin_addr = pm_start;
+  block[0].end_addr = pm_end;
+  block[0].size = (pm_end-pm_start);
+  block[0].state = 1;
+  block[0].prev = freelist.head;
+  block[0].next = NULL;
   freelist.head->prev=NULL;
-  freelist.head->next = &block;
-  printf("begin at %d and end at %d and size is %d\n",block.begin_addr,block.end_addr,block.size);
+  freelist.head->next = &block[0];
+  //printf("begin at %d and end at %d and size is %d\n",block.begin_addr,block.end_addr,block.size);
   runlist.head->next=NULL;
   runlist.size=0;
   freelist.size = 1;
+}
+
+static int find_free_block(){
+  for(int i=0;i<block_num;i++){
+    if(block[i].state == 0){
+      return i;
+    }
+  }
+  print_lock();
+  printf("NO FREE BLOCK TO USE");
+  print_unlock();
 }
 
 static void block_cut(kblock *block,uintptr_t need_size){
@@ -143,19 +158,19 @@ static void block_cut(kblock *block,uintptr_t need_size){
     uintptr_t rest_block_size=block->size-need_size;
     block->size = need_size;
     kblock *p_block = block->prev;
-    kblock new_block;
+    kblock *new_block = block[find_free_block()];
     if(block->next==NULL){
         //printf("here3\n");
-        new_block.state=0;
-        new_block.size=rest_block_size;
-        new_block.end_addr=block->end_addr;
+        new_block->state= 1;
+        new_block->size=rest_block_size;
+        new_block->end_addr=block->end_addr;
         block->end_addr=block->begin_addr+need_size;
-        new_block.begin_addr=block->end_addr;
+        new_block->begin_addr=block->end_addr;
         block->next=NULL;
         block->prev=NULL;
-        new_block.next=NULL;
-        new_block.prev=p_block;
-        p_block->next=&new_block;
+        new_block->next=NULL;
+        new_block->prev=p_block;
+        p_block->next= new_block;
         return;
     }
     kblock *n_block = block->next;
@@ -169,17 +184,17 @@ static void block_cut(kblock *block,uintptr_t need_size){
         block->prev=NULL;
         return;
     }
-    new_block.state=0;
-    new_block.size=rest_block_size;
-    new_block.end_addr=block->end_addr;
+    new_block->state=1;
+    new_block->size=rest_block_size;
+    new_block->end_addr=block->end_addr;
     block->end_addr=block->begin_addr+need_size;
-    new_block.begin_addr=block->end_addr;
+    new_block->begin_addr=block->end_addr;
     block->next=NULL;
     block->prev=NULL;
-    new_block.next=n_block;
-    new_block.prev=p_block;
-    n_block->prev=&new_block;
-    p_block->next=&new_block;
+    new_block->next=n_block;
+    new_block->prev=p_block;
+    n_block->prev= new_block;
+    p_block->next= new_block;
 }
 
 static void add_runlist(kblock *block){
@@ -200,11 +215,11 @@ static void *alloc_unsafe(size_t size){
   if(size == 0)
     return NULL;
   uintptr_t block_size = (size/1024+(size%1024!=0))*1024;
-  kblock *block = freelist.head->next;
-  while(block->size<block_size&&block->next!=NULL){
-      block = block->next;
+  kblock *block1 = freelist.head->next;
+  while(block1->size<block_size&&block1->next!=NULL){
+      block1 = block1->next;
   }
-  if(block->size<block_size){
+  if(block1->size<block_size){
       //spin_lock(&print_lk);
       print_lock();
       printf("you need %d but you dont have it\n",block_size);
@@ -213,9 +228,9 @@ static void *alloc_unsafe(size_t size){
       return NULL;
       //assert(0);
   }
-  block->state=1;
-  block_cut(block,block_size);
-  add_runlist(block);
+  block1->state=1;
+  block_cut(block1,block_size);
+  add_runlist(block1);
   //printf("here2\n");
   return (void*)block->begin_addr;
 }
@@ -248,6 +263,7 @@ void free_unsafe(uintptr_t b_addr){
     }
     used_block->state=0;
     runlist.size--;
+    //freelist is null 
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
         used_block->prev=freelist.head;
@@ -281,7 +297,7 @@ static void *kalloc(size_t size) {
   //spin_lock(&alloc_lk);
   alloc_lock();
   void *ret = alloc_unsafe(size);
-  printf("finish\n");
+  //printf("finish\n");
   alloc_unlock();
   //spin_unlock(&alloc_lk);
   //printf("hi\n");
