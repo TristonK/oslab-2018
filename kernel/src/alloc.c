@@ -71,7 +71,7 @@ void spin_unlock(struct spinlock *lk){
 
 LOCKDEF(alloc);
 LOCKDEF(print);
-
+LOCKDEF(test);
 
 void show_alloc(){
   print_lock();

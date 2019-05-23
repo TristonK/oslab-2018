@@ -4,6 +4,10 @@
 extern void spin_lock(intptr_t *lk);
 extern void spin_unlock(intptr_t *lk);
 extern void show_alloc();
+extern void test_lock();
+extern void test_unlock();
+extern void print_lock();
+extern void print_unlock();
 intptr_t lk;
 extern intptr_t print_lk;
 uintptr_t my_test[500];
@@ -28,7 +32,7 @@ static void hello() {
 static void os_run() {
   hello();
   _intr_write(1);
-  void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
+  /*void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
   show_alloc();
   t1 = pmm ->alloc(13*1024);
   show_alloc();
@@ -62,25 +66,30 @@ static void os_run() {
   pmm -> free(t1);
   pmm -> free(t3);
   pmm -> free(t5);
-  printf("done done done\n");
-  /*while (1) {
-    spin_lock(&lk);
-    int op = rand()%2;*/
+  printf("done done done\n");*/
+  while (1) {
+    test_lock();
+    show_alloc();
+    int op = rand()%2;
     /*0: randomly free 
     * 1: randomly alloc
     * maxrandom num = 32768*/
-    /*if(op){
+    if(op){
       if(used_cnt==500){
-        spin_lock(&print_lk);
+        //spin_lock(&print_lk);
+        print_lock();
         printf("you have alloc 500 blocks\n");
-        spin_unlock(&print_lk);
+        print_unlock();
+        //spin_unlock(&print_lk);
         for(int i=0;i<500;i++){
           pmm->free((void*)my_test[i]);
           my_test[i]=0;
         }
-        spin_lock(&print_lk);
+        //spin_lock(&print_lk);
+        print_lock();
         printf("you now free all the blocks\n");
-        spin_unlock(&print_lk);
+        print_unlock();
+        //spin_unlock(&print_lk);
         //_yield();
       }
       int size_mode = rand()%10;*/
@@ -88,7 +97,7 @@ static void os_run() {
       * 90%: small size need to be alloc
       * 10%: big size need to be alloc
       */
-      /*if(size_mode<=8){
+      if(size_mode<=8){
         int small_order = rand()%11+2;
         int small_add = rand()%(1<<small_order);
         size_t small_size= (1<<small_order)+small_add;
@@ -101,9 +110,11 @@ static void os_run() {
             } 
           } 
           used_cnt=0;
-          spin_lock(&print_lk);
+          //spin_lock(&print_lk);
+          print_lock();
           printf("you now free all the blocks\n");
-          spin_unlock(&print_lk);
+          print_unlock();
+          //spin_unlock(&print_lk);
         }
         alloc_addr = (uintptr_t)pmm->alloc(small_size);
         for(int i = 0;i<=499;i++){
@@ -127,9 +138,11 @@ static void os_run() {
             }
           }
           used_cnt=0;
-          spin_lock(&print_lk);
+          //spin_lock(&print_lk);
+          print_lock();
           printf("you now free all the blocks\n");
-          spin_unlock(&print_lk);
+          print_unlock();
+          //spin_unlock(&print_lk);
         }
         big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
         for(int i = 0;i<=499;i++){
@@ -157,9 +170,10 @@ static void os_run() {
       my_test[free_index]=0;
       used_cnt--;
     }
-    spin_unlock(&lk);
+    //spin_unlock(&lk);
     //_yield();
-  }*/
+    test_unlock();
+  }
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
