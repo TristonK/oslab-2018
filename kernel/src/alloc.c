@@ -334,6 +334,11 @@ static void *kalloc(size_t size) {
 static void kfree(void *ptr) {
   //spin_lock(&alloc_lk);
   alloc_lock();
+  if(ptr == NULL){
+    print_lock();
+    printf("WRONG: YOU WANT TO FREE A NULL SPACE\n");
+    print_unlock();
+  }
   free_unsafe((uintptr_t)(ptr));
   alloc_unlock();
   //spin_unlock(&alloc_lk);
