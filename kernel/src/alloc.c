@@ -143,55 +143,55 @@ static int find_free_block(){
   assert(0);
 }
 
-static void block_cut(kblock *block,uintptr_t need_size){
+static void block_cut(kblock *blockc,uintptr_t need_size){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you used memory from %d to %d from cpu %d\n",&block->begin_addr,&block->begin_addr+need_size,_cpu());
+    printf("you used memory from %d to %d from cpu %d\n",&blockc->begin_addr,&blockc->begin_addr+need_size,_cpu());
     //spin_unlock(&print_lk);
     print_unlock();
-    if(block->size==need_size){
-        block->prev->next=block->next;
-        block->next=NULL;
-        block->prev=NULL;
+    if(blockc->size==need_size){
+        blockc->prev->next=blockc->next;
+        blockc->next=NULL;
+        blockc->prev=NULL;
         freelist.size--;
         return;
     }
-    uintptr_t rest_block_size=block->size-need_size;
-    block->size = need_size;
-    kblock *p_block = block->prev;
+    uintptr_t rest_block_size=blockc->size-need_size;
+    blockc->size = need_size;
+    kblock *p_block = blockc->prev;
     kblock *new_block = &block[find_free_block()];
-    if(block->next==NULL){
+    if(blockc->next==NULL){
         //printf("here3\n");
         new_block->state= 1;
         new_block->size=rest_block_size;
-        new_block->end_addr=block->end_addr;
-        block->end_addr=block->begin_addr+need_size;
-        new_block->begin_addr=block->end_addr;
-        block->next=NULL;
-        block->prev=NULL;
+        new_block->end_addr=blockc->end_addr;
+        blockc->end_addr=blockc->begin_addr+need_size;
+        new_block->begin_addr=blockc->end_addr;
+        blockc->next=NULL;
+        blockc->prev=NULL;
         new_block->next=NULL;
         new_block->prev=p_block;
         p_block->next= new_block;
         return;
     }
-    kblock *n_block = block->next;
-    if(n_block->begin_addr==block->end_addr){
+    kblock *n_block = blockc->next;
+    if(n_block->begin_addr==blockc->end_addr){
         //printf("here1\n");
         n_block->size+=rest_block_size;
         n_block->begin_addr-=rest_block_size;
-        block->end_addr=block->begin_addr+need_size;
+        blockc->end_addr=blockc->begin_addr+need_size;
         p_block->next=n_block;
-        block->next=NULL;
-        block->prev=NULL;
+        blockc->next=NULL;
+        blockc->prev=NULL;
         return;
     }
     new_block->state=1;
     new_block->size=rest_block_size;
-    new_block->end_addr=block->end_addr;
-    block->end_addr=block->begin_addr+need_size;
-    new_block->begin_addr=block->end_addr;
-    block->next=NULL;
-    block->prev=NULL;
+    new_block->end_addr=blockc->end_addr;
+    blockc->end_addr=blockc->begin_addr+need_size;
+    new_block->begin_addr=blockc->end_addr;
+    blockc->next=NULL;
+    blockc->prev=NULL;
     new_block->next=n_block;
     new_block->prev=p_block;
     n_block->prev= new_block;
@@ -284,6 +284,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->begin_addr = used_block ->begin_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
+      freelist.size--;
       return;
     }
     while(used_prev->next!=NULL && used_prev->next->end_addr < used_block->begin_addr){
@@ -297,6 +298,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->end_addr = used_block ->end_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
+      freelist.size--;
     }
     else{
         used_block->next=used_prev->next;
