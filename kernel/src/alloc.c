@@ -202,18 +202,18 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     p_block->next= new_block;
 }
 
-static void add_runlist(kblock *block){
+static void add_runlist(kblock *blockadd){
     if(!runlist.size){
-        runlist.head->next=block;
-        block ->prev = runlist.head;
+        runlist.head->next=blockadd;
+        blockadd ->prev = runlist.head;
     }
     else{
         kblock *tail_block=runlist.head->next;
         while (tail_block->next!=NULL){
             tail_block=tail_block->next;
         }
-        tail_block->next=block;
-        block ->prev = tail_block;
+        tail_block->next=blockadd;
+        blockadd ->prev = tail_block;
     }
     runlist.size++;
 }
@@ -273,6 +273,7 @@ void free_unsafe(uintptr_t b_addr){
     freelist.size++;
     kblock *ppblock = used_block->prev;
     ppblock->next = used_block->next;
+    used_block->next->prev = used_block->prev;
     //freelist is null 
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
@@ -307,8 +308,8 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->end_addr = used_block ->end_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
-      ppblock->next = used_block->next;
-      //used_block -> next =NULL;
+      //ppblock->next = used_block->next;
+      used_block -> next =NULL;
       freelist.size--;
     }
     else{
