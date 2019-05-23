@@ -41,9 +41,13 @@ static void os_run() {
   show_alloc();
   //printf("siri\n");
   t3 = pmm -> alloc(15*1024);
+  show_alloc();
   t4 = pmm -> alloc (17244);
+  show_alloc();
   t5 = pmm -> alloc (15222);
+  show_alloc();
   pmm -> free (t2);
+  show_alloc();
   pmm -> free (t4);
   show_alloc();
   t6 = pmm -> alloc (122222);
