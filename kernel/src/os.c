@@ -69,7 +69,7 @@ static void os_run() {
   printf("done done done\n");*/
   while (1) {
     test_lock();
-    show_alloc();
+    //show_alloc();
     int op = rand()%2;
     /*0: randomly free 
     * 1: randomly alloc
@@ -85,14 +85,15 @@ static void os_run() {
           pmm->free((void*)my_test[i]);
           my_test[i]=0;
         }
+        show_alloc();
         //spin_lock(&print_lk);
         print_lock();
         printf("you now free all the blocks\n");
         print_unlock();
         //spin_unlock(&print_lk);
         //_yield();
-        test_unlock();
-        continue;
+        //test_unlock();
+        //continue;
       }
       int size_mode = rand()%10;
       /*
@@ -113,14 +114,16 @@ static void os_run() {
           } 
           used_cnt=0;
           //spin_lock(&print_lk);
+          show_alloc();
           print_lock();
           printf("you now free all the blocks\n");
           print_unlock();
-          test_unlock();
-          continue;
+         // test_unlock();
+         // continue;
           //spin_unlock(&print_lk);
         }
         alloc_addr = (uintptr_t)pmm->alloc(small_size);
+        show_alloc();
         for(int i = 0;i<=499;i++){
           if(!my_test[i]){
             my_test[i]=alloc_addr;
@@ -134,6 +137,7 @@ static void os_run() {
         int big_add = rand()%(1<<big_order);
         size_t big_size= (1<<big_order)+big_add;
         uintptr_t big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
+        show_alloc();
         if(!big_alloc_addr){
           for(int i=0;i<500;i++){
             if(my_test[i]){
@@ -141,16 +145,18 @@ static void os_run() {
               my_test[i]=0;
             }
           }
+          show_alloc();
           used_cnt=0;
           //spin_lock(&print_lk);
           print_lock();
           printf("you now free all the blocks\n");
           print_unlock();
-          test_unlock();
-          continue;
+          //test_unlock();
+          //continue;
           //spin_unlock(&print_lk);
         }
-        //big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
+        big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
+        show_alloc();
         for(int i = 0;i<=499;i++){
           if(!my_test[i]){
             my_test[i]=big_alloc_addr;
@@ -164,8 +170,9 @@ static void os_run() {
       if(used_cnt == 0){
         my_test[0] = (uintptr_t)pmm->alloc(2048);
         used_cnt++;
-        test_unlock();
-        continue;
+        show_alloc();
+        //test_unlock();
+        //continue;
       }
       int free_index = rand()%500;
       while(!my_test[free_index]){
@@ -175,6 +182,7 @@ static void os_run() {
         }
       }
       pmm->free((void*)my_test[free_index]);
+      show_alloc();
       my_test[free_index]=0;
       used_cnt--;
     }
