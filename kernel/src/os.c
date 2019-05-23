@@ -92,7 +92,7 @@ static void os_run() {
         //spin_unlock(&print_lk);
         //_yield();
       }
-      int size_mode = rand()%10;*/
+      int size_mode = rand()%10;
       /*
       * 90%: small size need to be alloc
       * 10%: big size need to be alloc
