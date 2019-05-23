@@ -76,7 +76,7 @@ void show_alloc(){
   if(runlist.size){
     kblock *pr = runlist.head -> next;
     while(1){
-      printf("begin at %I64u and end at %2u and size is %2u\n",pr->begin_addr, pr->end_addr, pr->size);
+      printf("begin at %x and end at %x and size is %x\n",pr->begin_addr, pr->end_addr, pr->size);
       if(pr->next==NULL)
         break;
       pr = pr->next;
