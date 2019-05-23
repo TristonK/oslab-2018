@@ -146,7 +146,7 @@ static int find_free_block(){
 static void block_cut(kblock *blockc,uintptr_t need_size){
     //spin_lock(&print_lk);
     print_lock();
-    printf("you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,_cpu());
+    printf("you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,_cpu()+1);
     //spin_unlock(&print_lk);
     print_unlock();
     if(blockc->size==need_size){

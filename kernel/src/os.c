@@ -36,7 +36,7 @@ static void os_run() {
   t2 = pmm -> alloc(17*1024);
   //printf("hi alex\n");
   pmm->free(t1);
-  //show_alloc();
+  show_alloc();
   //printf("siri\n");
   t3 = pmm -> alloc(15*1024);
   t4 = pmm -> alloc (17244);
