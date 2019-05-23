@@ -39,7 +39,8 @@ typedef struct kmem{
 }kmem;
 kmem freelist;
 kmem runlist;
-
+kblock freehead;
+kblock runhead;
 //****************** code ************************
 /*static inline void cli(){
   asm volatile("cli");
@@ -84,7 +85,7 @@ void show_alloc(){
   }
   printf("now i will show you the freelist  with size %d\n",freelist.size);
   if(freelist.size){
-    kblock *pr2 = freelist.head;
+    kblock *pr2 = freelist.head -> next ;
     while(1){
       printf("begin at %d and end at %d and size is %d\n",pr2->begin_addr,pr2->end_addr,pr2->size);
       printf("state is %d\n",pr2->state);
@@ -105,6 +106,13 @@ static void pmm_init() {
   printf("you could use %d space\n",pm_end-pm_start);
   alloc_lk.status = 0;
   print_lk.status =0;
+  runhead.begin_addr = 0;
+  runhead.prev = NULL;
+  runhead.end_addr = 0;
+  freehead.end_addr = freehead.begin_addr = 0;
+  freehead.prev = NULL;
+  freelist.head = &freehead;
+  runlist.head = &runhead; 
   block.begin_addr = pm_start;
   block.end_addr = pm_end;
   block.size = (pm_end-pm_start);
@@ -112,7 +120,7 @@ static void pmm_init() {
   block.prev = freelist.head;
   block.next = NULL;
   freelist.head->prev=NULL;
-  freelist.head = &block;
+  freelist.head->next = &block;
   printf("begin at %d and end at %d and size is %d\n",block.begin_addr,block.end_addr,block.size);
   runlist.head->next=NULL;
   runlist.size=0;
