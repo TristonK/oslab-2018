@@ -45,8 +45,10 @@ static void os_run() {
   t5 = pmm -> alloc (15222);
   pmm -> free (t2);
   pmm -> free (t4);
+  show_alloc();
   t6 = pmm -> alloc (122222);
   pmm -> free(t6);
+  show_alloc();
   t7 = pmm -> alloc(123);
   t1 = pmm -> alloc(32*1024);
   t2 = pmm -> alloc(16*1024);

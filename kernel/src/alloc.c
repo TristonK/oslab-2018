@@ -339,7 +339,8 @@ static void kfree(void *ptr) {
     printf("WRONG: YOU WANT TO FREE A NULL SPACE\n");
     print_unlock();
   }
-  free_unsafe((uintptr_t)(ptr));
+  else
+    free_unsafe((uintptr_t)(ptr));
   alloc_unlock();
   //spin_unlock(&alloc_lk);
 }
