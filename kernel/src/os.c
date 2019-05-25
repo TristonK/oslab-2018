@@ -118,12 +118,12 @@ static void os_run() {
           print_lock();
           printf("you now free all the blocks\n");
           print_unlock();
+          alloc_addr = (uintptr_t)pmm->alloc(small_size);
+          show_alloc();
          // test_unlock();
          // continue;
           //spin_unlock(&print_lk);
-        }
-        alloc_addr = (uintptr_t)pmm->alloc(small_size);
-        show_alloc();
+        }  
         for(int i = 0;i<=499;i++){
           if(!my_test[i]){
             my_test[i]=alloc_addr;
@@ -151,12 +151,12 @@ static void os_run() {
           print_lock();
           printf("you now free all the blocks\n");
           print_unlock();
+          big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
+          show_alloc();
           //test_unlock();
           //continue;
           //spin_unlock(&print_lk);
         }
-        big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
-        show_alloc();
         for(int i = 0;i<=499;i++){
           if(!my_test[i]){
             my_test[i]=big_alloc_addr;
