@@ -328,7 +328,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->end_addr = used_block ->end_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
-      used_block ->prev =NULl;
+      used_block ->prev =NULL;
       //ppblock->next = used_block->next;
       used_block -> next =NULL;
       freelist.size--;
