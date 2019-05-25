@@ -165,6 +165,9 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     int a = find_free_block();
     kblock *new_block = &block[a];
     printf("%d\n",a);
+    for(int i=0;i<=5;i++){
+      printf("i is %d and begin is %d\n",i,block[i].begin_addr);
+    }
     if(blockc->next==NULL){
         //printf("!\n");
         new_block->state= 1;
