@@ -173,7 +173,8 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         new_block->next=NULL;
         new_block->prev=p_block;
         p_block->next= new_block;
-        //printf(" hi %d\n",p_block->next->end_addr);
+        printf("hhh %d\n",p_block->end_addr);
+        printf(" hi %d\n",p_block->next->end_addr);
         blockc->next=NULL;
         blockc->prev=NULL;
         show_alloc();       
