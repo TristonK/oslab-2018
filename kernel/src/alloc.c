@@ -173,9 +173,10 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         new_block->next=NULL;
         new_block->prev=p_block;
         p_block->next= new_block;
-        printf(" hi %d\n",p_block->next->end_addr);
+        //printf(" hi %d\n",p_block->next->end_addr);
         blockc->next=NULL;
         blockc->prev=NULL;
+        show_alloc();       
         return;
     }
     kblock *n_block = blockc->next;
@@ -290,7 +291,7 @@ void free_unsafe(uintptr_t b_addr){
     }
     used_block->state=1;
     runlist.size--;
-    freelist.size++;   show_alloc();
+    freelist.size++;   //show_alloc();
     kblock *ppblock = used_block->prev;
     ppblock->next = used_block->next;
     used_block->next->prev = used_block->prev;
