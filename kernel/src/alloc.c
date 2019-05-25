@@ -186,6 +186,7 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     kblock *n_block = blockc->next;
     if(n_block->begin_addr==blockc->end_addr){
         //printf("here1\n");
+        freelist.size--;
         new_block ->state = 0;
         n_block->size+=rest_block_size;
         n_block->begin_addr-=rest_block_size;
