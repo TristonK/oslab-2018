@@ -184,6 +184,8 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         printf("pre's next end %d\n",p_block->next->end_addr);      
         printf("block1's end %d\n",block[1].end_addr);
         printf("block0's end %d\n",block[0].next->end_addr);
+        printf("p_block is %d\n",&p_block);
+        printf("block[0] is %d\n",block[0]);
         for(int i=0;i<=5;i++){
           printf("i is %d and end is %d\n",i,block[i].end_addr);
         }
