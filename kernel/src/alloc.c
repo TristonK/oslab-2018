@@ -269,6 +269,7 @@ static void check_block(){
         chek->size += nblock->size;
         nblock ->state = 0;
         chek ->next = nblock ->next;
+        nblock -> next -> prev = chek;
         nblock ->next = nblock->prev = NULL;
         freelist.size--;
       }
