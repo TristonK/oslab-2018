@@ -294,6 +294,7 @@ void free_unsafe(uintptr_t b_addr){
     kblock *ppblock = used_block->prev;
     ppblock->next = used_block->next;
     used_block->next->prev = used_block->prev;
+    show_alloc();
     //freelist is null 
     if(freelist.head->next==NULL){
         freelist.head->next=used_block;
