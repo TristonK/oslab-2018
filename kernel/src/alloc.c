@@ -164,10 +164,6 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     kblock *p_block = blockc->prev;
     int a = find_free_block();
     kblock *new_block = &block[a];
-    /*printf("%d\n",a);
-    for(int i=0;i<=5;i++){
-      printf("i is %d and begin is %d\n",i,block[i].begin_addr);
-    }*/
     if(blockc->next==NULL){
         //printf("!\n");
         new_block->state= 1;
@@ -186,8 +182,8 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         show_alloc(); 
         printf("pre's end %d\n",p_block->end_addr);
         printf("pre's next end %d\n",p_block->next->end_addr);      
-        printf("hhh %d\n",block[1].end_addr);
-        printf("yyy %d\n",block[0].next->end_addr);
+        printf("block1's end %d\n",block[1].end_addr);
+        printf("block0's end %d\n",block[0].next->end_addr);
         for(int i=0;i<=5;i++){
           printf("i is %d and end is %d\n",i,block[i].end_addr);
         }
