@@ -179,7 +179,7 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         //printf("new_block's begin_addr is %d\n",new_block->begin_addr);
         blockc->next=NULL;
         blockc->prev=NULL;
-        show_alloc(); 
+        /*show_alloc(); 
         printf("pre's end %d\n",p_block->end_addr);
         printf("pre's next end %d\n",p_block->next->end_addr);      
         printf("block1's end %d\n",block[1].end_addr);
@@ -188,7 +188,7 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         printf("block[0] is %d\n",&block[0]);
         for(int i=0;i<=5;i++){
           printf("i is %d and end is %d\n",i,block[i].end_addr);
-        }
+        }*/
         return;
     }
     kblock *n_block = blockc->next;
