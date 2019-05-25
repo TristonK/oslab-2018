@@ -185,8 +185,11 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         blockc->prev=NULL;
         show_alloc(); 
         printf("jjj %d\n",p_block->end_addr);      
-        printf("hhh %d\n",block[1].begin_addr);
+        printf("hhh %d\n",block[1].end_addr);
         printf("yyy %d\n",block[0].next->end_addr);
+        for(int i=0;i<=5;i++){
+          printf("i is %d and end is %d\n",i,block[i].end_addr);
+        }
         return;
     }
     kblock *n_block = blockc->next;
