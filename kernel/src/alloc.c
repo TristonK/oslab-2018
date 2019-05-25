@@ -162,7 +162,8 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
     uintptr_t rest_block_size=blockc->size-need_size;
     blockc->size = need_size;
     kblock *p_block = blockc->prev;
-    kblock *new_block = &block[find_free_block()];
+    int a = find_free_block();
+    kblock *new_block = &block[a];
     if(blockc->next==NULL){
         //printf("!\n");
         new_block->state= 1;
