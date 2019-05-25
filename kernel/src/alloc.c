@@ -170,11 +170,11 @@ static void block_cut(kblock *blockc,uintptr_t need_size){
         new_block->end_addr=blockc->end_addr;
         blockc->end_addr=blockc->begin_addr+need_size;
         new_block->begin_addr=blockc->end_addr;
-        blockc->next=NULL;
-        blockc->prev=NULL;
         new_block->next=NULL;
         new_block->prev=p_block;
         p_block->next= new_block;
+        blockc->next=NULL;
+        blockc->prev=NULL;
         return;
     }
     kblock *n_block = blockc->next;
