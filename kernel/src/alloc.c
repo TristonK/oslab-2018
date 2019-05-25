@@ -249,10 +249,12 @@ static void check_block(){
     kblock *chek = freelist.head->next;
     while(chek -> next != NULL){
       if(chek->end_addr == chek->next->begin_addr){
-        chek->end_addr = chek->next->end_addr;
-        chek->size += chek->next->size;
-        chek ->next = chek ->next ->next;
-        chek ->next ->state = 0;
+        kblock *nblock = chek->next;
+        chek->end_addr = nblock->end_addr;
+        chek->size += nblock->size;
+        nblock ->state = 0;
+        chek ->next = nblock ->next;
+        nblock ->next = nblock->prev = NULL;
         freelist.size--;
       }
       chek = chek ->next;
@@ -311,6 +313,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->begin_addr = used_block ->begin_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
+      used_block -> prev = used_block ->next =NULL;
       freelist.size--;
       return;
     }
@@ -325,6 +328,7 @@ void free_unsafe(uintptr_t b_addr){
       used_prev->end_addr = used_block ->end_addr;
       used_prev->size += used_block->size;
       used_block->state = 0;
+      used_block ->prev =NULl;
       //ppblock->next = used_block->next;
       used_block -> next =NULL;
       freelist.size--;
