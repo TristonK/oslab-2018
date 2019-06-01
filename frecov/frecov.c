@@ -134,8 +134,8 @@ void find_bmp(){
                 }
                 newofset-=32;
               }while (ldir.Attr<0x40);
-              fname[namecnt]='\0';
-              printf("%s\n",fname);
+              strcat(fname,".bmp");
+              //printf("%s\n",fname);
             } else{
               memcpy(&fname,dir.Name,11);
               for(int i=0;i<8;i++){
@@ -144,8 +144,10 @@ void find_bmp(){
               }
               strcat(fname,".bmp");
               fname[11] = '\0';
-              printf("%s\n",fname);
-            }        
+              //printf("%s\n",fname);
+            }
+            if(fname[0]=='\0')
+              continue;        
             //***************************** 
           } 
       }
