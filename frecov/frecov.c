@@ -64,7 +64,7 @@ void get_info(){
 
 void find_bmp(){
   struct Dir dir;
-  char name[3];
+  //char name[3];
   //printf("jj\n");
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
@@ -83,8 +83,8 @@ void find_bmp(){
             name[i] = '\0';
         }
         printf("name is %s\n",name);
-        //printf("%u\n",dir.FileName[0]);*/
-      }
+        //printf("%u\n",dir.FileName[0]);
+      }*/
     }
   }
 }
