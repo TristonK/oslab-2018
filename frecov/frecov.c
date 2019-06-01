@@ -85,6 +85,13 @@ void find_bmp(){
       }else{
           memcpy(&dir,buf+ofset,sizeof(dir));
           if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+            unsigned int beginclus = (dir.HAddr<<16)|(dir.LAddr);
+            if(beginclus<2)
+              continue;
+            beginclus-=2;
+            uintptr_t pic_data = beginclus*BytsPerClus + RanfFByte;
+            if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
+              continue;
             if(dir.Name[6]=='~'){
               struct LargeDir ldir;
               uintptr_t newofset = ofset-32;
@@ -93,26 +100,27 @@ void find_bmp(){
               int flag = 1;
               do{
                 memcpy(&ldir,buf+newofset,sizeof(ldir));
+                if(ldir.flag!=0x0f)
+                  break;
                 for(int i=0;i<5;i++){
                   if(ldir.Name[2*i]!=0xffff&&flag){
-                    fname[namecnt] = (char)ldir.Name[2*i];
+                    fname[namecnt] = ldir.Name[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<5;i++){
                   if(ldir.Name2[2*i]!=0xffff&&flag){
-                    fname[namecnt] = (char)ldir.Name2[2*i];
+                    fname[namecnt] = ldir.Name2[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<2;i++){
                   if(ldir.Name3[2*i]!=0xff&&flag){
-                    fname[namecnt] = (char)ldir.Name3[2*i];
+                    fname[namecnt] = ldir.Name3[2*i];
                     namecnt++;
                   }
                 }
                 newofset-=32;
-                //memcpy(&ldir,buf+newofset,sizeof(ldir));
               }while (!(ldir.Attr&0x40));
               fname[namecnt]='\0';
               printf("%s\n",fname);
@@ -128,13 +136,7 @@ void find_bmp(){
             }
             //printf("")
             //continue;
-            unsigned int beginclus = (dir.HAddr<<16)|(dir.LAddr);
-            if(beginclus<2)
-              continue;
-            beginclus-=2;
-            uintptr_t pic_data = beginclus*BytsPerClus + RanfFByte;
-            if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
-              continue;
+            
           //printf("it is a pic\n");
             
           }
