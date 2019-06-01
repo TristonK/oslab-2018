@@ -148,8 +148,10 @@ void find_bmp(){
             }
             if(fname[0]=='\0'||fname[0]=='.')
               continue;
-            printf("%s\n",fname);        
-            //***************************** 
+            printf("%s 's data in %x\n",fname,pic_data);        
+            //*****************
+            //int fd = open(fname,O_RDWR | O_CREAT | O_TRUNC);
+
           } 
       }
     }
