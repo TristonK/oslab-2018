@@ -66,9 +66,11 @@ void find_bmp(){
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
+      printf("jj\n");
       if(!strcmp(dir.Extension,"BMP")){
         printf("this is a yellow pic\n");
       }
+      printf("jj2\n");
     }
   }
 }
