@@ -36,7 +36,7 @@ struct Dir{
   unsigned short CrTime;
   unsigned short CrDate;
   unsigned short LastVisTime;
-  unsigned short HAddr;
+  unsigned short HAddr;//21 22
   unsigned short LastTime;
   unsigned short LastDate;
   unsigned short LAddr;
@@ -66,8 +66,10 @@ void find_bmp(){
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
-      if(dir.Extension[0]=='B'&&dir.Extension[1]=='M')
-        printf("hi is a pic\n");
+      if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
+        printf("it is a pic\n");
+        printf("%s\n",dir.FileName[1]);
+      }
     }
   }
 }
