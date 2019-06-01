@@ -66,7 +66,8 @@ void find_bmp(){
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
-      printf("filename is %s\n",dir.Extension);
+      if(dir.Extension[0]=='B'&&dir.Extension[1]=='M')
+        printf("hi is a pic\n");
     }
   }
 }
