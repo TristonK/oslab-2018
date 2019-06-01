@@ -12,6 +12,7 @@ int fd;
 char *buf;
 struct BPB{
   //.... have more but we dont need it
+  unsigned char unused[11];
   unsigned short bytsPerSec; //0xb
   unsigned char SecPerClus;   //0xd
   unsigned short ReservedSec; //0xe
@@ -26,7 +27,7 @@ struct BPB{
   unsigned int LargeSec; //0x20
   unsigned int SecPerFat; //0x24
   //.... have more but we dont need it
-};
+}__attribute__((packed));
 struct Dir{
    char FileName[8];
   unsigned char Extension[3];
