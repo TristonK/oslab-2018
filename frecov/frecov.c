@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <assert.h>
+#include <unistd.h>
 
 int fd;
 char *buf;
