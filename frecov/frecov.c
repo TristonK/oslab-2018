@@ -88,11 +88,11 @@ void find_bmp(){
             if(dir.Name[6]=='~'){
               struct LargeDir ldir;
               uintptr_t newofset = ofset-32;
-              memcpy(&ldir,buf+newofset,sizeof(ldir));
               memset(fname,'\0',sizeof(fname));
               int namecnt = 0;
               int flag = 1;
               do{
+                memcpy(&ldir,buf+newofset,sizeof(ldir));
                 for(int i=0;i<5;i++){
                   if(ldir.Name[2*i]!=0xffff&&flag){
                     fname[namecnt] = (char)ldir.Name[2*i];
@@ -112,7 +112,7 @@ void find_bmp(){
                   }
                 }
                 newofset-=32;
-                memcpy(&ldir,buf+newofset,sizeof(ldir));
+                //memcpy(&ldir,buf+newofset,sizeof(ldir));
               }while (!(ldir.Attr&0x40));
               fname[namecnt]='\0';
               printf("%s\n",fname);
