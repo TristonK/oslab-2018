@@ -63,15 +63,15 @@ void get_info(){
 
 void find_bmp(){
   struct Dir dir;
-  char name[8];
-  printf("jj\n");
-  printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
+  char name[3];
+  //printf("jj\n");
+  //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
       if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         printf("it is a pic\n");
-        memcpy(&name,dir.FileName,sizeof(name));
+        memcpy(&name,dir.Extension,sizeof(name));
         for(int i=0;i<sizeof(name);i++){
           if(name[i]==' ')
             name[i] = '\0';
