@@ -77,6 +77,7 @@ void find_bmp(){
   char fname[256];
   //printf("jj\n");
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
+  printf("%x %x %x %x\n",RanfFByte,NumClus,DirPerClus,BytsPerClus);
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       uintptr_t ofset = RanfFByte+i*BytsPerClus+j*32;
