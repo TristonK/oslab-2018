@@ -44,13 +44,13 @@ struct SmallDir{
 }__attribute__((packed));
 struct LargeDir{
   unsigned char Attr;
-  unsigned short Name[5];
+  unsigned char Name[10];
   unsigned char flag;
   unsigned char reserved;
   unsigned char hash;
-  unsigned short Name2[5];
+  unsigned char Name2[10];
   unsigned short BeginClus;
-  unsigned short Name3[2];
+  unsigned char Name3[4];
 }__attribute__((packed));
 
 struct BPB bpb;
@@ -94,20 +94,20 @@ void find_bmp(){
               int flag = 1;
               do{
                 for(int i=0;i<5;i++){
-                  if(ldir.Name[i]!=0xffff&&flag){
-                    fname[namecnt] = (char)ldir.Name[i];
+                  if(ldir.Name[2*i]!=0xffff&&flag){
+                    fname[namecnt] = (char)ldir.Name[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<5;i++){
-                  if(ldir.Name2[i]!=0xffff&&flag){
-                    fname[namecnt] = (char)ldir.Name2[i];
+                  if(ldir.Name2[2*i]!=0xffff&&flag){
+                    fname[namecnt] = (char)ldir.Name2[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<2;i++){
-                  if(ldir.Name3[i]!=0xffff&&flag){
-                    fname[namecnt] = (char)ldir.Name3[i];
+                  if(ldir.Name3[2*i]!=0xff&&flag){
+                    fname[namecnt] = (char)ldir.Name3[2*i];
                     namecnt++;
                   }
                 }
