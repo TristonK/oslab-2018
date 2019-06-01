@@ -150,8 +150,8 @@ void find_bmp(){
               continue;
             printf("%s 's data in %x\n",fname,(int)pic_data);        
             //*****************
-            char *picname;
-            memcpy(picname,fname);
+            char *picname = malloc(25);
+            strcat(picname,fname);
             int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC);
             int picsize = *(int *)&buf[pic_data+2];
             pwrite(fdpic,buf+pic_data,picsize,0);
