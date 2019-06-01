@@ -85,6 +85,7 @@ void find_bmp(){
       }else{
           memcpy(&dir,buf+ofset,sizeof(dir));
           if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+            //***********check
             unsigned int beginclus = (dir.HAddr<<16)|(dir.LAddr);
             if(beginclus<2)
               continue;
@@ -92,6 +93,7 @@ void find_bmp(){
             uintptr_t pic_data = beginclus*BytsPerClus + RanfFByte;
             if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
               continue;
+            //*********** get-name
             if(dir.Name[6]=='~'){
               struct LargeDir ldir;
               uintptr_t newofset = ofset-32;
@@ -104,24 +106,33 @@ void find_bmp(){
                   break;
                 for(int i=0;i<5;i++){
                   if(ldir.Name[2*i]!=0xffff&&flag){
+                    if(ldir.Name[2*i]==' '||ldir.Name[2*i]==0x2e){
+                      break;
+                    }
                     fname[namecnt] = ldir.Name[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<5;i++){
                   if(ldir.Name2[2*i]!=0xffff&&flag){
+                    if(ldir.Name2[2*i]==' '||ldir.Name2[2*i]==0x2e){
+                      break;
+                    }
                     fname[namecnt] = ldir.Name2[2*i];
                     namecnt++;
                   }
                 }
                 for(int i=0;i<2;i++){
                   if(ldir.Name3[2*i]!=0xff&&flag){
+                    if(ldir.Name3[2*i]==' '||ldir.Name3[2*i]==0x2e){
+                      break;
+                    }
                     fname[namecnt] = ldir.Name3[2*i];
                     namecnt++;
                   }
                 }
                 newofset-=32;
-              }while (!(ldir.Attr&0x40));
+              }while (ldir.Attr<0x40);
               fname[namecnt]='\0';
               printf("%s\n",fname);
             } else{
@@ -133,13 +144,9 @@ void find_bmp(){
               strcat(fname,".bmp");
               fname[11] = '\0';
               printf("%s\n",fname);
-            }
-            //printf("")
-            //continue;
-            
-          //printf("it is a pic\n");
-            
-          }
+            }        
+            //***************************** 
+          } 
       }
     }
   }
