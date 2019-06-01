@@ -13,12 +13,12 @@ char *buf;
 struct BPB{
   //.... have more but we dont need it
   unsigned short bytsPerSec; //0xb
-  char SecPerClus;   //0xd
+  unsigned char SecPerClus;   //0xd
   unsigned short ReservedSec; //0xe
-  char FatNum; //0x10
+  unsigned char FatNum; //0x10
   unsigned short RootEnt;//0x11  should be 0
   unsigned short SmallSec;//0x13 be 0;
-  char MediaDescri;
+  unsigned char MediaDescri;
   unsigned short SecPerFat_0; //0x16 always be 0
   unsigned short SecPerTrack; //0x18
   unsigned short NumHeads;//0x1a
@@ -29,10 +29,10 @@ struct BPB{
 }__attribute__((packed));
 struct Dir{
   unsigned char FileName[8];
-  char Extension[3];
-  char Attr;
-  char Reserved;
-  char CrTimeLen;
+  unsigned char Extension[3];
+  unsigned char Attr;
+  unsigned char Reserved;
+  unsigned char CrTimeLen;
   unsigned short CrTime;
   unsigned short CrDate;
   unsigned short LastVisTime;
