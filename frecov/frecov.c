@@ -28,7 +28,7 @@ struct BPB{
   //.... have more but we dont need it
 }__attribute__((packed));
 struct Dir{
-  char FileName[8];
+  unsigned char FileName[8];
   char Extension[3];
   char Attr;
   char Reserved;
