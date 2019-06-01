@@ -86,7 +86,36 @@ void find_bmp(){
           memcpy(&dir,buf+ofset,sizeof(dir));
           if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
             if(dir.Name[6]=='~'){
-              
+              struct LargeDir ldir;
+              uintptr_t newofset = ofset-32;
+              memcpy(&ldir,buf+newofset,sizeof(dir));
+              memset(fname,'\0',sizeof(fname));
+              int namecnt = 0;
+              int flag = 1;
+              do{
+                for(int i=0;i<5;i++){
+                  if(ldir.Name[i]!=0xffff&&flag){
+                    fname[namecnt] = (char)ldir.Name[i];
+                    namecnt++;
+                  }
+                }
+                for(int i=0;i<5;i++){
+                  if(ldir.Name2[i]!=0xffff&&flag){
+                    fname[namecnt] = (char)ldir.Name2[i];
+                    namecnt++;
+                  }
+                }
+                for(int i=0;i<2;i++){
+                  if(ldir.Name3[i]!=0xffff&&flag){
+                    fname[namecnt] = (char)ldir.Name3[i];
+                    namecnt++;
+                  }
+                }
+                newofset-=32;
+                memcpy(&ldir,buf+newofset,sizeof(dir));
+              }while (!ldir.Attr&0x40);
+              fname[namecnt]='\0';
+              printf("%s\n",fname);
             } else{
               memcpy(&fname,dir.Name,11);
               for(int i=0;i<8;i++){
