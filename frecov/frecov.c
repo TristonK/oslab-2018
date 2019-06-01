@@ -28,7 +28,7 @@ struct BPB{
   unsigned int SecPerFat; //0x24
   //.... have more but we dont need it
 }__attribute__((packed));
-struct Dir{
+struct SmallDir{
   unsigned char Name[11];
   unsigned char Attr;
   unsigned char Reserved;
@@ -41,6 +41,16 @@ struct Dir{
   unsigned short LastDate;
   unsigned short LAddr;
   unsigned int Length; 
+}__attribute__((packed));
+struct LargeDir{
+  unsigned char Attr;
+  unsigned short Name[5];
+  unsigned char flag;
+  unsigned char reserved;
+  unsigned char hash;
+  unsigned short Name2[5];
+  unsigned short BeginClus;
+  unsigned short Name3[2];
 }__attribute__((packed));
 
 struct BPB bpb;
@@ -63,17 +73,32 @@ void get_info(){
 }
 
 void find_bmp(){
-  struct Dir dir;
-  char name[8];
+  struct SmallDir dir;
+  char fname[256];
   //printf("jj\n");
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
-      memcpy(&dir,buf+RanfFByte+i*BytsPerClus+j*32,sizeof(dir));
-      if(dir.Attr==0x0f){
+      uintptr_t ofset = RanfFByte+i*BytsPerClus+j*32;
+      if(buf[ofset+0xa]==0x0f){
         //printf("long file\n");
       }else{
+          memcpy(&dir,buf+ofset,sizeof(dir));
           if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+            if(dir.Name[6]=='~'){
+              
+            } else{
+              memcpy(&fname,dir.Name,11);
+              for(int i=0;i<8;i++){
+              if(fname[i]==' ')
+                fname[i] = '\0';
+              }
+              strcat(fname,".bmp");
+              fname[11] = '\0';
+              printf("%s\n",fname);
+            }
+            //printf("")
+            //continue;
             unsigned int beginclus = (dir.HAddr<<16)|(dir.LAddr);
             if(beginclus<2)
               continue;
@@ -82,24 +107,9 @@ void find_bmp(){
             if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
               continue;
           //printf("it is a pic\n");
-            memcpy(&name,dir.Name,sizeof(name));
-            for(int i=0;i<sizeof(name);i++){
-              if(name[i]==' ')
-                name[i] = '\0';
-            }
-            printf("name is %s\n",name);
+            
           }
       }
-      /*if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
-        //printf("it is a pic\n");
-        memcpy(&name,dir.FileName,sizeof(name));
-        for(int i=0;i<sizeof(name);i++){
-          if(name[i]==' ')
-            name[i] = '\0';
-        }
-        printf("name is %s\n",name);
-        //printf("%u\n",dir.FileName[0]);
-      }*/
     }
   }
 }
