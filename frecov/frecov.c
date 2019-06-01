@@ -53,8 +53,8 @@ void get_info(){
   memcpy(&bpb,buf+0xb,sizeof(bpb));
   /*printf("each sec has byte %d\n",bpb.bytsPerSec);
   printf("each Cluster has %d sec\n",bpb.SecPerClus);
-  printf("you reserve %d sec\n",bpb.ReservedSec);
-  printf("you have %d Fat\n",bpb.FatNum);*/
+  printf("you reserve %d sec\n",bpb.ReservedSec);*/
+  printf("you have %u Fat\n",bpb.FatNum);
   ResevByte = (bpb.bytsPerSec)*(bpb.SecPerFat*bpb.FatNum+ bpb.ReservedSec);
   BytsPerClus = bpb.SecPerClus * bpb.bytsPerSec;
   NumClus = (bpb.LargeSec- ResevByte/bpb.bytsPerSec)/bpb.SecPerClus;
@@ -70,8 +70,8 @@ void find_bmp(){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
       if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
-        printf("it is a pic\n");
-        memcpy(&name,dir.Extension,sizeof(name));
+        //printf("it is a pic\n");
+        memcpy(&name,dir.FileName,sizeof(name));
         for(int i=0;i<sizeof(name);i++){
           if(name[i]==' ')
             name[i] = '\0';
