@@ -26,7 +26,7 @@ struct BPB{
   unsigned int LargeSec; //0x20
   unsigned int SecPerFat; //0x24
   //.... have more but we dont need it
-}__attribute__((packed));
+};
 struct Dir{
   unsigned char FileName[8];
   unsigned char Extension[3];
@@ -63,13 +63,21 @@ void get_info(){
 
 void find_bmp(){
   struct Dir dir;
+  char name[8];
+  printf("jj\n");
   printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
       if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         printf("it is a pic\n");
-        printf("%u\n",dir.FileName[0]);
+        memcpy(&name,dir.FileName,sizeof(name));
+        for(int i=0;i<sizeof(name);i++){
+          if(name[i]==' ')
+            name[i] = '\0';
+        }
+        printf("name is %s\n",name);
+        //printf("%u\n",dir.FileName[0]);
       }
     }
   }
