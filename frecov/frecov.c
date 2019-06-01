@@ -28,7 +28,7 @@ struct BPB{
   //.... have more but we dont need it
 };
 struct Dir{
-  unsigned char FileName[8];
+   char FileName[8];
   unsigned char Extension[3];
   unsigned char Attr;
   unsigned char Reserved;
