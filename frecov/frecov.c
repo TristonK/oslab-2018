@@ -51,7 +51,7 @@ uintptr_t DirPerClus;
 int NumClus;
 
 void get_info(){
-  memcpy(&bpb,buf+0xb,sizeof(bpb));
+  memcpy(&bpb,buf,sizeof(bpb));
   /*printf("each sec has byte %d\n",bpb.bytsPerSec);
   printf("each Cluster has %d sec\n",bpb.SecPerClus);
   printf("you reserve %d sec\n",bpb.ReservedSec);*/
