@@ -71,9 +71,16 @@ void find_bmp(){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+RanfFByte+i*BytsPerClus+j*32,sizeof(dir));
       if(dir.Attr==0x0f){
-        printf("long file\n");
+        //printf("long file\n");
       }else{
           if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+            unsigned int beginclus = (dir.HAddr<<16)|(dir.LAddr);
+            if(beginclus<2)
+              continue;
+            beginclus-=2;
+            uintptr_t pic_data = beginclus*BytsPerClus + RanfFByte;
+            if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
+              continue;
           //printf("it is a pic\n");
             memcpy(&name,dir.Name,sizeof(name));
             for(int i=0;i<sizeof(name);i++){
