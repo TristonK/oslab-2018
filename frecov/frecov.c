@@ -63,7 +63,7 @@ void get_info(){
 
 void find_bmp(){
   struct Dir dir;
-  printf("dir size is %d and bpb size is %d\n",sizeof(dir),sizeof(bpb));
+  printf("dir size is %lld and bpb size is %llu\n",sizeof(dir),sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
