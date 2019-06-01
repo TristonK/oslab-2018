@@ -16,12 +16,12 @@ int main(int argc, char *argv[]) {
     assert(0);
   }
   buf = (char*) mmap(NULL,1<<27,PROT_READ,MAP_SHARED,fd,0);
-  printf("in 0x0b is %c\n",&buf[0x0b]);
-  printf("in 0x0b+1 is %c\n",&buf[0x0c]);
-  printf("in 0xd is %c\n",&buf[0x0d]);
-  printf("in 0xe is %c\n",&buf[0x0e]);
-  printf("in 0xe+1 is %c\n",&buf[0x0f]);
-  printf("in 0x10 is %c\n",&buf[0x10]);
+  printf("in 0x0b is %s\n",&buf[0x0b]);
+  printf("in 0x0b+1 is %s\n",&buf[0x0c]);
+  printf("in 0xd is %s\n",&buf[0x0d]);
+  printf("in 0xe is %s\n",&buf[0x0e]);
+  printf("in 0xe+1 is %s\n",&buf[0x0f]);
+  printf("in 0x10 is %s\n",&buf[0x10]);
   munmap((void*)buf,1<<27);
   close(fd);
   return 0;
