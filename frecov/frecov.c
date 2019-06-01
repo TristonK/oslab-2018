@@ -55,6 +55,7 @@ void get_info(){
   printf("each Cluster has %d sec\n",bpb.SecPerClus);
   printf("you reserve %d sec\n",bpb.ReservedSec);*/
   printf("you have %u Fat\n",bpb.FatNum);
+  printf("0x10 is %d\n",buf[0x10]);
   ResevByte = (bpb.bytsPerSec)*(bpb.SecPerFat*bpb.FatNum+ bpb.ReservedSec);
   BytsPerClus = bpb.SecPerClus * bpb.bytsPerSec;
   NumClus = (bpb.LargeSec- ResevByte/bpb.bytsPerSec)/bpb.SecPerClus;
