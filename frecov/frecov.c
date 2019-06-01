@@ -150,8 +150,10 @@ void find_bmp(){
               continue;
             printf("%s 's data in %x\n",fname,(int)pic_data);        
             //*****************
-            //int fd = open(fname,O_RDWR | O_CREAT | O_TRUNC);
-
+            int fdpic = open(fname,O_RDWR | O_CREAT | O_TRUNC);
+            int picsize = *(int *)&buf[pic_data+2];
+            pwrite(fdpic,picsize,1,buf[pic_data]);
+            close(fdpic);
           } 
       }
     }
