@@ -113,7 +113,7 @@ void find_bmp(){
                 }
                 newofset-=32;
                 memcpy(&ldir,buf+newofset,sizeof(dir));
-              }while (!ldir.Attr&0x40);
+              }while (!(ldir.Attr&0x40));
               fname[namecnt]='\0';
               printf("%s\n",fname);
             } else{
