@@ -26,7 +26,7 @@ struct BPB{
   unsigned int LargeSec; //0x20
   unsigned int SecPerFat; //0x24
   //.... have more but we dont need it
-};
+}__attribute__((packed));
 struct Dir{
   char FileName[8];
   char Extension[3];
@@ -41,7 +41,7 @@ struct Dir{
   unsigned short LastDate;
   unsigned short LAddr;
   unsigned int Length; 
-};
+}__attribute__((packed));
 
 struct BPB bpb;
 uintptr_t ResevByte;
