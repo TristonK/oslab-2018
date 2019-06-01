@@ -64,16 +64,23 @@ void get_info(){
 
 void find_bmp(){
   struct Dir dir;
-  //char name[3];
+  char name[8];
   //printf("jj\n");
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+RanfFByte+i*BytsPerClus+j*32,sizeof(dir));
-      if(dir.Attr==0xf){
+      if(dir.Attr==0x0f){
         printf("long file\n");
       }else{
-        printf("**************shortttt\n");
+        if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+        //printf("it is a pic\n");
+        memcpy(&name,dir.Name,sizeof(name));
+        for(int i=0;i<sizeof(name);i++){
+          if(name[i]==' ')
+            name[i] = '\0';
+        }
+        printf("name is %s\n",name);
       }
       /*if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         //printf("it is a pic\n");
