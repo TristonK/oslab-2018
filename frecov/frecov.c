@@ -73,14 +73,15 @@ void find_bmp(){
       if(dir.Attr==0x0f){
         printf("long file\n");
       }else{
-        if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
-        //printf("it is a pic\n");
-        memcpy(&name,dir.Name,sizeof(name));
-        for(int i=0;i<sizeof(name);i++){
-          if(name[i]==' ')
-            name[i] = '\0';
-        }
-        printf("name is %s\n",name);
+          if(dir.Name[8]=='B'&&dir.Name[9]=='M'&&dir.Name[10]=='P'){
+          //printf("it is a pic\n");
+            memcpy(&name,dir.Name,sizeof(name));
+            for(int i=0;i<sizeof(name);i++){
+              if(name[i]==' ')
+                name[i] = '\0';
+            }
+            printf("name is %s\n",name);
+          }
       }
       /*if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         //printf("it is a pic\n");
