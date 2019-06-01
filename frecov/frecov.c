@@ -29,8 +29,7 @@ struct BPB{
   //.... have more but we dont need it
 }__attribute__((packed));
 struct Dir{
-   char FileName[8];
-  unsigned char Extension[3];
+  unsigned char Name[11];
   unsigned char Attr;
   unsigned char Reserved;
   unsigned char CrTimeLen;
@@ -71,9 +70,12 @@ void find_bmp(){
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       memcpy(&dir,buf+RanfFByte+i*BytsPerClus+j*32,sizeof(dir));
-      if(dir.Attr==0xf)
+      if(dir.Attr==0xf){
         printf("long file\n");
-      if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
+      }else{
+        printf("**************shortttt\n");
+      }
+      /*if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         //printf("it is a pic\n");
         memcpy(&name,dir.FileName,sizeof(name));
         for(int i=0;i<sizeof(name);i++){
@@ -81,7 +83,7 @@ void find_bmp(){
             name[i] = '\0';
         }
         printf("name is %s\n",name);
-        //printf("%u\n",dir.FileName[0]);
+        //printf("%u\n",dir.FileName[0]);*/
       }
     }
   }
