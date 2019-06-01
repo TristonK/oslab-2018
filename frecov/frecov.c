@@ -18,7 +18,7 @@ struct BPB{
   unsigned short RootEnt;//should be 0
   unsigned short SmallSec;// be 0;
   char MediaDescri;
-  unsigned short SecPerFat; //0x16
+  unsigned short SecPerFat_0; //0x16 always be 0
   unsigned short SecPerTrack; //0x18
   unsigned short NumHeads;//0x1a
   unsigned int HiddenSec;
