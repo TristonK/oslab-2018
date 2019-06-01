@@ -45,7 +45,7 @@ struct Dir{
 }__attribute__((packed));
 
 struct BPB bpb;
-uintptr_t ResevByte;
+uintptr_t RanfFByte;
 uintptr_t BytsPerClus;
 uintptr_t DirPerClus;
 int NumClus;
@@ -54,12 +54,12 @@ void get_info(){
   memcpy(&bpb,buf,sizeof(bpb));
   /*printf("each sec has byte %d\n",bpb.bytsPerSec);
   printf("each Cluster has %d sec\n",bpb.SecPerClus);
-  printf("you reserve %d sec\n",bpb.ReservedSec);*/
+  printf("you reserve %d sec\n",bpb.ReservedSec);
   printf("you have %u Fat\n",bpb.FatNum);
-  printf("0x10 is %d\n",buf[0x10]);
-  ResevByte = (bpb.bytsPerSec)*(bpb.SecPerFat*bpb.FatNum+ bpb.ReservedSec);
+  printf("0x10 is %d\n",buf[0x10]);*/
+  RanfFByte = (bpb.bytsPerSec)*(bpb.SecPerFat*bpb.FatNum+ bpb.ReservedSec);
   BytsPerClus = bpb.SecPerClus * bpb.bytsPerSec;
-  NumClus = (bpb.LargeSec- ResevByte/bpb.bytsPerSec)/bpb.SecPerClus;
+  NumClus = (bpb.LargeSec- RanfFByte/bpb.bytsPerSec)/bpb.SecPerClus;
   DirPerClus = BytsPerClus/32;
 }
 
@@ -70,7 +70,9 @@ void find_bmp(){
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
-      memcpy(&dir,buf+ResevByte+i*BytsPerClus+j*32,sizeof(dir));
+      memcpy(&dir,buf+RanfFByte+i*BytsPerClus+j*32,sizeof(dir));
+      if(dir.Attr==0xf)
+        printf("long file\n");
       if(dir.Extension[0]=='B'&&dir.Extension[1]=='M'&&dir.Extension[2]=='P'){
         //printf("it is a pic\n");
         memcpy(&name,dir.FileName,sizeof(name));
