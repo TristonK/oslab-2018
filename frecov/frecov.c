@@ -146,7 +146,7 @@ void find_bmp(){
               fname[11] = '\0';
               //printf("%s\n",fname);
             }
-            if(fname[0]=='\0')
+            if(fname[0]=='\0'||fname[0]=='.')
               continue;
             printf("%s\n",fname);        
             //***************************** 
