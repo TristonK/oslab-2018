@@ -94,6 +94,9 @@ void find_bmp(){
             uintptr_t pic_data = beginclus*BytsPerClus + RanfFByte;
             if(buf[pic_data]!='B'||buf[pic_data+1]!='M')
               continue;
+            int picsize = *(int *)&buf[pic_data+2];
+            if(dir.Length!=picsize)
+              continue;
             //*********** get-name
             if(dir.Name[6]=='~'){
               struct LargeDir ldir;
@@ -148,12 +151,12 @@ void find_bmp(){
             }
             if(fname[0]=='\0'||fname[0]=='.')
               continue;
-            printf("%s 's data in %x\n",fname,(int)pic_data);        
+            printf("%s 's addr is %x and data in %x\n",fname,(int)ofset,(int)pic_data);        
             //*****************
-            char *picname = malloc(25);
+            char *picname = malloc(100);
+            strcat(picname,"~/Documents/filesystem/");
             strcat(picname,fname);
             int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC,0777);
-            int picsize = *(int *)&buf[pic_data+2];
             pwrite(fdpic,buf+pic_data,picsize,0);
             close(fdpic);
           } 
