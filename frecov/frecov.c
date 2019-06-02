@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 int fd;
 char *buf;
@@ -77,7 +78,7 @@ void find_bmp(){
   char fname[256];
   //printf("jj\n");
   //printf("dir size is %d and bpb size is %d\n",(int)sizeof(dir),(int)sizeof(bpb));
-  printf("%x %x %x %x\n",(int)RanfFByte,(int)NumClus,(int)DirPerClus,(int)BytsPerClus);
+  //printf("%x %x %x %x\n",(int)RanfFByte,(int)NumClus,(int)DirPerClus,(int)BytsPerClus);
   for(int i=0;i<NumClus;i++){
     for(int j=0;j<DirPerClus;j++){
       uintptr_t ofset = RanfFByte+i*BytsPerClus+j*32;
@@ -160,6 +161,14 @@ void find_bmp(){
             int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC,0777);
             pwrite(fdpic,buf+pic_data,picsize,0);
             close(fdpic);
+            char *getcheck = malloc(100);
+            strcat(getcheck,"sha1sum ");
+            stecat(getcheck,fname);
+            system(getcheck);
+            char *fremove = malloc(100);
+            strcat(fremove,"rm ");
+            strcat(fremove,fname);
+            system(fremove);
           } 
       }
     }
