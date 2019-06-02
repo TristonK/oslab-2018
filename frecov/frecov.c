@@ -152,7 +152,7 @@ void find_bmp(){
             //*****************
             char *picname = malloc(25);
             strcat(picname,fname);
-            int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC);
+            int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC,0777);
             int picsize = *(int *)&buf[pic_data+2];
             pwrite(fdpic,buf+pic_data,picsize,0);
             close(fdpic);
