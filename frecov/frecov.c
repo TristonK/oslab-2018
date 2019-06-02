@@ -166,7 +166,7 @@ void find_bmp(){
             strcat(getcheck,fname);
             system(getcheck);
             char *fremove = malloc(100);
-            strcat(fremove,"rm ");
+            strcat(fremove,"rm -f ");
             strcat(fremove,fname);
             system(fremove);
           } 
