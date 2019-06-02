@@ -154,9 +154,9 @@ void find_bmp(){
             printf("%s 's addr is %x and data in %x\n",fname,(int)ofset,(int)pic_data);        
             //*****************
             char *picname = malloc(100);
-            strcat(picname,"~/Documents/");
+            strcat(picname,"/home/Documents/");
             strcat(picname,fname);
-            printf("%s/n",picname);
+            printf("%s\n",picname);
             int fdpic = open(picname,O_RDWR|O_CREAT|O_TRUNC,0777);
             pwrite(fdpic,buf+pic_data,picsize,0);
             close(fdpic);
