@@ -163,7 +163,7 @@ void find_bmp(){
             close(fdpic);
             char *getcheck = malloc(100);
             strcat(getcheck,"sha1sum ");
-            stecat(getcheck,fname);
+            strcat(getcheck,fname);
             system(getcheck);
             char *fremove = malloc(100);
             strcat(fremove,"rm ");
