@@ -12,7 +12,7 @@ struct Cpu{
 
 struct task {};
 struct spinlock {
-    int locked;
+    intptr_t locked;
     const char *name;
     int cpu;
 };
