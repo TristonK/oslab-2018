@@ -3,6 +3,7 @@
 
 #include <kernel.h>
 #include <nanos.h>
+#include <x86.h>
 
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
