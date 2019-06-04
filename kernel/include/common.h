@@ -12,8 +12,8 @@ struct Cpu{
 
 struct task {};
 struct spinlock {
-    unsigned int locked;
-    char *name;
+    int locked;
+    const char *name;
     int cpu;
 };
 struct semaphore {};
