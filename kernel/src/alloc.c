@@ -4,20 +4,6 @@
 //#include <stdio.h>
 
 
-#define LOCKDEF(name) \
-  static volatile intptr_t name##_locked = 0; \
-  static int name##_lock_flags[8]; \
-  void name##_lock() { \
-    name##_lock_flags[_cpu()] = _intr_read(); \
-    _intr_write(0); \
-    while (1) { \
-      if (0 == _atomic_xchg(&name##_locked, 1)) break; \
-    } \
-  } \
-  void name##_unlock() { \
-    _atomic_xchg(&name##_locked, 0); \
-    if (name##_lock_flags[_cpu()]) _intr_write(1); \
-  }
 //***************** Variables ******************
 #define block_num 4096
 static uintptr_t pm_start, pm_end;
@@ -40,9 +26,6 @@ kblock freehead;
 kblock runhead;
 kblock block[block_num];
 //****************** code ************************
-LOCKDEF(alloc);
-LOCKDEF(print);
-LOCKDEF(test);
 
 void show_alloc(){
   kmt->spin_lock(&print_lk);

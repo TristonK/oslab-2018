@@ -2,9 +2,13 @@
 #include <klib.h>
 #include <devices.h>
 #include "x86.h"
+#include <limits.h>
 
+
+//*******ariables
 struct Cpu mycpu[16];
-
+spinlock_t task_lk;
+//***************
 
 //lmitated xv6
 void pushcli(){
@@ -34,9 +38,14 @@ int holding(spinlock_t *lock){
     return ret;
 }
 
+_Context *kmt_context_save(_Event ev, _Context context){return NULL;}
+
+_Context *kmt_context_switch(_Event ev, _Context context){return NULL;}
 
 static void kmt_init(){
-
+    kmt->spin_init(&task_lk,"task_lock");
+    os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save); 
+    os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch); 
 }
 
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){

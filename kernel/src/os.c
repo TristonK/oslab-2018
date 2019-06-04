@@ -1,26 +1,18 @@
 #include <common.h>
 #include <klib.h>
 
-extern void spin_lock(intptr_t *lk);
-extern void spin_unlock(intptr_t *lk);
-extern void show_alloc();
-extern void test_lock();
-extern void test_unlock();
-extern void print_lock();
-extern void print_unlock();
-intptr_t lk;
-extern intptr_t print_lk;
-uintptr_t my_test[500];
-int used_cnt;
+spinlock_t ostrap;
+handle* hde; 
+
 
 static void os_init() {
   pmm->init();
   kmt->init();
-  lk=0;
-  used_cnt=0;
-  for(int i=0;i<500;i++)
-    my_test[i]=0;
-  srand(uptime());
+  dev->init();
+  kmt->spin_init(&os_trap,"trap_lock");
+  hde = NULL;
+  //handl.head = NULL;
+  //handl.size = 0;
 }
 
 static void hello() {
@@ -33,171 +25,68 @@ static void hello() {
 static void os_run() {
   hello();
   _intr_write(1);
-  /*void *t1,*t2,*t3,*t4,*t5,*t6,*t7;
-  show_alloc();
-  t1 = pmm ->alloc(13*1024);
-  show_alloc();
-  //printf("hi siri\n");
-  t2 = pmm -> alloc(17*1024);
-  //printf("t2 is %d\n",(uintptr_t)t2);
-  show_alloc();
-  //printf("hi alex\n");
-  pmm->free(t1);
-  show_alloc();
-  //printf("siri\n");
-  t3 = pmm -> alloc(15*1024);
-  show_alloc();
-  t4 = pmm -> alloc (17244);
-  show_alloc();
-  t5 = pmm -> alloc (15222);
-  show_alloc();
-  pmm -> free (t2);
-  show_alloc();
-  pmm -> free (t4);
-  show_alloc();
-  t6 = pmm -> alloc (122222);
-  pmm -> free(t6);
-  show_alloc();
-  t7 = pmm -> alloc(123);
-  t1 = pmm -> alloc(32*1024);
-  t2 = pmm -> alloc(16*1024);
-  show_alloc();
-  pmm -> free(t7);
-  pmm -> free(t2);
-  pmm -> free(t1);
-  pmm -> free(t3);
-  pmm -> free(t5);
-  printf("done done done\n");*/
   while (1) {
-    test_lock();
-    //show_alloc();
-    int op = rand()%2;
-    /*0: randomly free 
-    * 1: randomly alloc
-    * maxrandom num = 32768*/
-    if(op){
-      if(used_cnt==500){
-        //spin_lock(&print_lk);
-        print_lock();
-        printf("you have alloc 500 blocks\n");
-        print_unlock();
-        //spin_unlock(&print_lk);
-        for(int i=0;i<500;i++){
-          pmm->free((void*)my_test[i]);
-          my_test[i]=0;
-        }
-        show_alloc();
-        //spin_lock(&print_lk);
-        print_lock();
-        printf("you now free all the blocks\n");
-        print_unlock();
-        //spin_unlock(&print_lk);
-        //_yield();
-        //test_unlock();
-        //continue;
-      }
-      int size_mode = rand()%10;
-      /*
-      * 90%: small size need to be alloc
-      * 10%: big size need to be alloc
-      */
-      if(size_mode<=8){
-        int small_order = rand()%11+2;
-        int small_add = rand()%(1<<small_order);
-        size_t small_size= (1<<small_order)+small_add;
-        uintptr_t alloc_addr = (uintptr_t)pmm->alloc(small_size);
-        if(!alloc_addr){
-          for(int i=0;i<500;i++){
-            if(my_test[i]){
-              pmm->free((void*)my_test[i]);
-              my_test[i]=0;
-            } 
-          } 
-          used_cnt=0;
-          //spin_lock(&print_lk);
-          show_alloc();
-          print_lock();
-          printf("you now free all the blocks\n");
-          print_unlock();
-          alloc_addr = (uintptr_t)pmm->alloc(small_size);
-          show_alloc();
-         // test_unlock();
-         // continue;
-          //spin_unlock(&print_lk);
-        }  
-        for(int i = 0;i<=499;i++){
-          if(!my_test[i]){
-            my_test[i]=alloc_addr;
-            used_cnt++;
-            break;
-          }
-        }
-      }
-      else{
-        int big_order = rand()%5+10;
-        int big_add = rand()%(1<<big_order);
-        size_t big_size= (1<<big_order)+big_add;
-        uintptr_t big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
-        show_alloc();
-        if(!big_alloc_addr){
-          for(int i=0;i<500;i++){
-            if(my_test[i]){
-              pmm->free((void *)my_test[i]);
-              my_test[i]=0;
-            }
-          }
-          show_alloc();
-          used_cnt=0;
-          //spin_lock(&print_lk);
-          print_lock();
-          printf("you now free all the blocks\n");
-          print_unlock();
-          big_alloc_addr = (uintptr_t)pmm->alloc(big_size);
-          show_alloc();
-          //test_unlock();
-          //continue;
-          //spin_unlock(&print_lk);
-        }
-        for(int i = 0;i<=499;i++){
-          if(!my_test[i]){
-            my_test[i]=big_alloc_addr;
-            used_cnt++;
-            break;
-          }
-        }
-      }
-    }
-    else{
-      if(used_cnt == 0){
-        my_test[0] = (uintptr_t)pmm->alloc(2048);
-        used_cnt++;
-        show_alloc();
-        //test_unlock();
-        //continue;
-      }
-      int free_index = rand()%500;
-      while(!my_test[free_index]){
-        free_index++;
-        if(free_index==500){
-          free_index = 0;
-        }
-      }
-      pmm->free((void*)my_test[free_index]);
-      show_alloc();
-      my_test[free_index]=0;
-      used_cnt--;
-    }
-    //spin_unlock(&lk);
-    //_yield();
-    test_unlock();
+    _yield();
   }
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  return context;
+  kmt->spin_lock(&ostrap);
+  _Context *ret = NULL;
+  handle *h = hde
+  while (h!=NULL)
+  {
+    if(h->event == _EVENT_NULL || h->event == ev.event){
+      _Context *next = h ->handler(ev,context);
+      if(next!=NULL) ret = next;
+    }
+    h = h->next;
+  }
+  kmt->spin_unlock(&ostrap);
+  return ret;
 }
 
+
 static void os_on_irq(int seq, int event, handler_t handler) {
+  if(hde == NULL){
+    hde = (handle*) pmm->alloc(sizeof(handle));
+    hde -> pre =NULL;
+    hde -> next =NULL;
+    hde -> event = event;
+    hde -> handler = handler;
+    hde -> seq =seq;
+  }
+  else{
+    handle *insert_p = hde;
+    handle *new_handle = (handle*)pmm->alloc(sizeof(handle));
+    new_handle -> seq = seq;
+    new_handle -> event =event;
+    new_handle -> handler = handler;
+    new_handle -> next =NULL;
+    new_handle -> pre =NULL;
+    if(insert_p->seq > seq){
+      new_handle->next = insert_p;
+      insert_p ->pre = new_handle;
+      hde = new_handle;
+      return;
+    }
+    while(insert_p!=NULL){
+      if(insert_p->next==NULL || insert_p->next->seq > seq)
+        break; 
+      insert_p = insert_p->next;
+    }
+    if(insert_p->next==NULL){
+      insert_p->next = new_handle;
+      new_handle ->pre = insert_p;
+    } else
+    {
+      new_handle-> next = insert_p->next;
+      new_handle -> pre = insert_p;
+      insert_p -> next -> pre = new_handle;
+      insert_p ->next = new_handle;
+    }
+  }
+  
 }
 
 MODULE_DEF(os) {
