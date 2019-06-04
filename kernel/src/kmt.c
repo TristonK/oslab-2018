@@ -1,7 +1,7 @@
 #include <common.h>
 #include <klib.h>
 #include <devices.h>
-
+#include "x86.h"
 
 struct Cpu mycpu[16];
 
