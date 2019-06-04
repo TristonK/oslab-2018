@@ -203,7 +203,7 @@ void find_bmp(){
             }
             if(fname[0]=='\0'||fname[0]=='.')
               continue;
-            printf("%s 's addr is %x and data in %x\n",fname,(int)ofset,(int)pic_data);        
+            //printf("%s 's addr is %x and data in %x\n",fname,(int)ofset,(int)pic_data);        
             //*****************
             char *picname = malloc(100);
             //strcat(picname,"/home/Documents\");
