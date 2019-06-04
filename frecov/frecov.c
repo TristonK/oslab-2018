@@ -112,6 +112,7 @@ void find_bmp(){
                 for(int i=0;i<5;i++){
                   if(ldir.Name[2*i]!=0xffff&&flag){
                     if(ldir.Name[2*i]==' '||ldir.Name[2*i]==0x2e){
+                      flag =0;
                       break;
                     }
                     fname[namecnt] = ldir.Name[2*i];
@@ -121,6 +122,7 @@ void find_bmp(){
                 for(int i=0;i<5;i++){
                   if(ldir.Name2[2*i]!=0xffff&&flag){
                     if(ldir.Name2[2*i]==' '||ldir.Name2[2*i]==0x2e){
+                      flag = 0;
                       break;
                     }
                     fname[namecnt] = ldir.Name2[2*i];
@@ -130,6 +132,7 @@ void find_bmp(){
                 for(int i=0;i<2;i++){
                   if(ldir.Name3[2*i]!=0xff&&flag){
                     if(ldir.Name3[2*i]==' '||ldir.Name3[2*i]==0x2e){
+                      flag = 0;
                       break;
                     }
                     fname[namecnt] = ldir.Name3[2*i];
@@ -141,13 +144,60 @@ void find_bmp(){
               strcat(fname,".bmp");
               //printf("%s\n",fname);
             } else{
-              memcpy(&fname,dir.Name,11);
-              for(int i=0;i<8;i++){
-              if(fname[i]==' ')
-                fname[i] = '\0';
+              uintptr_t newofset = ofset-32;
+              struct LargeDir ldir;
+              memcpy(&ldir,buf+newofset,sizeof(ldir));
+              int isflag = 0;
+              if(ldir.Attr>0x40&&ldir.flag==0x0f){
+                isflag = 1;
+                for(int i=0;i<5;i++){
+                  if(ldir.Name[2*i]!=dir.Name[i]&&ldir.Name[2*i]!=dir.Name[i]+('a'-'A')&&dir.Name[i]!=' '){
+                    isflag = 0;
+                    break;
+                  }
+                }
+                for(int i=0;i<3;i++){
+                  if(ldir.Name2[2*i]!=dir.Name[i+5]&&ldir.Name2[2*i]!=dir.Name[i+5]+('a'-'A')&&dir.Name[i+5]!=' '){
+                    isflag = 0;
+                    break;
+                  }
+                }
               }
-              strcat(fname,".bmp");
-              fname[11] = '\0';
+              if(isflag){
+                int namecnt =0;
+                int flag = 1;
+                for(int i=0;i<5;i++){
+                  if(ldir.Name[2*i]!=0xffff&&flag){
+                    if(ldir.Name[2*i]==' '||ldir.Name[2*i]==0x2e){
+                      flag =0;
+                      break;
+                    }
+                    fname[namecnt] = ldir.Name[2*i];
+                    namecnt++;
+                  }
+                }
+                for(int i=0;i<5;i++){
+                  if(ldir.Name2[2*i]!=0xffff&&flag){
+                    if(ldir.Name2[2*i]==' '||ldir.Name2[2*i]==0x2e){
+                      flag = 0;
+                      break;
+                    }
+                    fname[namecnt] = ldir.Name2[2*i];
+                    namecnt++;
+                  }
+                }
+                strcat(fname,".bmp");
+              }
+              else
+              {
+                memcpy(&fname,dir.Name,11);
+                for(int i=0;i<8;i++){
+                  if(fname[i]==' ')
+                  fname[i] = '\0';
+                }
+                strcat(fname,".bmp");
+                fname[11] = '\0';
+              }
               //printf("%s\n",fname);
             }
             if(fname[0]=='\0'||fname[0]=='.')
