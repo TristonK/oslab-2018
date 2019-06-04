@@ -144,6 +144,7 @@ void find_bmp(){
               strcat(fname,".bmp");
               //printf("%s\n",fname);
             } else{
+              memset(fname,'\0',sizeof(fname));
               uintptr_t newofset = ofset-32;
               struct LargeDir ldir;
               memcpy(&ldir,buf+newofset,sizeof(ldir));
