@@ -15,6 +15,7 @@ int used_cnt;
 
 static void os_init() {
   pmm->init();
+  kmt->init();
   lk=0;
   used_cnt=0;
   for(int i=0;i<500;i++)

@@ -21,12 +21,8 @@
 //***************** Variables ******************
 #define block_num 4096
 static uintptr_t pm_start, pm_end;
-struct spinlock{
-  intptr_t status;
-  uintptr_t flags[8];
-};
-struct spinlock alloc_lk;
-struct spinlock print_lk;
+spinlock_t alloc_lk;
+spinlock_t print_lk;
 typedef struct run{
   int state;
   uintptr_t begin_addr,end_addr;
@@ -44,37 +40,12 @@ kblock freehead;
 kblock runhead;
 kblock block[block_num];
 //****************** code ************************
-/*static inline void cli(){
-  asm volatile("cli");
-}
-static inline void sti(){
-  asm volatile("sti");
-}*/
-
-/*void spin_lock(struct spinlock *lk){
-  //printf("you locked it\n");
-  lk->flags[_cpu()] = get_efl() & FL_IF;
-  _intr_write(0);
-  while(_atomic_xchg(&(lk->status), 1));
-  __sync_synchronize();
-  //printf("aaa\n");
-}
-void spin_unlock(struct spinlock *lk){
-  //printf("unlock it\n");
-  while(_atomic_xchg(&(lk->status), 0));
-  __sync_synchronize();
-  //asm volatile("movl $0, %0" : "+m" (lk) : );
-  if(lk->flags[_cpu()])
-  _intr_write(1); 
-  //printf("ublock!\n");
-} */
-
 LOCKDEF(alloc);
 LOCKDEF(print);
 LOCKDEF(test);
 
 void show_alloc(){
-  print_lock();
+  kmt->spin_lock(&print_lk);
   printf("|----------------------------|\n");
   printf("now i will show runlist with size %d\n",runlist.size);
   if(runlist.size){
@@ -98,10 +69,13 @@ void show_alloc(){
     }
   }
   printf("|----------------------------|\n");
-  print_unlock();
+  //print_unlock();
+  kmt->spin_unlock(&print_lk);
 }
 
 static void pmm_init() {
+  kmt ->spin_init((spinlock_t*)&alloc_lk,"alloc_lock");
+  kmt ->spin_init((spinlock_t*)&print_lk,"print_lock");
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
   printf("heap start at %d\n",pm_start);
@@ -139,18 +113,20 @@ static int find_free_block(){
       return i;
     }
   }
-  print_lock();
+  //print_lock();
+  kmt->spin_lock(&print_lk);
   printf("NO FREE BLOCK TO USE");
-  print_unlock();
+  //print_unlock();
+  kmt->spin_unlock(&print_lk);
   assert(0);
 }
 
 static void block_cut(kblock *blockc,uintptr_t need_size){
-    //spin_lock(&print_lk);
-    print_lock();
+    kmt->spin_lock(&print_lk);
+    //print_lock();
     printf("*** you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,(_cpu()+1));
-    //spin_unlock(&print_lk);
-    print_unlock();
+    kmt->spin_unlock(&print_lk);
+    //print_unlock();
     if(blockc->size == need_size){
         blockc->prev->next = blockc->next;
         blockc->next->prev = blockc ->prev;
@@ -245,11 +221,11 @@ static void *alloc_unsafe(size_t size){
       block1 = block1->next;
   }
   if(block1->size<block_size){
-      //spin_lock(&print_lk);
-      print_lock();
+      kmt->spin_lock(&print_lk);
+      //print_lock();
       printf("you need %d but you dont have it\n",block_size);
-      //spin_unlock(&print_lk);
-      print_unlock();
+      kmt->spin_unlock(&print_lk);
+      //print_unlock();
       return NULL;
       //assert(0);
   }
@@ -278,17 +254,17 @@ static void check_block(){
 }
 
 void free_unsafe(uintptr_t b_addr){
-    //spin_lock(&print_lk);
-    print_lock();
+    kmt->spin_lock(&print_lk);
+    //print_lock();
     printf("### you want to free block from %d\n",b_addr);
-    print_unlock();
-    //spin_unlock(&print_lk);
+    //print_unlock();
+    kmt->spin_unlock(&print_lk);
     if(!runlist.size){
-        //spin_lock(&print_lk);
-        print_lock();
+        kmt->spin_lock(&print_lk);
+        //print_lock();
         printf("WRONG : WE DONT USE THE ADDR!\n");
-        print_unlock();
-        //spin_unlock(&print_lk);
+        //print_unlock();
+        kmt->spin_unlock(&print_lk);
         return;
     }
     kblock *used_block = runlist.head->next;
@@ -296,11 +272,11 @@ void free_unsafe(uintptr_t b_addr){
         used_block=used_block->next;
         }
     if(used_block->begin_addr!=b_addr){
-        //spin_lock(&print_lk);
-        print_lock();
+        kmt->spin_lock(&print_lk);
+        //print_lock();
         printf("WRONG : WE DONT USE THE ADDR!\n");
-        print_unlock();
-        //spin_unlock(&print_lk);
+        //print_unlock();
+        kmt->spin_unlock(&print_lk);
         return;
     }
     used_block->state=1;
@@ -362,28 +338,30 @@ void free_unsafe(uintptr_t b_addr){
 
 
 static void *kalloc(size_t size) {
-  //spin_lock(&alloc_lk);
-  alloc_lock();
+  kmt->spin_lock(&alloc_lk);
+  //alloc_lock();
   void *ret = alloc_unsafe(size);
   //printf("finish\n");
-  alloc_unlock();
-  //spin_unlock(&alloc_lk);
+  //alloc_unlock();
+  kmt->spin_unlock(&alloc_lk);
   //printf("hi\n");
   return ret;
 }
 
 static void kfree(void *ptr) {
-  //spin_lock(&alloc_lk);
-  alloc_lock();
+  kmt->spin_lock(&alloc_lk);
+  //alloc_lock();
   if(ptr == NULL){
-    print_lock();
+    kmt->spin_lock(&print_lk);
     printf("WRONG: YOU WANT TO FREE A NULL SPACE\n");
-    print_unlock();
+    kmt->spin_unlock(&print_lk);
+    //print_unlock();
   }
   else{
     free_unsafe((uintptr_t)(ptr));
   }
-  alloc_unlock();
+  kmt->spin_unlock(&alloc_lk);
+  //alloc_unlock();
   //spin_unlock(&alloc_lk);
 }
 
