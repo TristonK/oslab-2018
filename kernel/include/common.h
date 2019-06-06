@@ -5,14 +5,21 @@
 #include <nanos.h>
 //#include <x86.h>
 
+enum {
+    NONE=0,ADDED,RUNABLE,RUNNING
+};
+
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
     int intena; // interrupt enabled before pushcli?
 };
 
 struct task {
+    int id;
+    int state;
     const char* name;
     _Context context;
+    _Area stk;
     char stack[4096];
 };
 struct spinlock {
@@ -22,9 +29,9 @@ struct spinlock {
 };
 struct semaphore {
     const char* name;
-    int count;
+    int value;
     spinlock_t lock;
-    task_t tasks[32];
+    int task_id[32];
 };
 
 typedef struct Handle{

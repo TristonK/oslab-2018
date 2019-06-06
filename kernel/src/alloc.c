@@ -61,9 +61,9 @@ static void pmm_init() {
   kmt ->spin_init((spinlock_t*)&print_lk,"print_lock");
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  printf("heap start at %d\n",pm_start);
-  printf("heap end at %d\n",pm_end);
-  printf("you could use %d space\n",pm_end-pm_start);
+  //printf("heap start at %d\n",pm_start);
+  //printf("heap end at %d\n",pm_end);
+  //printf("you could use %d space\n",pm_end-pm_start);
   //alloc_lk.status = 0;
   //print_lk.status =0;
   runhead.begin_addr = 0;
