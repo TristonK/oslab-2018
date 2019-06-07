@@ -6,7 +6,7 @@
 //#include <x86.h>
 
 enum {
-    NONE=0,ADDED,RUNABLE,RUNNING
+    NONE=0,RUNABLE,RUNNING,YIELD
 };
 
 struct Cpu{
@@ -32,6 +32,8 @@ struct semaphore {
     int value;
     spinlock_t lock;
     int task_id[32];
+    task_t* wtask[32];
+    int wait_pos;
 };
 
 typedef struct Handle{

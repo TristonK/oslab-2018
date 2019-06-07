@@ -10,6 +10,7 @@ struct Cpu mycpu[16];
 spinlock_t task_lk;
 task_t *c_task[32];
 task_t *runtask[16];
+_Context store_cond[16];
 //***************
 
 //lmitated xv6
@@ -40,9 +41,57 @@ int holding(spinlock_t *lock){
     return ret;
 }
 
-_Context *kmt_context_save(_Event ev, _Context context){return NULL;}
+_Context *kmt_context_save(_Event ev, _Context context){
+    if(runtask[_cpu()]==NULL){
+        store_cond[_cpu()] = *context;
+    }    else
+    {
+        runtask[_cpu()]->context = *context;
+        if(runtask[_cpu()]->state==RUNNING)
+            runtask[_cpu()]->state = RUNABLE;
+    }
+    return NULL;
+}
 
-_Context *kmt_context_switch(_Event ev, _Context context){return NULL;}
+_Context *kmt_context_switch(_Event ev, _Context context){
+    int idx = (runtask[_cpu()]==NULL)?0:runtask[_cpu()]->id;
+    //int idx_bak2= idx;
+    if(runtask[_cpu()]==NULL){
+        int flag = 0;
+        for(;idx<32;idx++){
+            if(c_task[idx]!=NULL && c_task[idx]== RUNABLE){
+                flag = 1;
+                break;
+            }       
+        }
+        if(flag){
+            runtask[_cpu()] = c_task[idx];
+            runtask[_cpu()]->state = RUNNING;
+            return &runtask[_cpu()]->context;
+        } else{
+            return store_cond[_cpu()];
+        }
+        
+    } else{
+        int idx_bak = idx; 
+        while (1){
+            idx = (idx+1)%32;
+            if(c_task[idx]!=NULL && c_task[idx]== RUNABLE)
+                break;
+            if(idx == idx_bak)
+                break;
+        }
+        if(idx != idx_bak){
+            runtask[_cpu()] = c_task[idx];
+            runtask[_cpu()]->state = RUNNING;
+            return &runtask[_cpu()]->context;
+        }else{
+            return &runtask[_cpu()]->context;
+        }
+        
+    }
+    //return NULL;
+}
 
 static void kmt_init(){
     kmt->spin_init(&task_lk,"task_lock");
@@ -116,18 +165,47 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value){
     kmt ->spin_init(&sem->lock,name);
     for(int i=0;i<32;i++)
         sem->task_id[i] = -1;
+        sem->wait_pos = 0;
 }
 static void kmt_sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     sem -> value--;
     if(sem->value<0){
-
+        runtask[_cpu()]->state = YIELD;
+        int poss = sem->wait_pos;
+        for(int i=0;i<32;i++){
+            if(sem->task_id[poss]==-1){
+                sem->task_id[poss] = runtask[_cpu()]->id;
+                break;
+            }else{
+                poss = (poss+1)%32;
+                if(i==31){
+                    panic("no??");
+                }
+            }
+        }
+        kmt->spin_unlock(&sem->lock);
+        _yield();
     }
     else
         kmt->spin_unlock(&sem->lock);
 }
-static void kmt_sem_signal(sem_t *sem){
 
+static void kmt_sem_signal(sem_t *sem){
+    kmt->spin_lock(&sem->lock);
+    sem->value++;
+    if(sem->value<=0){
+        int poss = sem->wait_pos;
+        sem->wait_pos = (poss+1)%32;
+        int idd = sem->task_id[poss];
+        sem -> task_id[poss] = -1;
+        if(idd == -1){
+            panic("no thread need");
+        }
+        c_task[idd]->state = RUNABLE;
+        //runtask[idd]->state = RUNABLE;
+    }
+    kmt->spin_unlock(&sem->lock);
 }
 
 

@@ -11,6 +11,10 @@ static void os_init() {
   dev->init();
   kmt->spin_init(&os_trap,"trap_lock");
   hde = NULL;
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
   //handl.head = NULL;
   //handl.size = 0;
 }
