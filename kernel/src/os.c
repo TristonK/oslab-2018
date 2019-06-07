@@ -54,7 +54,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   kmt->spin_lock(&ostrap);
   _Context *ret = NULL;
   handle *h = hde;
-  if(h==NULL)
+  if(hde==NULL)
     printf("shit\n");
   while (h!=NULL)
   {
