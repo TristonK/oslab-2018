@@ -20,20 +20,15 @@ void echo_task(void *name) {
 }
 
 static void os_init() {
-  printf("hi1\n");
-  pmm->init();
-  printf("hi2\n");
-  kmt->init();
-  printf("hi3\n");
-  dev->init();
-  printf("hi4\n");
-  kmt->spin_init(&ostrap,"trap_lock");
   hde = NULL;
+  pmm->init();
+  kmt->init();
+  dev->init();
+  kmt->spin_init(&ostrap,"trap_lock");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
-  
   //handl.head = NULL;
   //handl.size = 0;
 }
@@ -82,14 +77,14 @@ static _Context *os_trap(_Event ev, _Context *context) {
 
 static void os_on_irq(int seq, int event, handler_t handler) {
   if(hde == NULL){
-    printf("hde is not null\n");
+    //printf("hde is not null\n");
     hde = (handle*) pmm->alloc(sizeof(handle));
     hde -> pre =NULL;
     hde -> next =NULL;
     hde -> event = event;
     hde -> handler = handler;
     hde -> seq =seq;
-    printf("hde is %x\n",(int)hde);
+    //printf("hde is %x\n",(int)hde);
     //if(hde == NULL)
     //  printf("cao\n");
   }
@@ -105,9 +100,9 @@ static void os_on_irq(int seq, int event, handler_t handler) {
       new_handle->next = insert_p;
       insert_p ->pre = new_handle;
       hde = new_handle;
-      printf("hde is %x\n",(int)hde);
+      /*printf("hde is %x\n",(int)hde);
       if(hde == NULL)
-        printf("cao\n");
+        printf("cao\n");*/
       return;
     }
     while(insert_p!=NULL){
@@ -125,9 +120,9 @@ static void os_on_irq(int seq, int event, handler_t handler) {
       insert_p -> next -> pre = new_handle;
       insert_p ->next = new_handle;
     }
-    printf("hde is %x\n",(int)hde);
+    /*printf("hde is %x\n",(int)hde);
     if(hde == NULL)
-      printf("cao\n");
+      printf("cao\n");*/
   }
   
 }
