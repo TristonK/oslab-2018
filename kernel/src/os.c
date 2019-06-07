@@ -9,7 +9,7 @@ static void os_init() {
   pmm->init();
   kmt->init();
   dev->init();
-  kmt->spin_init(&os_trap,"trap_lock");
+  kmt->spin_init(&ostrap,"trap_lock");
   hde = NULL;
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
