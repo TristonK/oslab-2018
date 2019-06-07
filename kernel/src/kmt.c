@@ -112,7 +112,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     kmt->spin_lock(&task_lk);
     int ret=-1;
     for(int i=0;i<32;i++){
-        if(c_task[i]!=NULL){
+        if(c_task[i]==NULL){
             task->id = i;
             ret = i;
             break;
