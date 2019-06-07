@@ -41,19 +41,19 @@ int holding(spinlock_t *lock){
     return ret;
 }
 
-_Context *kmt_context_save(_Event ev, _Context context){
+_Context *kmt_context_save(_Event ev, _Context *context){
     if(runtask[_cpu()]==NULL){
-        store_cond[_cpu()] = context;
+        store_cond[_cpu()] = *context;
     }    else
     {
-        runtask[_cpu()]->context = context;
+        runtask[_cpu()]->context = *context;
         if(runtask[_cpu()]->state==RUNNING)
             runtask[_cpu()]->state = RUNABLE;
     }
     return NULL;
 }
 
-_Context *kmt_context_switch(_Event ev, _Context context){
+_Context *kmt_context_switch(_Event ev, _Context *context){
     int idx = (runtask[_cpu()]==NULL)?0:runtask[_cpu()]->id;
     //int idx_bak2= idx;
     if(runtask[_cpu()]==NULL){
@@ -130,9 +130,9 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
 }
 static void kmt_teardown(task_t *task){
     kmt->spin_lock(&task_lk);
-    task->id = -1;
     c_task[task->id]->state = NONE;
     c_task[task->id] = NULL;
+    task->id = -1;
     pmm->free((void*)task);
     kmt->spin_unlock(&task_lk);
 }
