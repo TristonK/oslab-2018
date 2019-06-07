@@ -57,13 +57,14 @@ static _Context *os_trap(_Event ev, _Context *context) {
   while (h!=NULL)
   {
     if(h->event == _EVENT_NULL || h->event == ev.event){
+      printf("hi\n");
       _Context *next = h ->handler(ev,context);
       if(next!=NULL) ret = next;
     }
     h = h->next;
   }
-  if(ret==NULL)
-    printf("nullllll\n");
+  //if(ret==NULL)
+  //  printf("nullllll\n");
   //  panic("bull");
   kmt->spin_unlock(&ostrap);
   return ret;
