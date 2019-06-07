@@ -62,6 +62,8 @@ static _Context *os_trap(_Event ev, _Context *context) {
     }
     h = h->next;
   }
+  if(ret==NULL)
+    panic("bull");
   kmt->spin_unlock(&ostrap);
   return ret;
 }
