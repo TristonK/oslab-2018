@@ -83,6 +83,8 @@ static void os_on_irq(int seq, int event, handler_t handler) {
     hde -> event = event;
     hde -> handler = handler;
     hde -> seq =seq;
+    if(hde == NULL)
+      printf("cao\n");
   }
   else{
     handle *insert_p = hde;
