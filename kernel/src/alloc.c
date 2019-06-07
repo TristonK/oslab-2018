@@ -107,7 +107,7 @@ static int find_free_block(){
 static void block_cut(kblock *blockc,uintptr_t need_size){
     kmt->spin_lock(&print_lk);
     //print_lock();
-    //printf("*** you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,(_cpu()+1));
+    printf("*** you used memory from %d to %d from cpu %d\n",blockc->begin_addr,blockc->begin_addr+need_size,(_cpu()+1));
     kmt->spin_unlock(&print_lk);
     //print_unlock();
     if(blockc->size == need_size){
@@ -239,7 +239,7 @@ static void check_block(){
 void free_unsafe(uintptr_t b_addr){
     kmt->spin_lock(&print_lk);
     //print_lock();
-    //printf("### you want to free block from %d\n",b_addr);
+    printf("### you want to free block from %d\n",b_addr);
     //print_unlock();
     kmt->spin_unlock(&print_lk);
     if(!runlist.size){
