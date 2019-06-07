@@ -4,7 +4,7 @@
 spinlock_t ostrap;
 handle* hde; 
 
-extern void echo_task(void *name) 
+extern void echo_task(void *name);
 
 static void os_init() {
   pmm->init();
