@@ -43,10 +43,10 @@ int holding(spinlock_t *lock){
 
 _Context *kmt_context_save(_Event ev, _Context context){
     if(runtask[_cpu()]==NULL){
-        store_cond[_cpu()] = *context;
+        store_cond[_cpu()] = context;
     }    else
     {
-        runtask[_cpu()]->context = *context;
+        runtask[_cpu()]->context = context;
         if(runtask[_cpu()]->state==RUNNING)
             runtask[_cpu()]->state = RUNABLE;
     }
@@ -59,7 +59,7 @@ _Context *kmt_context_switch(_Event ev, _Context context){
     if(runtask[_cpu()]==NULL){
         int flag = 0;
         for(;idx<32;idx++){
-            if(c_task[idx]!=NULL && c_task[idx]== RUNABLE){
+            if(c_task[idx]!=NULL && c_task[idx]->state== RUNABLE){
                 flag = 1;
                 break;
             }       
@@ -69,14 +69,14 @@ _Context *kmt_context_switch(_Event ev, _Context context){
             runtask[_cpu()]->state = RUNNING;
             return &runtask[_cpu()]->context;
         } else{
-            return store_cond[_cpu()];
+            return &store_cond[_cpu()];
         }
         
     } else{
         int idx_bak = idx; 
         while (1){
             idx = (idx+1)%32;
-            if(c_task[idx]!=NULL && c_task[idx]== RUNABLE)
+            if(c_task[idx]!=NULL && c_task[idx]->state== RUNABLE)
                 break;
             if(idx == idx_bak)
                 break;
