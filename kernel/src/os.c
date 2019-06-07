@@ -29,6 +29,7 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
+  printf("hi\n");
   //handl.head = NULL;
   //handl.size = 0;
 }
