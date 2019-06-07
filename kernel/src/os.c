@@ -20,16 +20,20 @@ void echo_task(void *name) {
 }
 
 static void os_init() {
+  printf("hi1\n");
   pmm->init();
+  printf("hi2\n");
   kmt->init();
+  printf("hi3\n");
   dev->init();
+  printf("hi4\n");
   kmt->spin_init(&ostrap,"trap_lock");
   hde = NULL;
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
-  printf("hi\n");
+  
   //handl.head = NULL;
   //handl.size = 0;
 }
