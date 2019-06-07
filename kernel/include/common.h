@@ -40,8 +40,8 @@ typedef struct Handle{
     int seq;
     int event;
     handler_t handler;
-    struct handle *pre;
-    struct handle *next;
+    handle *pre;
+    handle *next;
 }handle;
 
 /*struct handles{
