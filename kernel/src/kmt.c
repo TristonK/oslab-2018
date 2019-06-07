@@ -120,11 +120,13 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     }
     if(ret==-1)
         panic("The num of thread is too much");
+    printf("creating\n");
     task->state = RUNABLE;
     task->stk.start = task->stack;
     task->stk.end = task->stk.start+4096;
     task->context = *(_kcontext(task->stk,entry,arg));
     c_task[ret] = task;
+    printf("end create\n");
     kmt->spin_unlock(&task_lk);
     return ret;
 }
