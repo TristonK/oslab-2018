@@ -62,8 +62,8 @@ static _Context *os_trap(_Event ev, _Context *context) {
     }
     h = h->next;
   }
-  if(ret==NULL)
-    panic("bull");
+  //if(ret==NULL)
+  //  panic("bull");
   kmt->spin_unlock(&ostrap);
   return ret;
 }
@@ -71,6 +71,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
 
 static void os_on_irq(int seq, int event, handler_t handler) {
   if(hde == NULL){
+    printf("hde is not null\n");
     hde = (handle*) pmm->alloc(sizeof(handle));
     hde -> pre =NULL;
     hde -> next =NULL;
