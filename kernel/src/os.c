@@ -56,6 +56,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   handle *h = hde;
   if(hde==NULL)
     printf("shit\n");
+  printf("hde is %x\n",(int)hde);
   while (h!=NULL)
   {
     printf("hh\n");
@@ -83,8 +84,9 @@ static void os_on_irq(int seq, int event, handler_t handler) {
     hde -> event = event;
     hde -> handler = handler;
     hde -> seq =seq;
-    if(hde == NULL)
-      printf("cao\n");
+    printf("hde is %x\n",(int)hde);
+    //if(hde == NULL)
+    //  printf("cao\n");
   }
   else{
     handle *insert_p = hde;
@@ -98,8 +100,8 @@ static void os_on_irq(int seq, int event, handler_t handler) {
       new_handle->next = insert_p;
       insert_p ->pre = new_handle;
       hde = new_handle;
-      if(hde == NULL)
-      printf("cao\n");
+      //if(hde == NULL)
+      //printf("cao\n");
       return;
     }
     while(insert_p!=NULL){
@@ -117,8 +119,8 @@ static void os_on_irq(int seq, int event, handler_t handler) {
       insert_p -> next -> pre = new_handle;
       insert_p ->next = new_handle;
     }
-    if(hde == NULL)
-      printf("cao\n");
+    //if(hde == NULL)
+    //  printf("cao\n");
   }
   
 }
