@@ -110,6 +110,7 @@ static void kmt_init(){
 
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     kmt->spin_lock(&task_lk);
+    printf("creating begin\n");
     int ret=-1;
     for(int i=0;i<32;i++){
         if(c_task[i]==NULL){
@@ -126,7 +127,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->stk.end = task->stk.start+4096;
     task->context = *(_kcontext(task->stk,entry,arg));
     c_task[ret] = task;
-    //printf("end create\n");
+    printf("end create\n");
     kmt->spin_unlock(&task_lk);
     return ret;
 }
@@ -173,6 +174,7 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value){
 }
 static void kmt_sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
+    printf("waitt\n");
     sem -> value--;
     if(sem->value<0){
         runtask[_cpu()]->state = YIELD;
@@ -197,6 +199,7 @@ static void kmt_sem_wait(sem_t *sem){
 
 static void kmt_sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
+    printf("signal\n");
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
@@ -209,6 +212,7 @@ static void kmt_sem_signal(sem_t *sem){
         c_task[idd]->state = RUNABLE;
         //runtask[idd]->state = RUNABLE;
     }
+    printf("sig end\n");
     kmt->spin_unlock(&sem->lock);
 }
 
