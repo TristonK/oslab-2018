@@ -51,8 +51,8 @@ static void os_run() {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  printf("trap begin\n");
   kmt->spin_lock(&ostrap);
+  printf("trap begin\n");
   _Context *ret = NULL;
   handle *h = hde;
   //if(hde==NULL)
