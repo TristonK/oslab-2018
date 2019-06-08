@@ -67,6 +67,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       if(next!=NULL) ret = next;
     }
     h = h->next;
+    printf("%x  \n",(int)h);
   }
   //if(ret==NULL)
   //  printf("nullllll\n");
