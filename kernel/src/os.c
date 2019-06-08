@@ -54,12 +54,12 @@ static _Context *os_trap(_Event ev, _Context *context) {
   kmt->spin_lock(&ostrap);
   _Context *ret = NULL;
   handle *h = hde;
-  if(hde==NULL)
-    printf("shit\n");
-  printf("hde is %x\n",(int)hde);
+  //if(hde==NULL)
+  //  printf("shit\n");
+  //printf("hde is %x\n",(int)hde);
   while (h!=NULL)
   {
-    printf("hh\n");
+    //printf("hh\n");
     if(h->event == _EVENT_NULL || h->event == ev.event){
       //printf("hi\n");
       _Context *next = h ->handler(ev,context);
