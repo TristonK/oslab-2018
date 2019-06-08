@@ -69,8 +69,8 @@ static _Context *os_trap(_Event ev, _Context *context) {
     h = h->next;
     //printf("%x  \n",(int)h);
   }
-  if(ret==NULL)
-    printf("nullllll\n");
+  //if(ret==NULL)
+    //printf("nullllll\n");
   //  panic("bull");
   printf("trap end\n");
   kmt->spin_unlock(&ostrap);
