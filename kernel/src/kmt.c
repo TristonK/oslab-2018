@@ -148,9 +148,9 @@ static void kmt_spin_init(spinlock_t *lk, const char *name){
 }
 static void kmt_spin_lock(spinlock_t *lk){
     pushcli();
-    if(holding(lk)){
+   /* if(holding(lk)){
         panic("Has benn aquired");
-    }
+    }*/
     while (_atomic_xchg(&lk->locked,1)){;}
     __sync_synchronize();
     lk -> cpu = _cpu();
