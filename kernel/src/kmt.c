@@ -199,7 +199,7 @@ static void kmt_sem_wait(sem_t *sem){
 
 static void kmt_sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    printf("signal\n");
+    printf("signal %s\n",sem->name);
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
