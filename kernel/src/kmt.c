@@ -154,6 +154,7 @@ static void kmt_spin_lock(spinlock_t *lk){
 }
 static void kmt_spin_unlock(spinlock_t *lk){
     if(!holding(lk)){
+        printf("lk name is %s",&lk->name);
         panic("why unlock unexist lock");
     }
     lk->cpu = -1;
