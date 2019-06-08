@@ -79,6 +79,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
 
 
 static void os_on_irq(int seq, int event, handler_t handler) {
+  printf("on irq\n");
   if(hde == NULL){
     //printf("hde is not null\n");
     hde = (handle*) pmm->alloc(sizeof(handle));

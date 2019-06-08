@@ -42,6 +42,7 @@ int holding(spinlock_t *lock){
 }
 
 _Context *kmt_context_save(_Event ev, _Context *context){
+    printf("save\n");
     if(runtask[_cpu()]==NULL){
         store_cond[_cpu()] = *context;
     }    else
@@ -54,6 +55,7 @@ _Context *kmt_context_save(_Event ev, _Context *context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context *context){
+    printf("switch\n");
     int idx = (runtask[_cpu()]==NULL)?0:runtask[_cpu()]->id;
     //int idx_bak2= idx;
     if(runtask[_cpu()]==NULL){
