@@ -81,8 +81,8 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
             idx = (idx+1)%32;
             if(c_task[idx]!=NULL && c_task[idx]->state== RUNABLE)
                 break;
-            //if(idx == idx_bak)
-            //    break;
+            if(idx == idx_bak)
+                break;
         }
         if(idx != idx_bak){
             runtask[_cpu()] = c_task[idx];
