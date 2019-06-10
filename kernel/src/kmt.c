@@ -51,8 +51,8 @@ _Context *kmt_context_save(_Event ev, _Context *context){
         if(runtask[_cpu()]->state==RUNNING)
             runtask[_cpu()]->state = RUNABLE;
     }
-    return context;
-    //return NULL;
+    //return context;
+    return NULL;
 }
 
 _Context *kmt_context_switch(_Event ev, _Context *context){
@@ -89,6 +89,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
             runtask[_cpu()]->state = RUNNING;
             return &runtask[_cpu()]->context;
         }else{
+            printf("no changeeeee\n");
             return &runtask[_cpu()]->context;
         }
         
