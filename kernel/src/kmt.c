@@ -97,9 +97,9 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
 
 static void kmt_init(){
     kmt->spin_init(&task_lk,"task_lock");
-    os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save); 
+    os->on_irq(-1, _EVENT_NULL, kmt_context_save); 
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
-    printf("min is %d and max is %d\n",INT_MIN,INT_MAX); 
+    //printf("min is %d and max is %d\n",-1,INT_MAX); 
     for(int i=0;i<32;i++){
         c_task[i] = NULL;
         //c_task[i]->id = -1;
