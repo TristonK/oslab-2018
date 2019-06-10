@@ -65,7 +65,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
     if(h->event == _EVENT_NULL || h->event == ev.event){
       //printf("hi\n");
       _Context *next = h ->handler(ev,context);
-      if(next!=NULL) {ret = next;pr=h->seq;}
+      if(next!=NULL) {ret = next;/*pr=h->seq;*/}
     }
     h = h->next;
     //printf("%x  \n",(int)h);
