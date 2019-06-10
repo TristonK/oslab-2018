@@ -58,13 +58,14 @@ static _Context *os_trap(_Event ev, _Context *context) {
   //if(hde==NULL)
   //  printf("shit\n");
   //printf("hde is %x\n",(int)hde);
+  int pr=0;
   while (h!=NULL)
   {
     //printf("hh\n");
     if(h->event == _EVENT_NULL || h->event == ev.event){
       //printf("hi\n");
       _Context *next = h ->handler(ev,context);
-      if(next!=NULL) ret = next;
+      if(next!=NULL) {ret = next;pr=h->seq}
     }
     h = h->next;
     //printf("%x  \n",(int)h);
@@ -72,7 +73,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   //if(ret==NULL)
     //printf("nullllll\n");
   //  panic("bull");
-  printf("trap end\n");
+  printf("trap end %d\n",pr);
   kmt->spin_unlock(&ostrap);
   return ret;
 }
