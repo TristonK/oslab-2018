@@ -10,10 +10,10 @@
 
 struct kvdb {
     int dat_fd;
-    int log_fd;
+    //int log_fd;
     int opened;
     char dataname[256];
-    char logname[256];
+    //char logname[256];
     struct flock datlock;
     pthread_mutex_t klock;
 };
