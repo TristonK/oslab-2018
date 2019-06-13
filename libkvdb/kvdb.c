@@ -46,7 +46,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
         return -1;
     }
     int datfd=-1;
-    if(assess(filename,F_OK)==0){
+    if(access(filename,F_OK)==0){
         datfd = open(db->dataname,O_RDWR|O_CREAT,0777);
         file_lock(datfd);
         pthread_mutex_init(&db->klock,PTHREAD_PROCESS_PRIVATE);
@@ -55,7 +55,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
         char* judge = malloc(2);
         if(read(datfd,judge,2)==0||strcmp(judge,right)){
             //TODO: check the crash and recover it
-            pirntf("shit!\n");
+            printf("shit!\n");
         }
         free(judge);
         
