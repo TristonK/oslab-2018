@@ -9,12 +9,12 @@ include ../Makefile.lab
 test32:
 	make
 	gcc -m32 -o test.out test.c libkvdb-32.so -lpthread -Wl,-rpath=./
-	./a.out
+	./test.out
 
 test:
 	make
 	gcc -o test.out test.c libkvdb-64.so -lpthread -Wl,-rpath=./
-	./a.out
+	./test.out
 
 de:
 	rm test.out
