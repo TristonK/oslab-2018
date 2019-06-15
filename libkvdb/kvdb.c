@@ -8,9 +8,11 @@ char tab[1] = {'\t'};
 char newline[1] = {'\n'};
 char nothing[128]={'\0'};
 
+int cnt = 0;
 void may_crash(){
-    if(rand()%2==1)
+    if(cnt==1)
         exit(0);
+    cnt++;
 }
 
 
