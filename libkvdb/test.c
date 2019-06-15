@@ -46,7 +46,7 @@ int main() {
   const char *key2 = "fuuuuuuuuking";
   char *value;
   kvdb_open(&db, "a.db"); // BUG: should check for errors
-  exit(0);
+  //exit(0);
   kvdb_put(&db, key, "three-easy-pieces");
   kvdb_put(&db, key2, "oslab buggggggggs");
   value = kvdb_get(&db, key);
