@@ -108,7 +108,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     sprintf(lenn,"%d",valuelen);
     sprintf(klenn,"%d",keylen);
     //itoa(valuelen,lenn,10);
-    lseek(db->dat_fd,0,SEEK_SET);
+    lseek(db->dat_fd,16,SEEK_SET);
     //write(db->dat_fd,(void *)shit,2);
     write(db->dat_fd,(void *)(&klenn),4);
     write(db->dat_fd,(void*)key,keylen);
