@@ -4,11 +4,12 @@
 char *key;
 char *mima;
 char *name;
+int keylen;
 
 void getkey(){
 	key = malloc(128);
 	mima = malloc(100000000);
-	int keylen = rand()%128+1;
+	keylen = rand()%128+1;
 	int milen = rand()%10000+keylen;
 	for(int i=0;i<keylen;i++){
 		int k = rand()%26;
@@ -29,14 +30,16 @@ int main() {
 	//const char *key = "operating-systems";
 	char *value;
 	name = malloc(4);
-	*(name) = 'a'+getpid();
+	*(name) = 'a'+getpid()%26;
 	strcat(name,".db");
 	kvdb_open(&db, name); // BUG: should check for errors
 	getkey();
 	kvdb_put(&db, key, mima);
 	value = kvdb_get(&db, key);
 	kvdb_close(&db);
-	printf("[%s]: [%s]\n", key, value);
+	if(strncmp(key,value,keylen)!=0)
+		printf("bbbbad\n");
+	//printf("[%s]: [%s]\n", key, value);
 	free(value);
 	return 0;
 }
