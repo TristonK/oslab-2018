@@ -8,6 +8,13 @@ char tab[1] = {'\t'};
 char newline[1] = {'\n'};
 char nothing[128]={'\0'};
 
+void may_crash(){
+    if(rand()%2==1)
+        exit(0);
+}
+
+
+
 int file_lock(int fd){
     struct flock flok;
     flok.l_type = F_WRLCK;
@@ -112,6 +119,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     //write(db->dat_fd,(void *)shit,2);
     write(db->dat_fd,(void *)(&klenn),4);
     write(db->dat_fd,(void*)key,keylen);
+    may_crash();
     //write(db->dat_fd,(void *)(&klenn),4);
     //write(db->dat_fd,(void*)nothing,128-keylen);
     //write(db->dat_fd,(void*)tab,1);

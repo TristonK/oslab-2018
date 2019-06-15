@@ -1,12 +1,12 @@
 #include "kvdb.h"
 #include <stdlib.h>
 
-char *key;
+/*char *key;
 char *mima;
 char *name;
-int keylen;
+int keylen;*/
 
-void getkey(){
+/*void getkey(){
 	key = malloc(128);
 	mima = malloc(100000000);
 	keylen = rand()%128+1;
@@ -20,11 +20,11 @@ void getkey(){
 		int k = rand()%26;
 		*(mima+i) = 'a'+k;
 	}
-}
+}*/
 
 
 int main() {
-	for(int i=0;i<4;i++)
+	/* for(int i=0;i<4;i++)
 		fork();
 	kvdb_t db;
 	//const char *key = "operating-systems";
@@ -40,6 +40,17 @@ int main() {
 	if(strncmp(key,value,keylen)!=0)
 		printf("bbbbad\n");
 	//printf("[%s]: [%s]\n", key, value);
-	free(value);
-	return 0;
+	free(value);*/
+  kvdb_t db;
+  const char *key = "operating-systems";
+  const char *key2 = "fuuuuuuuuking";
+  char *value;
+  kvdb_open(&db, "a.db"); // BUG: should check for errors
+  kvdb_put(&db, key, "three-easy-pieces");
+  kvdb_put(&db, key2, "oslab buggggggggs");
+  value = kvdb_get(&db, key);
+  kvdb_close(&db);
+  printf("[%s]: [%s]\n", key, value);
+  free(value);
+  return 0;
 }
