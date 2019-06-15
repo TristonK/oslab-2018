@@ -119,6 +119,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     write(db->dat_fd,(void*)value,valuelen);
     //write(db->dat_fd,(void*)(&lenn),9);
     write(db->dat_fd,(void*)newline,1);
+    exit(0);
     sync();
     long int currpos = lseek(db->dat_fd, 0, SEEK_CUR);
     char newoff[16];
