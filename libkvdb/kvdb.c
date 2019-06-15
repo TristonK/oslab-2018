@@ -141,7 +141,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     char* keyy = (char*)malloc(128);
     char* lenn = (char*)malloc(9);
     char* val;
-    lseek(db->dat_fd,2,SEEK_SET);
+    lseek(db->dat_fd,16,SEEK_SET);
     int flag=0;
     while(read(db->dat_fd,klen,4)!=0){
         int kklen = atoi(klen);
