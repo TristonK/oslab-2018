@@ -7,6 +7,7 @@
 #include<pthread.h>
 #include<unistd.h>
 #include<fcntl.h>
+#include<sys/file.h>
 
 struct kvdb {
     int dat_fd;
