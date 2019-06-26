@@ -326,7 +326,7 @@ static void *kalloc(size_t size) {
   void *ret = alloc_unsafe(size);
   //printf("finish\n");
   //alloc_unlock();
-  show_alloc();
+  //show_alloc();
   kmt->spin_unlock(&alloc_lk);
   //printf("hi\n");
   return ret;
@@ -343,7 +343,7 @@ static void kfree(void *ptr) {
   }
   else{
     free_unsafe((uintptr_t)(ptr));
-    show_alloc();
+    //show_alloc();
   }
   kmt->spin_unlock(&alloc_lk);
   //alloc_unlock();
