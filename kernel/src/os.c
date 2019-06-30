@@ -4,7 +4,7 @@
 
 spinlock_t ostrap;
 handle* hde; 
-#define tty
+#define TTy
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
 
@@ -63,7 +63,7 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");*/
-  #ifdef tty
+  #ifdef TTy
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
