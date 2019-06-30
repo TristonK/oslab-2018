@@ -90,13 +90,13 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
             return &runtask[_cpu()]->context;
         }else{
             //printf("no changeeeee\n");
-            if(runtask[_cpu()]->state !=  NONE && runtask[_cpu()]->state!= YIELD)
+            //if(runtask[_cpu()]->state !=  NONE && runtask[_cpu()]->state!= YIELD)
                 return &runtask[_cpu()]->context;
-            else
+            /*else
             {
                 //runtask[_cpu()]= NULL;
                 return &store_cond[_cpu()];   
-            }
+            }*/
         }
         
     }
