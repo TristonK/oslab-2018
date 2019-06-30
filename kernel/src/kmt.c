@@ -194,9 +194,9 @@ static void kmt_sem_wait(sem_t *sem){
                 break;
             }else{
                 poss = (poss+1)%32;
-                if(i==31){
+                /* if(i==31){
                     panic("no??");
-                }
+                }*/
             }
         }
         kmt->spin_unlock(&sem->lock);
