@@ -207,14 +207,19 @@ static void kmt_sem_wait(sem_t *sem){
             tes = (tes+1)%32;
         }
         printf("\n");*/
+        int find_flag = 0;
         for(int i=0;i<32;i++){
             if(sem->task_id[poss]==-1){
                 sem->task_id[poss] = runtask[_cpu()]->id;
+                find_flag = 1;
                 //printf("wait %d\n",runtask[_cpu()]->id);
                 break;
             }else{
                 poss = (poss+1)%32;
             }
+        }
+        if(!find_flag){
+            panic("NO room to wait???");
         }
         /*int poss1 = sem->wait_pos;
         int tes1 = poss1;
