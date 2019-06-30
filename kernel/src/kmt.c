@@ -94,7 +94,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
                 return &runtask[_cpu()]->context;
             else
             {
-                runtaskp[_cpu()]= NULL;
+                runtask[_cpu()]= NULL;
                 return &store_cond[_cpu()];   
             }
         }
