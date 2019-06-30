@@ -15,6 +15,31 @@ void cpu_test(void *name){
   }
 }
 
+sem_t emp;
+sem_t fulll;
+struct spinlock p_k;
+ 
+
+void producer(){
+  while (1)
+  {
+    kmt->sem_wait(&emp);
+    kmt->spin_lock(&p_k);
+    printf("(");
+    kmt->spin_unlock(&p_k);
+    kmt->sem_signal(&fulll);
+  }
+}
+void consumer(){
+  while (1)
+  {
+    kmt->sem_wait(&fulll);
+    kmt->spin_lock(&p_k);
+    printf(")");
+    kmt->spin_unlock(&p_k);
+    kmt->sem_signal(&emp);
+  }
+}
 
 void echo_task(void *name) {
   device_t *tty = dev_lookup(name);
@@ -37,12 +62,19 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");*/
-  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
+  /* kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
-  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");*/
+  kmt->create(pmm->alloc(sizeof(task_t)) , "produce", producer, NULL);
+  kmt->create(pmm->alloc(sizeof(task_t)) , "consume", consumer, NULL);
   //handl.head = NULL;
   //handl.size = 0;
+  kmt->sem_init(&emp, "empty", 6);
+  kmt->sem_init(&fulll, "fill", 0);
+  kmt->spin_init(&p_k, "yield lock");
+
+
 }
 
 
