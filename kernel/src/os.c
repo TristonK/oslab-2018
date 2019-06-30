@@ -24,9 +24,9 @@ void producer(){
   while (1)
   {
     kmt->sem_wait(&emp);
-    kmt->spin_lock(&p_k);
+    kmt->spin_lock(&p_c);
     printf("(");
-    kmt->spin_unlock(&p_k);
+    kmt->spin_unlock(&p_c);
     kmt->sem_signal(&fulll);
   }
 }
