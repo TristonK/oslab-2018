@@ -70,7 +70,7 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)) , "consume", consumer, NULL);
   //handl.head = NULL;
   //handl.size = 0;
-  kmt->sem_init(&emp, "empty", 6);
+  kmt->sem_init(&emp, "empty", 1);
   kmt->sem_init(&fulll, "fill", 0);
   kmt->spin_init(&p_k, "yield lock");
 
