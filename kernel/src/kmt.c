@@ -152,9 +152,9 @@ static void kmt_spin_init(spinlock_t *lk, const char *name){
 }
 static void kmt_spin_lock(spinlock_t *lk){
     pushcli();
-   /* if(holding(lk)){
+    if(holding(lk)){
         panic("Has benn aquired");
-    }*/
+    }
     while (_atomic_xchg(&lk->locked,1)){;}
     __sync_synchronize();
     lk -> cpu = _cpu();
@@ -183,7 +183,7 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value){
 
 static void kmt_sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    printf("waitt\n");
+    //printf("waitt\n");
     sem -> value--;
     if(sem->value<0){
         runtask[_cpu()]->state = YIELD;
@@ -194,9 +194,6 @@ static void kmt_sem_wait(sem_t *sem){
                 break;
             }else{
                 poss = (poss+1)%32;
-                /* if(i==31){
-                    panic("no??");
-                }*/
             }
         }
         kmt->spin_unlock(&sem->lock);
@@ -208,7 +205,7 @@ static void kmt_sem_wait(sem_t *sem){
 
 static void kmt_sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    printf("signal %s\n",sem->name);
+    //printf("signal %s\n",sem->name);
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
@@ -221,7 +218,7 @@ static void kmt_sem_signal(sem_t *sem){
         c_task[idd]->state = RUNABLE;
         //runtask[idd]->state = RUNABLE;
     }
-    printf("sig end\n");
+    //printf("sig end\n");
     kmt->spin_unlock(&sem->lock);
 }
 
