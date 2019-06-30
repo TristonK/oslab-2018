@@ -48,15 +48,15 @@ _Context *kmt_context_save(_Event ev, _Context *context){
     }    else
     {
         runtask[_cpu()]->context = *context;
-        if(runtask[_cpu()]->state==RUNNING)
-            runtask[_cpu()]->state = RUNABLE;
     }
-    //return context;
-    return NULL;
+    return context;
+    //return NULL;
 }
 
 _Context *kmt_context_switch(_Event ev, _Context *context){
     //printf("switch\n");
+    if(runtask[_cpu()]!=NULL && runtask[_cpu()]->state==RUNNING)
+            runtask[_cpu()]->state = RUNABLE;
     int idx = (runtask[_cpu()]==NULL)?0:runtask[_cpu()]->id;
     //int idx_bak2= idx;
     if(runtask[_cpu()]==NULL){
@@ -94,7 +94,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
                 return &runtask[_cpu()]->context;
             else
             {
-                runtask[_cpu()]= NULL;
+                //runtask[_cpu()]= NULL;
                 return &store_cond[_cpu()];   
             }
         }
