@@ -62,7 +62,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
     if(runtask[_cpu()]==NULL){
         int flag = 0;
         for(;idx<32;idx++){
-            if(c_task[idx]!=NULL && c_task[idx]->state== RUNABLE){
+            if(c_task[idx]!=NULL &&c_task[i]->cpu_index == _cpu() &&c_task[idx]->state== RUNABLE){
                 flag = 1;
                 break;
             }       
@@ -79,7 +79,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
         int idx_bak = idx; 
         while (1){
             idx = (idx+1)%32;
-            if(c_task[idx]!=NULL && c_task[idx]->state== RUNABLE)
+            if(c_task[idx]!=NULL &&c_task[i]->cpu_index == _cpu()&& c_task[idx]->state== RUNABLE)
                 break;
             if(idx == idx_bak)
                 break;
@@ -130,6 +130,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->state = RUNABLE;
     task->stk.start = task->stack;
     task->stk.end = task->stk.start+4096;
+    task->cpu_index = ret % maxCpu;
     task->context = *(_kcontext(task->stk,entry,arg));
     c_task[ret] = task;
     printf("end create\n");
@@ -169,6 +170,8 @@ static void kmt_spin_unlock(spinlock_t *lk){
 	asm volatile("movl $0, %0" : "+m" (lk->locked) : );
     popcli();
 }
+
+
 static void kmt_sem_init(sem_t *sem, const char *name, int value){
     sem -> name =name;
     sem -> value = value;
@@ -177,6 +180,7 @@ static void kmt_sem_init(sem_t *sem, const char *name, int value){
         sem->task_id[i] = -1;
         sem->wait_pos = 0;
 }
+
 static void kmt_sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     printf("waitt\n");

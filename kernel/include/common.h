@@ -5,6 +5,8 @@
 #include <nanos.h>
 //#include <x86.h>
 
+#define maxCpu _ncpu()
+
 enum {
     NONE=0,RUNABLE,RUNNING,YIELD
 };
@@ -17,6 +19,7 @@ struct Cpu{
 struct task {
     int id;
     int state;
+    int cpu_index;
     const char* name;
     _Context context;
     _Area stk;

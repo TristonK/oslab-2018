@@ -7,6 +7,15 @@ handle* hde;
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
 
+void cpu_test(void *name){
+  while(1){
+    printf("%s",*(char *)name);
+    _putc("01234567"[_cpu()]);
+    _putc('\n');
+  }
+}
+
+
 
 void echo_task(void *name) {
   device_t *tty = dev_lookup(name);
@@ -25,22 +34,22 @@ static void os_init() {
   kmt->init();
   dev->init();
   kmt->spin_init(&ostrap,"trap_lock");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
   //handl.head = NULL;
   //handl.size = 0;
 }
 
 
 
-/*static void hello() {
+static void hello() {
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++) {
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-}*/
+}
 
 static void os_run() {
   //hello();
