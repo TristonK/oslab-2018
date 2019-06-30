@@ -33,14 +33,14 @@ static void os_init() {
   kmt->init();
   dev->init();
   kmt->spin_init(&ostrap,"trap_lock");
-  kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "a");
+  /*kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "a");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
-  kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");*/
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
   //handl.head = NULL;
   //handl.size = 0;
 }
