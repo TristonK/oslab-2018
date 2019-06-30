@@ -161,7 +161,7 @@ static void tty_putc(tty_t *tty, char ch) {
 }
 
 int tty_init(device_t *dev) {
-  printf("you now try to init tty\n");
+  //printf("you now try to init tty\n");
   tty_t *tty = dev->ptr;
   tty->fbdev = dev_lookup("fb");
   fb_t *fb = tty->fbdev->ptr;
@@ -225,6 +225,7 @@ devops_t tty_ops = {
 };
 
 void tty_task(void *arg) {
+  printf("shit init\n");
   device_t *in = dev_lookup("input");
   device_t *ttydev = dev_lookup("tty1");
   device_t *fb = dev_lookup("fb");
