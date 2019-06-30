@@ -4,6 +4,7 @@
 
 spinlock_t ostrap;
 handle* hde; 
+#define pc
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
 
@@ -62,19 +63,21 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");*/
+  #ifdef tty
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
+  #endif
+  #ifdef pc
   kmt->create(pmm->alloc(sizeof(task_t)) , "produce", producer, NULL);
   kmt->create(pmm->alloc(sizeof(task_t)) , "consume", consumer, NULL);
-  //handl.head = NULL;
-  //handl.size = 0;
   kmt->sem_init(&emp, "empty", 1);
   kmt->sem_init(&fulll, "fill", 0);
   kmt->spin_init(&p_c, "pro_consumer");
-
-
+  #endif
+  //handl.head = NULL;
+  //handl.size = 0;
 }
 
 
