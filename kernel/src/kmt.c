@@ -190,6 +190,7 @@ static void kmt_sem_wait(sem_t *sem){
         for(int i=0;i<32;i++){
             if(sem->task_id[poss]==-1){
                 sem->task_id[poss] = runtask[_cpu()]->id;
+                printf("wait %d\n",runtask[_cpu()]->id);
                 break;
             }else{
                 poss = (poss+1)%32;
@@ -214,6 +215,7 @@ static void kmt_sem_signal(sem_t *sem){
         if(idd == -1){
             panic("no thread need");
         }
+        printf("signal %d\n",idd);
         c_task[idd]->state = RUNABLE;
         //runtask[idd]->state = RUNABLE;
     }
