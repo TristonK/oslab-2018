@@ -186,7 +186,7 @@ int tty_init(device_t *dev) {
 }
 
 ssize_t tty_read(device_t *dev, off_t offset, void *buf, size_t count) {
-  printf("you now try to read tty\n");
+  //printf("you now try to read tty\n");
   tty_t *tty = dev->ptr;
   kmt->sem_wait(&tty->cooked);
   kmt->sem_wait(&tty->lock);
@@ -225,7 +225,7 @@ devops_t tty_ops = {
 };
 
 void tty_task(void *arg) {
-  printf("shit init\n");
+  //printf("shit init\n");
   device_t *in = dev_lookup("input");
   device_t *ttydev = dev_lookup("tty1");
   device_t *fb = dev_lookup("fb");
