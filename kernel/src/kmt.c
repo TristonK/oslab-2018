@@ -191,6 +191,7 @@ static void kmt_sem_wait(sem_t *sem){
         printf("before the wait, the list is");
         while(sem->task_id[tes]!=-1){
             printf(" %d",sem->task_id[tes]);
+            tes = (tes+1)%32;
         }
         printf("\n");
         for(int i=0;i<32;i++){
