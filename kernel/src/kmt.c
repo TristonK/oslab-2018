@@ -126,6 +126,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     //printf("creating begin\n");
     if(igg>0){
         igg--;
+        kmt->spin_unlock(&task_lk);
         return 0;
     }
     int ret=-1;
