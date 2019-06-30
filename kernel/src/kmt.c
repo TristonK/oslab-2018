@@ -203,6 +203,14 @@ static void kmt_sem_wait(sem_t *sem){
                 poss = (poss+1)%32;
             }
         }
+        int poss1 = sem->wait_pos;
+        int tes1 = poss1;
+        printf("after the wait, the list is");
+        while(sem->task_id[tes1]!=-1){
+            printf(" %d",sem->task_id[tes1]);
+            tes1 = (tes1+1)%32;
+        }
+        printf("\n");
         kmt->spin_unlock(&sem->lock);
         _yield();
     }
