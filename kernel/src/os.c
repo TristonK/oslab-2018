@@ -66,7 +66,7 @@ static void os_run() {
 
 static _Context *os_trap(_Event ev, _Context *context) {
   kmt->spin_lock(&ostrap);
-  printf("trap begin\n");
+  //printf("trap begin\n");
   _Context *ret = NULL;
   handle *h = hde;
   //if(hde==NULL)
@@ -95,7 +95,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
 
 
 static void os_on_irq(int seq, int event, handler_t handler) {
-  printf("on irq\n");
+  //printf("on irq\n");
   if(hde == NULL){
     //printf("hde is not null\n");
     hde = (handle*) pmm->alloc(sizeof(handle));
