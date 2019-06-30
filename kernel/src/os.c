@@ -4,7 +4,7 @@
 
 spinlock_t ostrap;
 handle* hde; 
-#define TTy
+//#define TTy
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
 
