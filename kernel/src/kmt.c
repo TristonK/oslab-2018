@@ -187,13 +187,13 @@ static void kmt_sem_wait(sem_t *sem){
     if(sem->value<0){
         runtask[_cpu()]->state = YIELD;
         int poss = sem->wait_pos;
-        int tes = poss;
+        /*int tes = poss;
         printf("before the wait, the list is");
         while(sem->task_id[tes]!=-1){
             printf(" %d",sem->task_id[tes]);
             tes = (tes+1)%32;
         }
-        printf("\n");
+        printf("\n");*/
         for(int i=0;i<32;i++){
             if(sem->task_id[poss]==-1){
                 sem->task_id[poss] = runtask[_cpu()]->id;
@@ -203,14 +203,14 @@ static void kmt_sem_wait(sem_t *sem){
                 poss = (poss+1)%32;
             }
         }
-        int poss1 = sem->wait_pos;
+        /*int poss1 = sem->wait_pos;
         int tes1 = poss1;
         printf("after the wait, the list is");
         while(sem->task_id[tes1]!=-1){
             printf(" %d",sem->task_id[tes1]);
             tes1 = (tes1+1)%32;
         }
-        printf("\n");
+        printf("\n");*/
         kmt->spin_unlock(&sem->lock);
         _yield();
     }
@@ -220,7 +220,7 @@ static void kmt_sem_wait(sem_t *sem){
 
 static void kmt_sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    //printf("signal %s\n",sem->name);
+    printf("signal %s\n",sem->name);
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
