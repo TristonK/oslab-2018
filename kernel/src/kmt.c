@@ -77,12 +77,12 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
         
     } else{
         int idx_bak = idx; 
-        while (1){
+        for(int i=0;i<32;i++){
             idx = (idx+1)%32;
             if(c_task[idx]!=NULL &&c_task[idx]->cpu_index == _cpu() && c_task[idx]->state== RUNABLE)
                 break;
-            if(idx == idx_bak)
-                break;
+            //if(idx == idx_bak)
+            //    break;
         }
         if(idx != idx_bak){
             runtask[_cpu()] = c_task[idx];
@@ -90,7 +90,13 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
             return &runtask[_cpu()]->context;
         }else{
             //printf("no changeeeee\n");
-            return &runtask[_cpu()]->context;
+            if(runtask[_cpu()]->state ==  RUNABLE)
+                return &runtask[_cpu()]->context;
+            else
+            {
+                runtaskp[_cpu()]= NULL;
+                return &store_cond[_cpu()];   
+            }
         }
         
     }
@@ -197,7 +203,7 @@ static void kmt_sem_wait(sem_t *sem){
         for(int i=0;i<32;i++){
             if(sem->task_id[poss]==-1){
                 sem->task_id[poss] = runtask[_cpu()]->id;
-                printf("wait %d\n",runtask[_cpu()]->id);
+                //printf("wait %d\n",runtask[_cpu()]->id);
                 break;
             }else{
                 poss = (poss+1)%32;
@@ -220,7 +226,7 @@ static void kmt_sem_wait(sem_t *sem){
 
 static void kmt_sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    printf("signal %s\n",sem->name);
+    //printf("signal %s\n",sem->name);
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
@@ -230,7 +236,7 @@ static void kmt_sem_signal(sem_t *sem){
         if(idd == -1){
             panic("no thread need");
         }
-        printf("signal %d\n",idd);
+        //printf("signal %d\n",idd);
         c_task[idd]->state = RUNABLE;
         //runtask[idd]->state = RUNABLE;
     }
