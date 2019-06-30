@@ -119,9 +119,15 @@ static void kmt_init(){
     }
 }
 
+static int igg = 2;
+
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     kmt->spin_lock(&task_lk);
     //printf("creating begin\n");
+    if(igg>0){
+        igg--;
+        return 0;
+    }
     int ret=-1;
     for(int i=0;i<32;i++){
         if(c_task[i]==NULL){
