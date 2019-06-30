@@ -187,6 +187,12 @@ static void kmt_sem_wait(sem_t *sem){
     if(sem->value<0){
         runtask[_cpu()]->state = YIELD;
         int poss = sem->wait_pos;
+        int tes = poss;
+        printf("before the wait, the list is");
+        while(sem->task_id[tes]!=-1){
+            printf(" %d",sem->task_id[tes]);
+        }
+        printf("\n");
         for(int i=0;i<32;i++){
             if(sem->task_id[poss]==-1){
                 sem->task_id[poss] = runtask[_cpu()]->id;
