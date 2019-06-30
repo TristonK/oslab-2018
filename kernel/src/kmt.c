@@ -42,7 +42,7 @@ int holding(spinlock_t *lock){
 }
 
 _Context *kmt_context_save(_Event ev, _Context *context){
-    printf("save\n");
+    //printf("save\n");
     if(runtask[_cpu()]==NULL){
         store_cond[_cpu()] = *context;
     }    else
@@ -56,7 +56,7 @@ _Context *kmt_context_save(_Event ev, _Context *context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context *context){
-    printf("switch\n");
+    //printf("switch\n");
     int idx = (runtask[_cpu()]==NULL)?0:runtask[_cpu()]->id;
     //int idx_bak2= idx;
     if(runtask[_cpu()]==NULL){
@@ -89,7 +89,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
             runtask[_cpu()]->state = RUNNING;
             return &runtask[_cpu()]->context;
         }else{
-            printf("no changeeeee\n");
+            //printf("no changeeeee\n");
             return &runtask[_cpu()]->context;
         }
         
@@ -115,7 +115,7 @@ static void kmt_init(){
 
 static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     kmt->spin_lock(&task_lk);
-    printf("creating begin\n");
+    //printf("creating begin\n");
     int ret=-1;
     for(int i=0;i<32;i++){
         if(c_task[i]==NULL){
@@ -133,7 +133,7 @@ static int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), 
     task->cpu_index = ret % maxCpu;
     task->context = *(_kcontext(task->stk,entry,arg));
     c_task[ret] = task;
-    printf("end create\n");
+    //printf("end create\n");
     kmt->spin_unlock(&task_lk);
     return ret;
 }
@@ -161,7 +161,6 @@ static void kmt_spin_lock(spinlock_t *lk){
 }
 static void kmt_spin_unlock(spinlock_t *lk){
     if(!holding(lk)){
-        printf("ihi\n");
         printf("lk name is %s\n",lk->name);
         panic("why unlock unexist lock");
     }
