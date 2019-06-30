@@ -76,21 +76,24 @@ _Context *kmt_context_switch(_Event ev, _Context *context){
         }
         
     } else{
-        int idx_bak = idx; 
+        int falg=0; 
         for(int i=0;i<32;i++){
             idx = (idx+1)%32;
-            if(c_task[idx]!=NULL &&c_task[idx]->cpu_index == _cpu() && c_task[idx]->state== RUNABLE)
+            if(c_task[idx]!=NULL &&c_task[idx]->cpu_index == _cpu() && c_task[idx]->state== RUNABLE){
+                falg = 1;
                 break;
+            }
+               // break;
             //if(idx == idx_bak)
             //    break;
         }
-        if(idx != idx_bak){
+        if(falg){
             runtask[_cpu()] = c_task[idx];
             runtask[_cpu()]->state = RUNNING;
             return &runtask[_cpu()]->context;
         }else{
-            //printf("no changeeeee\n");
-            if(runtask[_cpu()]->state ==  RUNABLE)
+            printf("no changeeeee\n");
+            if(runtask[_cpu()]->state !=  NONE && runtask[_cpu()]!= YIELD)
                 return &runtask[_cpu()]->context;
             else
             {
