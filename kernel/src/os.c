@@ -17,7 +17,7 @@ void cpu_test(void *name){
 
 sem_t emp;
 sem_t fulll;
-struct spinlock p_k;
+struct spinlock p_c;
  
 
 void producer(){
@@ -62,17 +62,17 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "d");*/
-  /* kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty1");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty3");
-  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");*/
+  kmt->create(pmm->alloc(sizeof(task_t)), "print", echo_task, "tty4");
   kmt->create(pmm->alloc(sizeof(task_t)) , "produce", producer, NULL);
   kmt->create(pmm->alloc(sizeof(task_t)) , "consume", consumer, NULL);
   //handl.head = NULL;
   //handl.size = 0;
   kmt->sem_init(&emp, "empty", 1);
   kmt->sem_init(&fulll, "fill", 0);
-  kmt->spin_init(&p_k, "yield lock");
+  kmt->spin_init(&p_c, "pro_consumer");
 
 
 }
