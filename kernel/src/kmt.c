@@ -230,14 +230,14 @@ static void kmt_sem_signal(sem_t *sem){
     sem->value++;
     if(sem->value<=0){
         int poss = sem->wait_pos;
-        sem->wait_pos = (poss+1)%32;
         int idd = sem->task_id[poss];
-        sem -> task_id[poss] = -1;
         if(idd == -1){
             panic("no thread need");
         }
         //printf("signal %d\n",idd);
         c_task[idd]->state = RUNABLE;
+        sem -> task_id[poss] = -1;
+        sem->wait_pos = (poss+1)%32;
         //runtask[idd]->state = RUNABLE;
     }
     //printf("sig end\n");
