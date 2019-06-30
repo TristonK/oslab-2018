@@ -9,7 +9,7 @@ extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t co
 
 void cpu_test(void *name){
   while(1){
-    _putc("%s",(char *)*name);
+    _putc("%s",*(char *)name);
     _putc("01234567"[_cpu()]);
     _putc('\n');
   }
