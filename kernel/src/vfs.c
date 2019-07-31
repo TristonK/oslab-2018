@@ -140,6 +140,7 @@ int vfs_addcontent(const char*path,char* content){
         return -1;
     }
     added->content = content;
+    return 0;
 }
 
 
