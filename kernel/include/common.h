@@ -166,6 +166,6 @@ typedef struct {
 inode_t root;
 extern struct filesystem blkfs[2],procfs,devfs;
 char current_path[128]="/";
-struct filesystem *currentfs = &blkfs[0];
+struct filesystem *current_fs = &blkfs[0];
 
 #endif
