@@ -39,7 +39,9 @@ void shell_thread(void* ttyid) {
     char buf[32];
     //printf("66666666666666666\n");
     printf("this iddd is %d\n",tty_id);
-    sprintf(buf, "/dev/tty%d", tty_id);
+    sprintf(buf, "/dev/tty",);
+    buf[8] = '0'+tty_id;
+    buf[9] = '\0';
     printf("%s\n",buf);
     int stdin = vfs->open(buf, O_RDONLY);
     int stdout = vfs->open(buf, O_WRONLY);
