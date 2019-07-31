@@ -68,7 +68,7 @@ void shell_thread(void* ttyid) {
                 }
                 path_translation(in_path);
                 if(!strcmp(cmd,"ls")){
-                    vfs->ls(&full_path,stdout);
+                    vfs->ls(full_path,stdout);
                 }else if (!strcmp(cmd,"cd"))
                 {
                     printf("cdddd\n");
@@ -76,7 +76,7 @@ void shell_thread(void* ttyid) {
                     vfs->mkdir(&full_path);
                 }else if(!strcmp(cmd,"cat")){
                     printf("cattt\n");
-                }eles if(!strcmp(cmd,"rm")){
+                }else if(!strcmp(cmd,"rm")){
                     printf("rmmmmm\n");
                 }else {
                     char err_info[128];
