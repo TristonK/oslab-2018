@@ -56,7 +56,6 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
 
 inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from){
     //FUll path
-    if(1){
         /*if(strcmp(fs->name,"blkfs")){
             printf("ERROR: NOT blkfs SYSTEM, please use the correct function\n");
             return NULL;
@@ -67,14 +66,6 @@ inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from)
         {   //printf("go to find %s\n",path);
             return fs_recursive_find(fs,path,flags,&root);
         }
-        
-       
-    }
-    //relative path
-    else{
-        //TODO();
-        return NULL;
-    }
 }
 
 int fs_close(inode_t *inode){
@@ -103,7 +94,7 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
         return -1;
     }
     device_t *inode_dev = (device_t *)file->inode->ptr;
-    printf("ss is %s\n",inode_dev->name);
+    //printf("ss is %s\n",inode_dev->name);
     //ssize_t read_size = file->offset + size > file->inode->size?file->inode->size - file->offset:size;
     ssize_t read_size = size;
     //printf("read_size is %d and we need read%d\n",read_size,size);

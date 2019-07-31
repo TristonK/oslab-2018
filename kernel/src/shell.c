@@ -72,7 +72,7 @@ void shell_thread(void* ttyid) {
                         path_cnt++;
                     }
                 }
-                printf("cmd_int is %d and path_cnt is %d\n",cmd_cnt,path_cnt);
+                //printf("cmd_int is %d and path_cnt is %d\n",cmd_cnt,path_cnt);
                 cmd[cmd_cnt] = '\0';
                 in_path[path_cnt] = '\0';
                 if(!path_cnt){

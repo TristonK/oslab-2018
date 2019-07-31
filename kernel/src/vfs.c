@@ -72,10 +72,21 @@ int vfs_ls(const char* path,int fd){
 }
 
 int vfs_cd(const char* path,int fd){
-    return 0;
+    if(fs_lookup(&blkfs[0],path,O_RDONLY,0)==NULL){
+        char err_info[128];
+        sprintf(err_info,"cd: no such file or directory: %s\n",path);
+        vfs->write(fd,err_info,strlen(err_info));
+        return -1;
+    }
+    memset(current_path,'\0',sizeof(current_path));
+    strcpy(current_path,path);
 }
 
 int vfs_cat(const char* path,int fd){
+    return 0;
+}
+
+int vfs_rm(const char* path,int fd){
     return 0;
 }
 
@@ -224,4 +235,5 @@ MODULE_DEF(vfs){
     .ls = vfs_ls,
     .cd = vfs_cd,
     .cat = vfs_cat,
+    .rm = vfs_rm,
  };
