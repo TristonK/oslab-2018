@@ -138,13 +138,13 @@ int ifs_unlink(const char *name,inode_t *inode){
     
 }
 
-fsops_t blkfs_op{
+fsops_t blkfs_op = {
     .init = fs_init,
     .lookup = fs_lookup,
     .close = fs_close, 
 };
 
-inodeops_t blkfs_inode_op{
+inodeops_t blkfs_inode_op = {
     .open   =   ifs_open,
     .close  =   ifs_close,
     .read   =   ifs_read,
