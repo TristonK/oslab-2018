@@ -3,7 +3,7 @@
 #include <klib.h>
 #include <devices.h>
 
-inode_t* create_inode(filesystem* fs,inode_t *parent_node, char* name,int mode){
+inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, char* name,int mode){
     inode_t new_inode = pmm->alloc(sizeof(inode_t));
     new_inode.parent = parent_node;
     new_inode.next = new_inode.child = NULL;
@@ -34,7 +34,7 @@ int free_inode(inode_t* f_inode){
     while (scan->next!=f_inode)
     {
         if(scan->next ==  NULL){
-            print("ERROR: PLEASE CHECK THE INODE LIST\n");
+            printf("ERROR: PLEASE CHECK THE INODE LIST\n");
             assert(0);
         }
         scan = scan->next; 
