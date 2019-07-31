@@ -4,23 +4,23 @@
 #include <devices.h>
 
 inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, char* name,int mode){
-    inode_t new_inode = pmm->alloc(sizeof(inode_t));
-    new_inode.parent = parent_node;
-    new_inode.next = new_inode.child = NULL;
-    new_inode.name = name;
-    new_inode.fs = fs;
-    new_inode.content =NULL;
-    new_inode.mode = mode;
-    new_inode.refcnt = 0;
+    inode_t* new_inode = pmm->alloc(sizeof(inode_t));
+    new_inode->parent = parent_node;
+    new_inode->next = new_inode.child = NULL;
+    new_inode->name = name;
+    new_inode->fs = fs;
+    new_inode->content =NULL;
+    new_inode->mode = mode;
+    new_inode->refcnt = 0;
     if(parent_node->child == NULL){
-        parent_node->child = &new_inode;
+        parent_node->child = new_inode;
     }else{
         inode_t* scan = parent_node->child;
         while(scan->next!=NULL)
             scan = scan->next;
-        scan->next = &new_inode;
+        scan->next = new_inode;
     }
-    return &new_inode;
+    return new_inode;
 }
     
 int free_inode(inode_t* f_inode){
