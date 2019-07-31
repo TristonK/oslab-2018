@@ -94,7 +94,7 @@ int vfs_mkdir (const char *path){
     int i=lens-1;
     //printf("is is %d and %d\n",i,lens-1);
     //printf("%s\n",(path+1));
-    while(strncpy(*(path+i),"/",1)){
+    while(strncmp((path+i),"/",1)){
         //printf("i is %d\n");
         //printf("path[i] is %s",path+i);
         i = i-1;
