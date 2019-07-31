@@ -4,7 +4,7 @@
 
 struct filesystem blkfs[2];
 extern inode_t* create_inode(filesystem* fs,inode_t *parent_node, char* name,int mode);
-extern int free_inode(inode_t* f_inode)
+extern int free_inode(inode_t* f_inode);
 
 // FOR blkfs
 void fs_init(struct filesystem *fs, const char *name, device_t *dev){
