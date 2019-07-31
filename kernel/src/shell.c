@@ -1,6 +1,7 @@
 #include <common.h>
 #include <klib.h>
 #include <devices.h>
+#define Debug
 
 char full_path[128];
 
@@ -9,11 +10,11 @@ void path_translation(const char* path){
     printf("before the trans the path is %s\n",path);
     #endif
     memset(full_path,'\0',sizeof(full_path));
-    if(!strncmp(path,"./",2)){
+    if(!strncmp(path,".",1)){
         strcat(full_path,current_path);
         path = path+1;
         strcat(full_path,path);
-    } else if(!strncmp(path,"../",3)){
+    } else if(!strncmp(path,"..",2)){
         int path_len = strlen(current_path);
         int i;
         for(i=path_len-1;i>=0;i--){
@@ -82,8 +83,12 @@ void shell_thread(void* ttyid) {
                 if(!strcmp(cmd,"ls")){
                     vfs->ls(full_path,stdout);
                 }else if (!strcmp(cmd,"cd"))
-                {
-                    vfs->cd(full_path,stdout);
+                {   
+                    if(!path_cnt)
+                        vfs->cd("/",stdout);
+                    else        
+                        vfs->cd(full_path,stdout);
+                    
                 }else if(!strcmp(cmd,"mkdir")){
                     vfs->mkdir(full_path);
                 }else if(!strcmp(cmd,"cat")){
