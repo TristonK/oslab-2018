@@ -3,9 +3,9 @@
 #include <devices.h>
 
 struct filesystem devfs = {
-    .name = "/dev";
-    .ops = &devfs_op;
-    .dev = NULL;
+    .name = "/dev",
+    .ops = &devfs_op,
+    .dev = NULL,
 };
 
 void devfs_init(struct filesystem *fs, const char *name, device_t *dev){
