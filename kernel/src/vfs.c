@@ -105,9 +105,13 @@ int vfs_mkdir (const char *path){
     }
     if(flag){
         inode_t* parent_inode = fs_lookup(&blkfs[0],current_path,O_RDWR,0);
-        return parent_inode->ops->mkdir(parent_inode,path);
+        parent_inode->ops->mkdir(parent_inode,path);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
     } else if(i==0){
-        return root.ops->mkdir(&root,path+1);
+        root.ops->mkdir(&root,path+1);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
     }else
     {
         char parent_name[32];
