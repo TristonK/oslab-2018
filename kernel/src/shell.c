@@ -93,9 +93,10 @@ void shell_thread(void* ttyid) {
                 nread = 0;
             }
         } else {
-            sprintf(text, "(%s) : ", buf);
+            sprintf(text, "(%s) :", buf);
             vfs->write(stdout, text, strlen(text));
 			vfs->write(stdout, current_path, strlen(current_path));
+            printf("shit\n");
 			vfs->write(stdout, inter, strlen(inter));
             printf("222\n");
             nread = vfs->read(stdin, line, sizeof(line));
