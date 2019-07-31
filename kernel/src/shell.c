@@ -48,7 +48,7 @@ void shell_thread(void* ttyid) {
     int stdout = vfs->open(buf, O_WRONLY);
     char text[128];
     char line[128];
-    char inter[4] = " $ ";
+    char inter[3] = " $ ";
     ssize_t nread = 0;
     while (1) {
         if (nread!=0) {
