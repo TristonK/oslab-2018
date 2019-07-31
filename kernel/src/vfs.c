@@ -125,9 +125,9 @@ void vfs_init (){
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
     //printf("shit1\n");
+    vfs->mkdir("proc");
 	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
-    vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->newfile("/dev/tty1");
 	vfs->newfile("/dev/tty2");
