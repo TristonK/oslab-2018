@@ -12,10 +12,10 @@ void devfs_init(struct filesystem *fs, const char *name, device_t *dev){
     return;
 }  
 inode_t *devfs_lookup(struct filesystem *fs, const char *path, int flags, int from){
-    
+    return NULL;
 }
 int devfs_close(inode_t *inode){
-
+    return 0;
 }
 
 fsops_t devfs_op{
@@ -23,7 +23,7 @@ fsops_t devfs_op{
     .lookup = devfs_lookup,
     .close = devfs_close, 
 }
-
+/* 
 int devifs_open(file_t *file, int flags){}
 int devifs_close(file_t *file){}
 ssize_t devfs_read(file_t *file, char *buf, size_t size){}
@@ -33,4 +33,4 @@ int devifs_mkdir(inode_t *My, const char *name){}
 int devifs_rmdir(inode_t *My, const char *name){}
 int devifs_link(const char *name, inode_t *inode,inode_t *new){}
 int devifs_unlink(const char *name,inode_t *inode){}
-
+*/

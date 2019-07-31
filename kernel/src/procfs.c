@@ -4,7 +4,7 @@
 
 struct filesystem procfs;
 
-void procfs_init(struct filesystem *fs, const char *name, device_t *dev){
+/* void procfs_init(struct filesystem *fs, const char *name, device_t *dev){
     fs->dev = NULL;
     strcpy(fs->name,name);
 }  
@@ -19,4 +19,4 @@ off_t procifs_lseek(file_t *file, off_t offset, int whence){}
 int procifs_mkdir(inode_t *My, const char *name){}
 int procifs_rmdir(inode_t *My, const char *name){}
 int procifs_link(const char *name, inode_t *inode,inode_t *new){}
-int procifs_unlink(const char *name,inode_t *inode){}
+int procifs_unlink(const char *name,inode_t *inode){}*/
