@@ -49,13 +49,13 @@ void vfs_init (){
     strcpy(current_path,"/");
     current_fs = &blkfs[0];
     root_init();
-    printf("shit1\n");
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
     printf("shit1\n");
 	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
-	vfs->mkdir("proc");
+	printf("**********\n");
+    vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
 	vfs->mkdir("/dev/tty2");
