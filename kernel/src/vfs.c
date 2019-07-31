@@ -39,6 +39,7 @@ int vfs_ls(const char* path){
         }
         printf("\n");
     }
+    return 0;
 }
 
 
@@ -128,13 +129,13 @@ int vfs_open (const char *path, int flags){
 
 ssize_t vfs_read (int fd, void *buf, size_t nbyte){
     file_t* node_file = runtask[_cpu()]->fildes[fd];
-    node_file->inode->ops->read(node_file,buf,size);
+    node_file->inode->ops->read(node_file,buf,nbyte);
     return 0;
 }
 
 ssize_t vfs_write (int fd, void *buf, size_t nbyte){
     file_t* node_file = runtask[_cpu()]->fildes[fd];
-    node_file->inode->ops->write(node_file,buf,size);
+    node_file->inode->ops->write(node_file,buf,nbyte);
     return 0;
 }
 
