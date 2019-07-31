@@ -64,7 +64,7 @@ inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from)
         if(path[0]=='/' && path[1]=='\0'){
             return &root;
         }else
-        {   printf("go to find %s\n",path);
+        {   //printf("go to find %s\n",path);
             return fs_recursive_find(fs,path,flags,&root);
         }
         
