@@ -15,6 +15,7 @@ int proc_cat(const char* path,int fd){
             vfs->write(fd,cpuinfo,strlen(cpuinfo));
         }else{
             cpuflag = 1;
+            printf("cpu is %d\n",_ncpu());
             for(int i=0;i<_ncpu();i++){
                 char temp[24];
                 sprintf(temp,"processor : %d\n",i);
