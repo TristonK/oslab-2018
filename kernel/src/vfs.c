@@ -20,7 +20,7 @@ static void root_init(){
 }
 
 
-int vfs_ls(const char* path,int fd){
+int check_ls(const char* path,int fd){
     //!!!!!!!!!!!!!!!!!!!!!!!!change print
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
@@ -38,6 +38,34 @@ int vfs_ls(const char* path,int fd){
             ls_child = ls_child->next;
         }
         printf("\n");
+    }
+    return 0;
+}
+
+char tab[2] = " ";
+char next_line[2] = "\n";
+
+
+void vfs_ls(const char* path){
+    inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
+    if(ls_node==NULL){
+        char err_info[128];
+        sprintf(err_info,"ls: cannot access '%s': No such file or directory",path);
+        vfs->write(stdout,err_info,sizeof(err_info));
+        return -1;
+    }
+    if(ls_node->types == ORD_FILE){
+        vfs->write(stdout,ls_node->name,sizeof(ls_node->name));
+    } else{
+        inode_t *ls_child = ls_node->child;
+        if(ls_child==NULL)
+            return 0;
+        while(ls_child!=NULL){
+            vfs->write(stdout,ls_child->name,sizeof(ls_child->name));
+            vfs->write(stdout,&tab,2);
+            ls_child = ls_child->next;
+        }
+        vfs->write(stdout,&next_line,1);
     }
     return 0;
 }
@@ -70,7 +98,7 @@ void vfs_init (){
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
     //vfs_ls("/");
-    vfs_ls("/dev");
+    check_ls("/dev");
 }
 
 
