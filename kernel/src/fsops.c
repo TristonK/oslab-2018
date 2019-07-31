@@ -25,7 +25,7 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
     char find_name[32];
     int i;int final_path = 1;
     for(i=1;i<path_len;i++){
-        if(path[i]=='/'){
+        if(!strncmp(path+i,"/",1)){
             final_path = 0;
             break;
         }else

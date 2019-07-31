@@ -54,7 +54,6 @@ void vfs_init (){
     //printf("shit1\n");
 	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
-	printf("**********\n");
     vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
@@ -63,7 +62,6 @@ void vfs_init (){
 	vfs->mkdir("/dev/tty4");
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
-    printf("shit1\n");
     vfs_ls("/");
     vfs_ls("/dev");
 }
@@ -88,10 +86,8 @@ int vfs_unmount (const char *path){
 }
 
 int vfs_mkdir (const char *path){
-    //printf("%s\n",path);
     kmt->spin_lock(&inode_rwlk);
     int lens = strlen(path);
-    //printf("len is %d\n",lens);
     int i=lens-1;
     //printf("is is %d and %d\n",i,lens-1);
     //printf("%s\n",(path+1));
@@ -118,7 +114,6 @@ int vfs_mkdir (const char *path){
         char parent_name[32];
         strncpy(parent_name,path,i);
         parent_name[i]='\0';
-        printf("%s\n",parent_name);
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         parent_node->ops->mkdir(parent_node,path+i+1);
         kmt->spin_unlock(&inode_rwlk);
