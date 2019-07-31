@@ -65,7 +65,7 @@ struct task {
     _Context context;
     _Area stk;
     char stack[4096];
-    file_t *fildes[NOFILE];
+    file_t fildes[NOFILE];
 };
 struct spinlock {
     intptr_t locked;
