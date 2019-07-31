@@ -223,7 +223,7 @@ int vfs_newfile(const char*path){
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }else
-    {
+    {   printf("%s pa\n");
         char parent_name[32];
         strncpy(parent_name,path,i);
         parent_name[i]='\0';
