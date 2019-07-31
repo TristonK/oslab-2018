@@ -48,6 +48,7 @@ enum {
 typedef struct file file_t;
 typedef struct inode inode_t;
 typedef struct fsops fsops_t;
+typedef struct filesystem filesystem_t;
 
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
@@ -133,7 +134,7 @@ struct inode {
     int mode;
     int refcnt;
 	void *ptr;
-	filesystem_t *fs;
+	struct filesystem *fs;
 	inodeops_t *ops;
     int types;
     int size;
