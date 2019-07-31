@@ -18,7 +18,10 @@ void path_translation(const char* path){
                 break;
         }
         char newpath[128];
-        strncpy(newpath,current_path,i);
+        if(i==0){
+            strncpy(newpath,"/",1);
+        }else
+            strncpy(newpath,current_path,i);
         strcat(full_path,newpath);
         path = path+2;
         strcat(full_path,path);
