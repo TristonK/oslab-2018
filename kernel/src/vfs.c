@@ -13,14 +13,14 @@ static void root_init(){
     root.fs = &blkfs[0];
     root.mode = O_RDWR;
     root.refcnt = 0;
-    root.ops = blkfs_op;
+    root.ops = blkfs_inode_op;
     root.size = 0;
     root.ptr = NULL;
 }
 
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
-    current_path = "/";
+    strcpy(current_path,"/");
     root_init();
     //vfs->mount("/",&blkfs[0]);
 	vfs->mount("/mnt",&blkfs[1]);
@@ -63,17 +63,17 @@ int vfs_access (const char *path, int mode){
     if(path_len<=0)
         return -1;
     //full path
-    if()
-    inode_t acess_inode;
+    return 0;
 }
 
 int vfs_mount (const char *path, filesystem_t *fs){
     inode_t parent_node = root.fs->ops->lookup(root.fs,path,O_RDWR,0);
     create_inode(fs,parent_node, fs->name,O_RDWR);
+    return 0;
 }
 
 int vfs_unmount (const char *path){
-
+    return 0;
 }
 
 int vfs_mkdir (const char *path){
@@ -94,11 +94,17 @@ int vfs_mkdir (const char *path){
     }
 }
 
-int vfs_rmdir (const char *path){}
+int vfs_rmdir (const char *path){
+    return 0;
+}
 
-int vfs_link (const char *oldpath, const char *newpath){}
+int vfs_link (const char *oldpath, const char *newpath){
+    return 0;
+}
 
-int vfs_unlink (const char *path){}
+int vfs_unlink (const char *path){
+    return 0;
+}
 
 int vfs_open (const char *path, int flags){
     for(int i=0;i<NOFILE;i++){
