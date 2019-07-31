@@ -5,11 +5,13 @@
 struct filesystem blkfs[2];
 extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, char* name,int mode);
 extern int free_inode(inode_t* f_inode);
+extern inodeops_t blkfs_inode_op;
+extern fsops_t blkfs_op;
 
 // FOR blkfs
 void fs_init(struct filesystem *fs, const char *name, device_t *dev){
     fs->dev = dev;
-    fs->dev->ops = blkfs_op;
+    fs->dev->ops = &blkfs_op;
     strcpy(fs->name,name);
     fs->ops = &blkfs_inode_op;
 }
@@ -54,7 +56,7 @@ inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from)
             printf("ERROR: NOT blkfs SYSTEM, please use the correct function\n");
             return NULL;
         }
-        if(path[0]=='/' && path[1]='\0'){
+        if(path[0]=='/' && path[1]=='\0'){
             return &root;
         }else
         {
@@ -76,7 +78,7 @@ int fs_close(inode_t *inode){
 }
 
 int ifs_open(file_t *file, int flags){
-    if(file->inode->types == DIR){
+    if(file->inode->types == DIR_FILE){
         printf("ERROR: You Try To Open A Dir\n");
         return -1;
     }
@@ -85,7 +87,7 @@ int ifs_open(file_t *file, int flags){
     return 0;
 }
 int ifs_close(file_t *file){
-    file->name='\0';
+    pmm->free(file);
     return 0;
 }
 ssize_t ifs_read(file_t *file, char *buf, size_t size){
@@ -132,10 +134,10 @@ int ifs_rmdir(inode_t *My, const char *name){
     return 0;
 }
 int ifs_link(const char *name, inode_t *inode,inode_t *new){
-
+    return 0;
 }
 int ifs_unlink(const char *name,inode_t *inode){
-    
+    return 0;
 }
 
 fsops_t blkfs_op = {

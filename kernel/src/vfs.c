@@ -146,8 +146,9 @@ off_t vfs_lseek (int fd, off_t offset, int whence){
 }
 
 int vfs_close (int fd){
-    pmm->free(runtask[_cpu()]->fildes[fd]);
+    file_t* f_file = runtask[_cpu()]->fildes[fd];
     runtask[_cpu()]->fildes[fd] = NULL;
+    f_file->inode->ops->close(f_file);
     return 0;
 }
 

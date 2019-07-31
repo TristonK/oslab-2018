@@ -3,7 +3,7 @@
 #include <klib.h>
 #include <devices.h>
 
-inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, char* name,int mode){
+inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,int mode){
     inode_t* new_inode = pmm->alloc(sizeof(inode_t));
     new_inode->parent = parent_node;
     new_inode->next = new_inode->child = NULL;
