@@ -306,7 +306,7 @@ int vfs_open (const char *path, int flags){
             char tp_name[16];
             sprintf(tp_name,"/proc/%d\0",i);
             printf("%s\n",tp_name);
-            vfs->newfile(tp_name);
+            vfs->mkdir(tp_name);
             return i;
         }
     }
