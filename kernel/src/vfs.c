@@ -88,11 +88,13 @@ int vfs_unmount (const char *path){
 
 int vfs_mkdir (const char *path){
     int len = strlen(path);
+    printf("len is %d",len);
     int i;
     for(i=len-1;i>=0;i--){
         if(path[i]=='/')
             break;
     }
+    printf("%d  \n",i);
     if(i==0){
         return root.ops->mkdir(&root,path+1);
     }else
