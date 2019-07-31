@@ -25,7 +25,7 @@ inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,in
         inode_t* scan = parent_node->child;
         while(scan->next!=NULL)
             scan = scan->next;
-        printf("%s 's next is %s\n",scan->name,new_inode->name);
+        //printf("%s 's next is %s\n",scan->name,new_inode->name);
         scan->next = new_inode;
     }
     return new_inode;
