@@ -120,7 +120,7 @@ int vfs_mkdir (const char *path){
         parent_name[i]='\0';
         printf("%s\n",parent_name);
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
-        parent_node->ops->mkdir(parent_node,path+i);
+        parent_node->ops->mkdir(parent_node,path+i+1);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }
