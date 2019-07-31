@@ -63,7 +63,7 @@ void shell_thread(void* ttyid) {
                         cmd[i] = '\0';
                         flag = 1;
                     }else if(line[i]==' ' && flag){
-                        vfs->write(stdout,"sorry\n",6);
+                        vfs->write(stdout,"sorry we don't support it\n",6);
                     }else if(!flag){
                         cmd[i] = line[i];
                         cmd_cnt++;
@@ -90,7 +90,7 @@ void shell_thread(void* ttyid) {
                     printf("rmmmmm\n");
                 }else {
                     char err_info[128];
-                    sprintf(err_info,"ksh : command not found : %s\n\0",cmd);
+                    sprintf(err_info,"ksh : command not found : %s",cmd);
                     vfs->write(stdout,err_info,sizeof(err_info));
                 }
                 nread = 0;
