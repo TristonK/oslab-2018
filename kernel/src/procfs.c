@@ -34,7 +34,7 @@ int proc_cat(const char* path,int fd){
         vfs->write(fd,memi2,strlen(memi2));
         vfs->write(fd,memi3,strlen(memi3));
     }else{
-
+        
     }
     return 0;
 }
