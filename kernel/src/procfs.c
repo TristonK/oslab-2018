@@ -4,6 +4,16 @@
 
 struct filesystem procfs;
 
+int proc_cat(const char* path,int fd){
+    if(!strncmp(path,"/proc/cpuinfo",13)){
+
+    }else if(!strncmp(path,"/proc/meminfo",13)){
+
+    }else{
+
+    }
+    return 0;
+}
 /* void procfs_init(struct filesystem *fs, const char *name, device_t *dev){
     fs->dev = NULL;
     strcpy(fs->name,name);

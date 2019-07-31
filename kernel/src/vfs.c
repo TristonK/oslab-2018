@@ -7,6 +7,7 @@ extern fsops_t blkfs_op;
 extern inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from);
 extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode,int types);
 extern int free_inode(inode_t* f_inode);
+extern int proc_cat(const char* path,int fd);
 
 static void root_init(){
     root.parent = NULL;
@@ -84,6 +85,16 @@ int vfs_cd(const char* path,int fd){
 }
 
 int vfs_cat(const char* path,int fd){
+    if(strncmp(path,"/dev",4)==0){
+		vfs->write(fd,"Permission denied\n",18);
+		return -1;
+	}
+	if(strncmp(path,"/proc",5)==0){
+		proc_cat(path,fd);
+		return 0;
+//		vfs->write(sto,"Permission denied\n",18);
+//		return -1;
+	}
     return 0;
 }
 
@@ -118,12 +129,13 @@ void vfs_init (){
 	//vfs->mount("/dev",&devfs,"dev");
     vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
-	vfs->mkdir("/dev/tty1");
-	vfs->mkdir("/dev/tty2");
-	vfs->mkdir("/dev/tty3");
-	vfs->mkdir("/dev/tty4");
-	vfs->mkdir("/dev/ramdisk0");
-	vfs->mkdir("/dev/ramdisk1");
+	vfs->newfile("/dev/tty1");
+	vfs->newfile("/dev/tty2");
+	vfs->newfile("/dev/tty3");
+	vfs->newfile("/dev/tty4");
+	vfs->newfile("/dev/ramdisk0");
+	vfs->newfile("/dev/ramdisk1");
+    
     //vfs_ls("/");
     //check_ls("/dev");
 }
@@ -178,6 +190,42 @@ int vfs_mkdir (const char *path){
         parent_name[i]='\0';
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         parent_node->ops->mkdir(parent_node,path+i+1);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
+    }
+}
+
+int vfs_newfile(const char*path){
+    kmt->spin_lock(&inode_rwlk);
+    int lens = strlen(path);
+    int i=lens-1;
+    //printf("is is %d and %d\n",i,lens-1);
+    //printf("%s\n",(path+1));
+    int flag=0;
+    for(;i>=0;i=i-1){
+        if(!strncmp((path+i),"/",1))
+            break;
+        else if(i==0){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag){
+        inode_t* parent_inode = fs_lookup(&blkfs[0],current_path,O_RDWR,0);
+        create_inode(parent_inode->fs,parent_inode,path,O_RDONLY,ORD_FILE);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
+    } else if(i==0){
+        create_inode(&root->fs,&root,path+1,O_RDONLY,ORD_FILE);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
+    }else
+    {
+        char parent_name[32];
+        strncpy(parent_name,path,i);
+        parent_name[i]='\0';
+        inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
+        create_inode(parent_inode->fs,parent_node,path+i+1,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }
@@ -266,4 +314,5 @@ MODULE_DEF(vfs){
     .cd = vfs_cd,
     .cat = vfs_cat,
     .rm = vfs_rm,
+    .newfile = vfs_newfile;
  };

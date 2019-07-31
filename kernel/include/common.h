@@ -165,6 +165,7 @@ typedef struct {
   int (*cd)(const char *path,int fd);
   int (*cat)(const char *path,int fd);
   int (*rm)(const char* path,int fd);
+  int (*newfile)(const char*path);
 } MODULE(vfs);
 
 inode_t root;
