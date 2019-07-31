@@ -13,7 +13,7 @@ static void root_init(){
     root.fs = &blkfs[0];
     root.mode = O_RDWR;
     root.refcnt = 0;
-    root.ops = blkfs_inode_op;
+    root.ops = &blkfs_inode_op;
     root.size = 0;
     root.ptr = NULL;
 }
