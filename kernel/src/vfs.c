@@ -119,9 +119,10 @@ int vfs_mkdir (const char *path){
         parent_name[i]='\0';
         printf("%s\n",parent_name);
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
-        return parent_node->ops->mkdir(parent_node,path+i);
+        parent_node->ops->mkdir(parent_node,path+i);
+        kmt->spin_unlock(&inode_rwlk);
+        return 0;
     }
-    kmt->spin_unlock(&inode_rwlk);
 }
 
 int vfs_rmdir (const char *path){
