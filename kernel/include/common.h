@@ -50,6 +50,13 @@ typedef struct inode inode_t;
 typedef struct fsops fsops_t;
 typedef struct filesystem filesystem_t;
 
+struct file {
+    int refcnt; // 引用计数
+    inode_t *inode;
+    uint64_t offset;
+    //int flags;
+//...
+};
 
 
 struct Cpu{
@@ -96,13 +103,6 @@ typedef struct Handle{
 
 
 
-struct file {
-    int refcnt; // 引用计数
-    inode_t *inode;
-    uint64_t offset;
-    //int flags;
-//...
-};
 
 struct filesystem{
   // ... 
