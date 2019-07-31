@@ -135,7 +135,8 @@ void vfs_init (){
 	vfs->newfile("/dev/tty4");
 	vfs->newfile("/dev/ramdisk0");
 	vfs->newfile("/dev/ramdisk1");
-    
+    vfs->newfile("/proc/cpuinfo");
+    vfs->newfile("/proc/meminfo");
     //vfs_ls("/");
     //check_ls("/dev");
 }
@@ -216,7 +217,7 @@ int vfs_newfile(const char*path){
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     } else if(i==0){
-        create_inode(&root->fs,&root,path+1,O_RDONLY,ORD_FILE);
+        create_inode(&root.fs,&root,path+1,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }else
@@ -225,7 +226,7 @@ int vfs_newfile(const char*path){
         strncpy(parent_name,path,i);
         parent_name[i]='\0';
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
-        create_inode(parent_inode->fs,parent_node,path+i+1,O_RDONLY,ORD_FILE);
+        create_inode(parent_node->fs,parent_node,path+i+1,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }
@@ -314,5 +315,5 @@ MODULE_DEF(vfs){
     .cd = vfs_cd,
     .cat = vfs_cat,
     .rm = vfs_rm,
-    .newfile = vfs_newfile;
+    .newfile = vfs_newfile,
  };
