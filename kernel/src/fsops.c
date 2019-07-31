@@ -104,8 +104,8 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
     }
     device_t *inode_dev = (device_t *)file->inode->ptr;
     printf("ss is %s\n",inode_dev->name);
-    //ssize_t read_size = file->offset + size > file->inode->size?file->inode->size - file->offset:size;
-    ssize_t read_size = size;
+    ssize_t read_size = file->offset + size > file->inode->size?file->inode->size - file->offset:size;
+    //ssize_t read_size = size;
     //printf("read_size is %d and we need read%d\n",read_size,size);
     inode_dev->ops->read(inode_dev,file->offset,buf,read_size);
     file->offset += read_size;
