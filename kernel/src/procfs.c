@@ -22,7 +22,7 @@ int proc_cat(const char* path,int fd){
                 strcat(cpuino,tempss);
                 strcat(cpuino,"vendor_id : OSintel\nmodel:17\nmodel name:OS(R) Core(TM) i0-0001HQ CPU @ 0.00GHz\n\n");
             }
-            vfs->write(fd,cpuino,strlen(cpuinfo));
+            vfs->write(fd,cpuino,strlen(cpuino));
         }
     }else if(!strncmp(path,"/proc/meminfo",13)){
 
