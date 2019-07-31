@@ -23,11 +23,11 @@ void vfs_init (){
     strcpy(current_path,"/");
     root_init();
     //vfs->mount("/",&blkfs[0]);
-	vfs->mount("/mnt",&blkfs[1]);
+	vfs->mount("/mnt",&blkfs[1],"mnt");
 	vfs->mkdir("/dev");
-	vfs->mount("/dev",&devfs);
+	vfs->mount("/dev",&devfs,"dev");
 	vfs->mkdir("/proc");
-	vfs->mount("/proc",&procfs);
+	vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
 	vfs->mkdir("/dev/tty2");
 	vfs->mkdir("/dev/tty3");
@@ -66,9 +66,9 @@ int vfs_access (const char *path, int mode){
     return 0;
 }
 
-int vfs_mount (const char *path, filesystem_t *fs){
+int vfs_mount (const char *path, filesystem_t *fs,char *name){
     inode_t parent_node = root.fs->ops->lookup(root.fs,path,O_RDWR,0);
-    create_inode(fs,parent_node, fs->name,O_RDWR);
+    create_inode(fs,parent_node, name,O_RDWR);
     return 0;
 }
 
