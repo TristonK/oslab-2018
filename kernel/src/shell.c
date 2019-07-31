@@ -35,7 +35,8 @@ void path_translation(const char* path){
 
 void shell_thread(void* ttyid) {
     //output form: "buf: current_path$ stdin"  
-    int tty_id = (int)*(int*)ttyid;
+    //int tty_id = *(int*)ttyid;
+    printf("%s\n",ttyid);
     char buf[32];
     //printf("66666666666666666\n");
     printf("this iddd is %d\n",tty_id);
