@@ -64,6 +64,7 @@ void vfs_init (){
     vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
+    printf("shit\n");
 	vfs->mkdir("/dev/tty2");
 	vfs->mkdir("/dev/tty3");
 	vfs->mkdir("/dev/tty4");
