@@ -22,12 +22,16 @@ void path_translation(const char* path){
             strncpy(newpath,"/",1);
         }else
             strncpy(newpath,current_path,i);
+        printf("%s\n",newpath);
         strcat(full_path,newpath);
         path = path+2;
         strcat(full_path,path);
-    } else if(!strncmp(path,".",1) || strncmp(path,"/",1)){
+    } else if(!strncmp(path,".",1)){
         strcat(full_path,current_path);
         path = path+1;
+        strcat(full_path,path);
+    }else if(strncmp(path,"/",1)){
+        strcat(full_path,current_path);
         strcat(full_path,path);
     } else{
         strcpy(full_path,path);
