@@ -142,7 +142,7 @@ fsops_t blkfs_op{
     .init = fs_init,
     .lookup = fs_lookup,
     .close = fs_close, 
-}
+};
 
 inodeops_t blkfs_inode_op{
     .open   =   ifs_open,
@@ -154,4 +154,4 @@ inodeops_t blkfs_inode_op{
     .rmdir  =   ifs_rmdir,
     .link   =   ifs_link,
     .unlink =   ifs_unlink,
-}
+};

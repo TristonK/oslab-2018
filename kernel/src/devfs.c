@@ -6,7 +6,7 @@ fsops_t devfs_op{
     .init = devfs_init,
     .lookup = devfs_lookup,
     .close = devfs_close, 
-}
+};
 
 struct filesystem devfs = {
     .name = "/dev",
