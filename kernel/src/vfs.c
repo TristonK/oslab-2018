@@ -45,6 +45,7 @@ int vfs_ls(const char* path){
 
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
+    printf("shit\n");
     strcpy(current_path,"/");
     current_fs = &blkfs[0];
     root_init();
