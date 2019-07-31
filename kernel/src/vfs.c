@@ -217,7 +217,7 @@ int vfs_newfile(const char*path){
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     } else if(i==0){
-        create_inode(&root.fs,&root,path+1,O_RDONLY,ORD_FILE);
+        create_inode(root.fs,&root,path+1,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     }else
