@@ -8,7 +8,7 @@ handle* hde;
 //#define TTy
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
-extern void shell_thread(int tty_id) 
+extern void shell_thread(int tty_id); 
 
 void cpu_test(void *name){
   while(1){
