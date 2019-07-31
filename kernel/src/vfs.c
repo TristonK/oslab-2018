@@ -112,11 +112,13 @@ int vfs_unlink (const char *path){
 
 int vfs_open (const char *path, int flags){
     for(int i=0;i<NOFILE;i++){
-        if(runtask[_cpu()]->fildes[i]->inode==NULL){
+        if(runtask[_cpu()]->fildes[i]==NULL){
             inode_t* file_node = fs_lookup(&blkfs[0],path,flags,0);
-            runtask[_cpu()]->fildes[i]->inode = file_node;
-            runtask[_cpu()]->fildes[i]->refcnt = 0;
-            runtask[_cpu()]->fildes[i]->offset = 0;
+            file_t* newfile = pmm->alloc(sizeof(file_t));
+            newfile->inode = file_node;
+            newfile->refcnt = 0;
+            newfile->offset = 0;
+            runtask[_cpu()]->fildes[i] = newfile;
             return i;
         }
     }
@@ -143,8 +145,8 @@ off_t vfs_lseek (int fd, off_t offset, int whence){
 }
 
 int vfs_close (int fd){
-    runtask[_cpu()]->fildes[fd]->inode = NULL;
-    runtask[_cpu()]->fildes[fd]->offset = 0;
+    pmm->free(runtask[_cpu()]->fildes[fd]);
+    runtask[_cpu()]->fildes[fd] = NULL;
     return 0;
 }
 
