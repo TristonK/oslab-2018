@@ -7,6 +7,8 @@ char cpuino[428];
 char memi1[64];
 char memi2[64];
 char memi3[64];
+char in_ref[32];
+char out_ref[32];
 
 int cpuflag = 0;
 
@@ -34,6 +36,15 @@ int proc_cat(const char* path,int fd){
         vfs->write(fd,memi2,strlen(memi2));
         vfs->write(fd,memi3,strlen(memi3));
     }else{
+        if(!strcmp(path,"/proc/0")){
+            sprintf(in_ref,"refcnt : %d\n\0",runtask[_cpu()]->fildes[0]->refcnt);
+            vfs->write(fd,in_ref,strlen(in_ref));
+        }
+        else if (!strcmp(path,"/path/1"))
+        {
+            sprintf(out_ref,"refcnt : %d\n\0",runtask[_cpu()]->fildes[1]->refcnt);
+            vfs->write(fd,out_ref,strlen(out_ref));
+        }
         
     }
     return 0;

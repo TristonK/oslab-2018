@@ -170,6 +170,8 @@ void vfs_init (){
     char *added_con = pmm->alloc(128);
     strcpy(added_con,"#include<stdio.h>\nint main(){\n  printf(\"hello world\");\n  return 0;\n}\n\0");
     vfs_addcontent("/hello.c",added_con);
+    vfs->newfile("/proc/0");
+    vfs->newfile("/proc/1");
     //vfs_ls("/");
     //check_ls("/dev");
 }
@@ -303,10 +305,6 @@ int vfs_open (const char *path, int flags){
             newfile->refcnt = 0;
             newfile->offset = 0;
             runtask[_cpu()]->fildes[i] = newfile;
-            char tp_name[16];
-            sprintf(tp_name,"/proc/%d\0",i);
-            printf("%s\n",tp_name);
-            vfs->mkdir(tp_name);
             return i;
         }
     }
@@ -316,11 +314,13 @@ int vfs_open (const char *path, int flags){
 
 ssize_t vfs_read (int fd, void *buf, size_t nbyte){
     file_t* node_file = runtask[_cpu()]->fildes[fd];
+    node_file->refcnt++;
     return node_file->inode->ops->read(node_file,buf,nbyte);
 }
 
 ssize_t vfs_write (int fd, void *buf, size_t nbyte){
     file_t* node_file = runtask[_cpu()]->fildes[fd];
+    node_file->refcnt++;
     return node_file->inode->ops->write(node_file,buf,nbyte);
 }
 
