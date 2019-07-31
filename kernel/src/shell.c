@@ -43,7 +43,7 @@ void shell_thread(void* ttyid) {
     sprintf(buf, "/dev/%s",ttyid);
     //buf[8] = '0'+tty_id;
     buf[9] = '\0';
-    printf("%s\n",buf);
+    //printf("%s\n",buf);
     int stdin = vfs->open(buf, O_RDONLY);
     int stdout = vfs->open(buf, O_WRONLY);
     char text[128];
@@ -52,6 +52,7 @@ void shell_thread(void* ttyid) {
     ssize_t nread = 0;
     while (1) {
         if (nread!=0) {
+            printf("chrkk\n");
             if(line[nread-1]=='\n'){
                 int cmd_cnt = 0; int flag = 0; 
                 char cmd[32];char in_path[128];

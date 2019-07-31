@@ -98,7 +98,7 @@ void vfs_init (){
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
     //vfs_ls("/");
-    check_ls("/dev");
+    //check_ls("/dev");
 }
 
 
