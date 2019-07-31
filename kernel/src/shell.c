@@ -35,13 +35,13 @@ void path_translation(const char* path){
 
 void shell_thread(void* ttyid) {
     //output form: "buf: current_path$ stdin"  
-    int tty_id = *(int*)ttyid;
-    printf("%s\n",ttyid);
+    //int tty_id = *(int*)ttyid;
+    //printf("%s\n",ttyid);
     char buf[32];
     //printf("66666666666666666\n");
-    printf("this iddd is %d\n",tty_id);
-    sprintf(buf, "/dev/tty");
-    buf[8] = '0'+tty_id;
+    //printf("this iddd is %s\n",ttyid);
+    sprintf(buf, "/dev/%s",ttyid);
+    //buf[8] = '0'+tty_id;
     buf[9] = '\0';
     printf("%s\n",buf);
     int stdin = vfs->open(buf, O_RDONLY);
