@@ -60,7 +60,7 @@ void shell_thread(void* ttyid) {
                 int path_cnt = 0;
                 for(int i=0;i<nread-1;i++){
                     if(line[i]==' ' && !flag){
-                        cmd[i] = '\0';
+                        //cmd[i] = '\0';
                         flag = 1;
                     }else if(line[i]==' ' && flag){
                         vfs->write(stdout,"sorry we don't support it\n",6);
@@ -73,6 +73,7 @@ void shell_thread(void* ttyid) {
                     }
                 }
                 printf("cmd_int is %d and path_cnt is %d\n",cmd_cnt,path_cnt);
+                cmd[cmd_cnt] = '\0';
                 in_path[path_cnt] = '\0';
                 if(!path_cnt){
                     strcpy(in_path,current_path);
