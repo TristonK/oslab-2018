@@ -70,7 +70,7 @@ int vfs_access (const char *path, int mode){
 }
 
 int vfs_mount (const char *path, filesystem_t *fs,char *name){
-    inode_t parent_node = root.fs->ops->lookup(root.fs,path,O_RDWR,0);
+    inode_t* parent_node = root.fs->ops->lookup(root.fs,path,O_RDWR,0);
     create_inode(fs,parent_node, name,O_RDWR);
     return 0;
 }
@@ -87,11 +87,11 @@ int vfs_mkdir (const char *path){
             break;
     }
     if(i==0){
-        return root.ops->mkdir(root,path+1);
+        return root.ops->mkdir(&root,path+1);
     }else
     {
         char parent_name[32];
-        strncpy(&parent_name,path,i);
+        strncpy(parent_name,path,i);
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         return parent_node->ops->mkdir(parent_node,path+i);
     }
@@ -112,7 +112,7 @@ int vfs_unlink (const char *path){
 int vfs_open (const char *path, int flags){
     for(int i=0;i<NOFILE;i++){
         if(runtask[_cpu()]->fildes[i]->inode==NULL){
-            inode_t* file_node = fs_lookup(blkfs[0],path,flags,0);
+            inode_t* file_node = fs_lookup(&blkfs[0],path,flags,0);
             runtask[_cpu()]->fildes[i]->inode = file_node;
             runtask[_cpu()]->fildes[i]->refcnt = 0;
             runtask[_cpu()]->fildes[i]->offset = 0;
