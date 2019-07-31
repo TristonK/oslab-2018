@@ -139,7 +139,7 @@ int vfs_access (const char *path, int mode){
 
 int vfs_mount (const char *path, filesystem_t *fs,char *name){
     inode_t* parent_node = root.fs->ops->lookup(root.fs,path,O_RDWR,0);
-    create_inode(fs,parent_node, name,O_RDWR);
+    create_inode(fs,parent_node, name,O_RDWR,DIR_FILE);
     return 0;
 }
 
