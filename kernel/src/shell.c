@@ -35,7 +35,7 @@ void path_translation(const char* path){
 
 /*void shell_thread(int tty_id) {
     char buf[128];
-    //****
+
     sprintf(buf, "/dev/tty%d", tty_id);
     int stdin = vfs->open(buf, O_RDONLY);
     int stdout = vfs->open(buf, O_WRONLY);
