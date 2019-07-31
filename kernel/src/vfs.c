@@ -18,24 +18,6 @@ static void root_init(){
     root.ptr = NULL;
 }
 
-void vfs_init (){
-    kmt->spin_init(&inode_rwlk,"inode read_write lock");
-    strcpy(current_path,"/");
-    root_init();
-    //vfs->mount("/",&blkfs[0]);
-	vfs->mount("/mnt",&blkfs[1],"mnt");
-	vfs->mkdir("/dev");
-	vfs->mount("/dev",&devfs,"dev");
-	vfs->mkdir("/proc");
-	vfs->mount("/proc",&procfs,"proc");
-	vfs->mkdir("/dev/tty1");
-	vfs->mkdir("/dev/tty2");
-	vfs->mkdir("/dev/tty3");
-	vfs->mkdir("/dev/tty4");
-	vfs->mkdir("/dev/ramdisk0");
-	vfs->mkdir("/dev/ramdisk1");
-    vfs_ls("/");
-}
 
 int vfs_ls(const char* path){
     //!!!!!!!!!!!!!!!!!!!!!!!!change print
@@ -57,6 +39,27 @@ int vfs_ls(const char* path){
         printf("\n");
     }
 }
+
+
+void vfs_init (){
+    kmt->spin_init(&inode_rwlk,"inode read_write lock");
+    strcpy(current_path,"/");
+    root_init();
+    //vfs->mount("/",&blkfs[0]);
+	vfs->mount("/mnt",&blkfs[1],"mnt");
+	vfs->mkdir("/dev");
+	vfs->mount("/dev",&devfs,"dev");
+	vfs->mkdir("/proc");
+	vfs->mount("/proc",&procfs,"proc");
+	vfs->mkdir("/dev/tty1");
+	vfs->mkdir("/dev/tty2");
+	vfs->mkdir("/dev/tty3");
+	vfs->mkdir("/dev/tty4");
+	vfs->mkdir("/dev/ramdisk0");
+	vfs->mkdir("/dev/ramdisk1");
+    vfs_ls("/");
+}
+
 
 int vfs_access (const char *path, int mode){
     int path_len = strlen(path);
@@ -88,8 +91,8 @@ int vfs_mkdir (const char *path){
     }else
     {
         char parent_name[32];
-        strcat(&parent_name,path,i);
-        inode_t* parent_node = fs_lookup(blkfs[0],parent_name,O_RDWR,0);
+        strncpy(&parent_name,path,i);
+        inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         return parent_node->ops->mkdir(parent_node,path+i);
     }
 }
