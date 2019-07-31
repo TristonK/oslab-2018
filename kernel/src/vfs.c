@@ -89,7 +89,7 @@ int vfs_unmount (const char *path){
 int vfs_mkdir (const char *path){
     //printf("%s\n",path);
     int lens = strlen(path);
-    printf("len is %d",lens);
+    printf("len is %d\n",lens);
     int i;
     for(i=lens-1;i>=0;i--){
         if(path[i]=='/')
