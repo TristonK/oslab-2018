@@ -87,6 +87,7 @@ int vfs_unmount (const char *path){
 }
 
 int vfs_mkdir (const char *path){
+    printf("%s\n",path);
     int len = strlen(path);
     printf("len is %d",len);
     int i;
