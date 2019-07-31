@@ -53,9 +53,9 @@ void vfs_init (){
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
     printf("shit1\n");
-	vfs->mkdir("/dev");
+	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
-	vfs->mkdir("/proc");
+	vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
 	vfs->mkdir("/dev/tty2");
