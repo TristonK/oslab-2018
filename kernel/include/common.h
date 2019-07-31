@@ -7,6 +7,9 @@
 
 task_t *runtask[16];
 
+int all_size;
+int used_size;
+
 /*
  */ 
 spinlock_t inode_rwlk;

@@ -4,7 +4,9 @@
 
 struct filesystem procfs;
 char cpuino[428];
-char memino[256];
+char memi1[64];
+char memi2[64];
+char memi3[64];
 
 int cpuflag = 0;
 
@@ -25,7 +27,12 @@ int proc_cat(const char* path,int fd){
             vfs->write(fd,cpuino,strlen(cpuino));
         }
     }else if(!strncmp(path,"/proc/meminfo",13)){
-
+        sprintf(memi1,"MemTotal    : %d\n",all_size);
+        sprintf(memi2,"MemAvailable: %d\n",all_size-used_size);
+        sprintf(memi3,"MemUsed     : %d\n",used_size);
+        vfs->write(fd,memi1,strlen(memi1));
+        vfs->write(fd,memi2,strlen(memi2));
+        vfs->write(fd,memi3,strlen(memi3));
     }else{
 
     }

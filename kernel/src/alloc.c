@@ -64,6 +64,7 @@ static void pmm_init() {
   //printf("heap start at %d\n",pm_start);
   //printf("heap end at %d\n",pm_end);
   //printf("you could use %d space\n",pm_end-pm_start);
+  all_size = pm_end-pm_start;
   //alloc_lk.status = 0;
   //print_lk.status =0;
   runhead.begin_addr = 0;
@@ -199,6 +200,7 @@ static void *alloc_unsafe(size_t size){
   if(size == 0)
     return NULL;
   uintptr_t block_size = (size/1024+(size%1024!=0))*1024;
+  used_size += block_size;
   kblock *block1 = freelist.head->next;
   while(block1->size<block_size&&block1->next!=NULL){
       block1 = block1->next;
@@ -262,6 +264,7 @@ void free_unsafe(uintptr_t b_addr){
         kmt->spin_unlock(&print_lk);
         return;
     }
+    used_size =used_size - used_block->size;
     used_block->state=1;
     runlist.size--;
     freelist.size++;   //show_alloc();
