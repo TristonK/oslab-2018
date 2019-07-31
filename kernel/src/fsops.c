@@ -3,7 +3,7 @@
 #include <devices.h>
 
 struct filesystem blkfs[2];
-extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode);
+extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode,int types);
 extern int free_inode(inode_t* f_inode);
 extern inodeops_t blkfs_inode_op;
 extern fsops_t blkfs_op;

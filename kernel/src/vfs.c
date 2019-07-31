@@ -5,7 +5,7 @@
 extern inodeops_t blkfs_inode_op;
 extern fsops_t blkfs_op;
 extern inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from);
-extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode);
+extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode,int types);
 extern int free_inode(inode_t* f_inode);
 
 static void root_init(){
