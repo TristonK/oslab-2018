@@ -18,12 +18,12 @@ int proc_cat(const char* path,int fd){
                 char temp[24];
                 sprintf(temp,"processor : %d\n",i);
                 strcat(cpuinfo,temp);
-                strcat(cpuinfo,"vendor_id : OSintel\nmodel:17\nmodel name:OS(R) Core(TM) i0-0001HQ CPU @ 0.00GHz\n\n")
+                strcat(cpuinfo,"vendor_id : OSintel\nmodel:17\nmodel name:OS(R) Core(TM) i0-0001HQ CPU @ 0.00GHz\n\n");
             }
             vfs->write(fd,cpuinfo,strlen(cpuinfo));
         }
     }else if(!strncmp(path,"/proc/meminfo",13)){
-        
+
     }else{
 
     }
