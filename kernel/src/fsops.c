@@ -16,6 +16,7 @@ void fs_init(struct filesystem *fs, const char *name, device_t *dev){
 }
 
 static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int flags,inode_t *parent){
+    printf("try to find %s\n",path);
     inode_t* scan = parent->child;
     if(path[0]!='/'){
         printf("BAD PATH\n");
