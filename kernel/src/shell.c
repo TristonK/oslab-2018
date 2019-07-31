@@ -94,6 +94,7 @@ void shell_thread(void* ttyid) {
                     vfs->write(stdout,err_info,sizeof(err_info));
                 }
                 nread = 0;
+                memset(line,'\0',sizeof(line));
             }
         } else {
             sprintf(text, "(%s) :", buf);
