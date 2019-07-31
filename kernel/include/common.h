@@ -47,6 +47,7 @@ enum {
 
 typedef struct file file_t;
 typedef struct inode inode_t;
+typedef struct fsops fsops_t;
 
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
@@ -100,12 +101,6 @@ struct file {
 //...
 };
 
-typedef struct fsops {
-  void (*init)(struct filesystem *fs, const char *name, device_t *dev);
-  inode_t *(*lookup)(struct filesystem *fs, const char *path, int flags, int from);
-  int (*close)(inode_t *inode);
-} fsops_t;
-
 struct filesystem{
   // ... 
   char name[32];
@@ -113,6 +108,11 @@ struct filesystem{
   device_t *dev;
 };
 
+struct fsops {
+  void (*init)(struct filesystem *fs, const char *name, device_t *dev);
+  inode_t *(*lookup)(struct filesystem *fs, const char *path, int flags, int from);
+  int (*close)(inode_t *inode);
+};
 
 typedef struct inodeops {
   int (*open)(file_t *file, int flags);
