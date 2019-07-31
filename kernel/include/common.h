@@ -45,6 +45,8 @@ enum {
 #define SEEK_CUR 1
 #define SEEK_END 2
 
+typedef struct file file_t;
+
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
     int intena; // interrupt enabled before pushcli?
@@ -58,7 +60,7 @@ struct task {
     _Context context;
     _Area stk;
     char stack[4096];
-    file_t *fildes[NOFILE]
+    file_t *fildes[NOFILE];
 };
 struct spinlock {
     intptr_t locked;
@@ -89,13 +91,13 @@ typedef struct Handle{
 
 extern struct filesystem blkfs[2],procfs,devfs;
 
-typedef struct file {
+struct file {
     int refcnt; // 引用计数
     inode_t *inode;
     uint64_t offset;
     //int flags;
 //...
-} file_t;
+};
 
 typedef struct fsops {
   void (*init)(struct filesystem *fs, const char *name, device_t *dev);
