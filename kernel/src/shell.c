@@ -62,7 +62,7 @@ void shell_thread(void* ttyid) {
                     if(line[i]==' ' && !flag){
                         cmd[i] = '\0';
                         flag = 1;
-                    }else if(line[i]==' ' && !flag){
+                    }else if(line[i]==' ' && flag){
                         vfs->write(stdout,"sorry\n",6);
                     }else if(!flag){
                         cmd[i] = line[i];
