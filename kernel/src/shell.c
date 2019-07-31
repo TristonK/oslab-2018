@@ -1,7 +1,7 @@
 #include <common.h>
 #include <klib.h>
 #include <devices.h>
-#define Debug
+//#define Debug
 
 char full_path[128];
 
@@ -22,9 +22,9 @@ void path_translation(const char* path){
         if(i==0){
             strcpy(newpath,"/");
         }else{
-            printf("%d ss\n",i);
-            printf("%s\n",current_path);
-            printf("nnn %s\n",newpath);
+            //printf("%d ss\n",i);
+            //printf("%s\n",current_path);
+            //printf("nnn %s\n",newpath);
             strncpy(newpath,current_path,i);
         }
         printf("%s\n",newpath);

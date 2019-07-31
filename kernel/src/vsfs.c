@@ -5,7 +5,7 @@
 
 extern inodeops_t blkfs_inode_op;
 
-inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,int mode){
+inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,int mode,int types){
     inode_t* new_inode = pmm->alloc(sizeof(inode_t));
     new_inode->parent = parent_node;
     new_inode->next = new_inode->child = NULL;
@@ -15,6 +15,7 @@ inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,in
     new_inode->mode = mode;
     new_inode->refcnt = 0;
     new_inode->ops =  &blkfs_inode_op;
+    new_inode->types = types;
     if(!strcmp(parent_node->name,"dev")){
         new_inode->ptr = (void*) dev_lookup(name);
     }
