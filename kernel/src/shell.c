@@ -101,6 +101,7 @@ void shell_thread(void* ttyid) {
             //printf("222\n");
             nread = vfs->read(stdin, line, sizeof(line));
             printf("%d\n",nread);
+            printf("%s\n",stdin);
         }
     /* supported commands:
     * ls
