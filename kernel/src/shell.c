@@ -106,7 +106,7 @@ void shell_thread(void* ttyid) {
                 }else if(!strcmp(cmd,"mkdir")){
                     vfs->mkdir(full_path);
                 }else if(!strcmp(cmd,"cat")){
-                    printf("cattt\n");
+                    vfs->cat(full_path,stdout);
                 }else if(!strcmp(cmd,"rm")){
                     vfs->rm(full_path,stdout);
                 }else if (!strcmp(cmd,"rmdir")){
