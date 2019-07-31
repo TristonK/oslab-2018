@@ -89,9 +89,14 @@ int vfs_cat(const char* path,int fd){
 
 int vfs_rm(const char* path,int fd){
     inode_t* dele_node = fs_lookup(&blkfs[0],path,O_RDONLY,0);
+    char error_info[128];
+    memset(error_info,'\0',sizeof(error_info));
+    if(dele_node == NULL){
+        sprintf(error_info,"rm: cannot remove '%s': No such file or directory",path);
+        vfs->write(fd,error_info,strlen(error_info));
+        return -1;
+    }
     if(dele_node->types == DIR_FILE){
-        char error_info[128];
-        memset(error_info,'\0',sizeof(error_info));
         sprintf(error_info,"rm: cannot remove '%s': Is a directory,please use rmdir\n",path);
         vfs->write(fd,error_info,strlen(error_info));
     } else{
@@ -191,7 +196,10 @@ static void rmdir_recursive(inode_t* dele){
 
 int vfs_rmdir (const char *path){
     inode_t* dele_node = fs_lookup(&blkfs[0],path,O_RDONLY,0);
+    if(dele_node==NULL)
+        return -1;
     rmdir_recursive(dele_node);
+    return 0;
 }
 
 int vfs_link (const char *oldpath, const char *newpath){

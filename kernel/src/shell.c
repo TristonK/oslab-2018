@@ -108,7 +108,11 @@ void shell_thread(void* ttyid) {
                 }else if(!strcmp(cmd,"cat")){
                     printf("cattt\n");
                 }else if(!strcmp(cmd,"rm")){
-                    printf("rmmmmm\n");
+                    vfs->rm(full_path,stdout);
+                }else if (!strcmp(cmd,"rmdir")){
+                    int ret = vfs->rmdir(path);
+                    if(ret == -1)
+                        vfs->write(stdout,"rmdir: no such directory\n",25);
                 }else {
                     char err_info[128];
                     //memset(err_info,'\0',sizeof(err_info));
