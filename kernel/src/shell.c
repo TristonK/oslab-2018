@@ -126,7 +126,7 @@ void shell_thread(void* ttyid) {
             vfs->write(stdout, text, strlen(text));
 			vfs->write(stdout, current_path, strlen(current_path));
             //printf("shit\n");
-			vfs->write(stdout, inter, strlen(inter));
+			vfs->write(stdout, inter,1);
             //printf("222\n");
             memset(line,'\0',sizeof(line));
             nread = vfs->read(stdin, line, sizeof(line));
