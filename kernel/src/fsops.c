@@ -99,6 +99,7 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
     kmt->spin_lock(&inode_rwlk);
     if(file->inode->types==DIR_FILE){
         printf("ERROR: %s is a directory\n",file->inode->name);
+        kmt->spin_unlock(&inode_rwlk);
         return -1;
     }
     device_t *inode_dev = (device_t *)file->inode->ptr;
@@ -113,6 +114,7 @@ ssize_t ifs_write(file_t *file, const char *buf, size_t size){
     kmt->spin_lock(&inode_rwlk);
     if(file->inode->types==DIR_FILE){
         printf("ERROR: %s is a directory\n",file->inode->name);
+        kmt->spin_unlock(&inode_rwlk);
         return -1;
     }
     device_t *inode_dev = (device_t *)file->inode->ptr;
