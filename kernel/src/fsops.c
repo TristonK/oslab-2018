@@ -111,16 +111,16 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
 }
 ssize_t ifs_write(file_t *file, const char *buf, size_t size){
     //MAY WRONG: PLEASE CHANGE THE SIZE AND POINTER
-    kmt->spin_lock(&inode_rwlk);
+    //kmt->spin_lock(&inode_rwlk);
     if(file->inode->types==DIR_FILE){
         printf("ERROR: %s is a directory\n",file->inode->name);
-        kmt->spin_unlock(&inode_rwlk);
+        //kmt->spin_unlock(&inode_rwlk);
         return -1;
     }
     device_t *inode_dev = (device_t *)file->inode->ptr;
     inode_dev->ops->write(inode_dev,file->offset,buf,size);
     file->offset += size;
-    kmt->spin_unlock(&inode_rwlk);
+    //kmt->spin_unlock(&inode_rwlk);
     return size;
 }
 off_t ifs_lseek(file_t *file, off_t offset, int whence){
