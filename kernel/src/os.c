@@ -59,6 +59,7 @@ static void os_init() {
   kmt->init();
   dev->init();
   kmt->spin_init(&ostrap,"trap_lock");
+  vfs->init();
   /*kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "a");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "b");
   kmt->create(pmm->alloc(sizeof(task_t)), "print", cpu_test, "c");
@@ -76,8 +77,7 @@ static void os_init() {
   kmt->sem_init(&fulll, "fill", 0);
   kmt->spin_init(&p_c, "pro_consumer");
   #endif
-  //handl.head = NULL;
-  //handl.size = 0;
+  
 }
 
 

@@ -9,7 +9,6 @@
 struct Cpu mycpu[16];
 spinlock_t task_lk;
 task_t *c_task[32];
-task_t *runtask[16];
 _Context store_cond[16];
 //***************
 
