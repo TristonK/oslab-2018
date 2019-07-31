@@ -90,11 +90,12 @@ int vfs_mkdir (const char *path){
     //printf("%s\n",path);
     int lens = strlen(path);
     printf("len is %d\n",lens);
-    int i;
-    for(i=lens-1;i>=0;i--){
+    int i=lens-1;
+    for(;i>=0;i--){
         printf("i is %d\n");
-        if(path[i]=='/')
+        if(path[i]=='/'){
             break;
+        }
     }
     printf("%d  \n",i);
     if(i==0){
