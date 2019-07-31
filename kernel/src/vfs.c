@@ -46,7 +46,7 @@ char tab[2] = " ";
 char next_line[2] = "\n";
 
 
-void vfs_ls(const char* path,int fd){
+int vfs_ls(const char* path,int fd){
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
         char err_info[128];
