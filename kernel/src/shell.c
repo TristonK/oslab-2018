@@ -110,7 +110,7 @@ void shell_thread(void* ttyid) {
                 }else if(!strcmp(cmd,"rm")){
                     vfs->rm(full_path,stdout);
                 }else if (!strcmp(cmd,"rmdir")){
-                    int ret = vfs->rmdir(path);
+                    int ret = vfs->rmdir(full_path);
                     if(ret == -1)
                         vfs->write(stdout,"rmdir: no such directory\n",25);
                 }else {
