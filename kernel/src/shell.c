@@ -37,7 +37,8 @@ void shell_thread(void* ttyid) {
     //output form: "buf: current_path$ stdin"  
     int tty_id = *(int*)ttyid;
     char buf[32];
-    printf("66666666666666666\n");
+    //printf("66666666666666666\n");
+    printf("this iddd is %d\n",tty_id);
     sprintf(buf, "/dev/tty%d", tty_id);
     printf("%s\n",buf);
     int stdin = vfs->open(buf, O_RDONLY);
