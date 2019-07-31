@@ -83,7 +83,7 @@ void shell_thread(void* ttyid) {
                     vfs->ls(full_path,stdout);
                 }else if (!strcmp(cmd,"cd"))
                 {
-                    printf("cdddd\n");
+                    vfs->cd(full_path,stdout);
                 }else if(!strcmp(cmd,"mkdir")){
                     vfs->mkdir(full_path);
                 }else if(!strcmp(cmd,"cat")){

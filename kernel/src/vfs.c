@@ -47,7 +47,7 @@ char next_line[2] = "\n";
 
 
 int vfs_ls(const char* path,int fd){
-    printf("go ls\n");
+   // printf("go ls\n");
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
         char err_info[128];
