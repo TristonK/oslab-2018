@@ -5,6 +5,7 @@
 extern inodeops_t blkfs_inode_op;
 extern fsops_t blkfs_op;
 extern inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from);
+extern struct filesystem blkfs[2],procfs,devfs;
 
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");

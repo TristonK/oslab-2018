@@ -46,6 +46,7 @@ enum {
 #define SEEK_END 2
 
 typedef struct file file_t;
+typedef struct inode inode_t;
 
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
@@ -89,7 +90,7 @@ typedef struct Handle{
     struct handle *head;
 };*/
 
-extern struct filesystem blkfs[2],procfs,devfs;
+
 
 struct file {
     int refcnt; // 引用计数
@@ -112,6 +113,7 @@ struct filesystem{
   device_t *dev;
 };
 
+
 typedef struct inodeops {
   int (*open)(file_t *file, int flags);
   int (*close)(file_t *file);
@@ -125,7 +127,7 @@ typedef struct inodeops {
   // 你可以自己设计readdir的功能
 } inodeops_t;
 
-typedef struct inode {
+struct inode {
 	//...
     char name[32];
     int mode;
@@ -140,7 +142,7 @@ typedef struct inode {
     inode_t *next;
     void *content;
     // ...
-}inode_t;
+};
 
 typedef struct {
   void (*init)();
