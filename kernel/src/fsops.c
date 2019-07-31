@@ -51,10 +51,10 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
 inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from){
     //FUll path
     if(1){
-        if(strcmp(fs->name,"blkfs")){
+        /*if(strcmp(fs->name,"blkfs")){
             printf("ERROR: NOT blkfs SYSTEM, please use the correct function\n");
             return NULL;
-        }
+        }*/
         if(path[0]=='/' && path[1]=='\0'){
             return &root;
         }else
