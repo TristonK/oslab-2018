@@ -26,16 +26,16 @@ void path_translation(const char* path){
         path = path+2;
         strcat(full_path,path);
     } else{
-        strcpy(&full_path,path);
+        strcpy(full_path,path);
     }
     #ifdef Debug
     printf("after translation the path is %s\n",full_path);
     #endif
 }
 
-void shell_thread(int tty_id) {
+/*void shell_thread(int tty_id) {
     char buf[128];
-    //**
+    //****
     sprintf(buf, "/dev/tty%d", tty_id);
     int stdin = vfs->open(buf, O_RDONLY);
     int stdout = vfs->open(buf, O_WRONLY);
@@ -47,12 +47,12 @@ void shell_thread(int tty_id) {
             ssize_t nread = fs->read(stdin, buf, sizeof(buf));
             //todo
         }
-    /* supported commands:
+    * supported commands:
     * ls
     * cd /proc
     * cat filename
     * mkdir /bin
     * rm /bin/abc
-    */
+    *
     }
-}
+}*/
