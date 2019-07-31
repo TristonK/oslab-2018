@@ -62,6 +62,7 @@ void vfs_init (){
 	vfs->mkdir("/dev/tty4");
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
+    printf("shit1\n");
     vfs_ls("/");
 }
 
