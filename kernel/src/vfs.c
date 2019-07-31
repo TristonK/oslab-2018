@@ -7,9 +7,21 @@ extern fsops_t blkfs_op;
 extern inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from);
 extern struct filesystem blkfs[2],procfs,devfs;
 
+static void root_init(){
+    root.parent = NULL;
+    root.types = DIR_FILE;
+    root.fs = &blkfs[0];
+    root.mode = O_RDWR;
+    root.refcnt = 0;
+    root.ops = blkfs_op;
+    root.size = 0;
+    root.ptr = NULL;
+}
+
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
     current_path = "/";
+    root_init();
     //vfs->mount("/",&blkfs[0]);
 	vfs->mount("/mnt",&blkfs[1]);
 	vfs->mkdir("/dev");

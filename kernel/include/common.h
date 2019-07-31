@@ -50,6 +50,8 @@ typedef struct inode inode_t;
 typedef struct fsops fsops_t;
 typedef struct filesystem filesystem_t;
 
+
+
 struct Cpu{
     int ncli;    //Depth of pushcli nesting
     int intena; // interrupt enabled before pushcli?
@@ -161,16 +163,7 @@ typedef struct {
   int (*close)(int fd);
 } MODULE(vfs);
 
-inode_t root = {
-    .parent = NULL,
-    .types = DIR_FILE,
-    .fs = &blkfs[0]，
-    .mode = O_RDWR，
-    .refcnt = 0,
-    .ops = blkfs_op,
-    .size = 0,
-    .ptr = NULL,
-};
+inode_t root;
 
 char current_path[128]="/";
 filesystem *currentfs = &blkfs[0];
