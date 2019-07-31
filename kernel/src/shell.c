@@ -90,6 +90,7 @@ void shell_thread(void* ttyid) {
                     sprintf(err_info,"ksh : command not found : %s\n",cmd);
                     vfs->write(stdout,err_info,sizeof(err_info));
                 }
+                nread = 0;
             }
         } else {
             sprintf(text, "(%s) : ", buf);
