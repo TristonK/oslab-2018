@@ -80,6 +80,7 @@ int vfs_cd(const char* path,int fd){
     }
     memset(current_path,'\0',sizeof(current_path));
     strcpy(current_path,path);
+    return 0;
 }
 
 int vfs_cat(const char* path,int fd){
