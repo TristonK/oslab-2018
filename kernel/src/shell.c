@@ -72,6 +72,7 @@ void shell_thread(void* ttyid) {
                         path_cnt++;
                     }
                 }
+                printf("cmd_int is %d and path_cnt is %d\n",cmd_cnt,path_cnt);
                 in_path[path_cnt] = '\0';
                 if(!path_cnt){
                     strcpy(in_path,current_path);
