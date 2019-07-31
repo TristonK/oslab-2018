@@ -14,7 +14,7 @@ inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,in
     new_inode->content =NULL;
     new_inode->mode = mode;
     new_inode->refcnt = 0;
-    new_inode->ops =  blkfs_inode_op;
+    new_inode->ops =  &blkfs_inode_op;
     if(parent_node->child == NULL){
         parent_node->child = new_inode;
     }else{
