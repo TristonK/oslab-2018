@@ -52,6 +52,7 @@ void vfs_init (){
     printf("shit1\n");
     //vfs->mount("/",&blkfs[0]);
 	vfs->mount("/mnt",&blkfs[1],"mnt");
+    printf("shit1\n");
 	vfs->mkdir("/dev");
 	vfs->mount("/dev",&devfs,"dev");
 	vfs->mkdir("/proc");
