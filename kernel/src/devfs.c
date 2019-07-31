@@ -2,6 +2,12 @@
 #include <klib.h>
 #include <devices.h>
 
+fsops_t devfs_op{
+    .init = devfs_init,
+    .lookup = devfs_lookup,
+    .close = devfs_close, 
+}
+
 struct filesystem devfs = {
     .name = "/dev",
     .ops = &devfs_op,
@@ -18,11 +24,7 @@ int devfs_close(inode_t *inode){
     return 0;
 }
 
-fsops_t devfs_op{
-    .init = devfs_init,
-    .lookup = devfs_lookup,
-    .close = devfs_close, 
-}
+
 /* 
 int devifs_open(file_t *file, int flags){}
 int devifs_close(file_t *file){}
