@@ -52,7 +52,7 @@ void shell_thread(void* ttyid) {
     ssize_t nread = 0;
     while (1) {
         if (nread!=0) {
-            printf("chrkk\n");
+            //printf("chrkk\n");
             if(line[nread-1]=='\n'){
                 int cmd_cnt = 0; int flag = 0; 
                 char cmd[32];char in_path[128];
