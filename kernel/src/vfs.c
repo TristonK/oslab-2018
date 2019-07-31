@@ -168,7 +168,7 @@ void vfs_init (){
     vfs->newfile("/proc/meminfo");
     vfs->newfile("/hello.c");
     char *added_con = pmm->alloc(128);
-    strcpy(added_con,"#include<stdio.h>\nint main(){\n  printf(\"hello world\");\n  return 0;\n}");
+    strcpy(added_con,"#include<stdio.h>\nint main(){\n  printf(\"hello world\");\n  return 0;\n}\n\0");
     vfs_addcontent("/hello.c",added_con);
     //vfs_ls("/");
     //check_ls("/dev");
