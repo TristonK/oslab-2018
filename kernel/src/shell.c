@@ -93,9 +93,10 @@ void shell_thread(void* ttyid) {
             }
         } else {
             sprintf(text, "(%s) : ", buf);
-            vfs->write(stdout, text, strlen(buf)+5);
+            vfs->write(stdout, text, strlen(text));
 			vfs->write(stdout, current_path, strlen(current_path));
-			vfs->write(stdout, inter, 3);
+			vfs->write(stdout, inter, strlen(inter));
+            printf("222\n");
             nread = vfs->read(stdin, line, sizeof(line));
         }
     /* supported commands:
