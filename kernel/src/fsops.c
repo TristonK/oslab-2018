@@ -37,13 +37,13 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
     }
     if(final_path)
         find_name[i-1] = '\0';
-    //printf("gg %s\n",find_name);
+    printf("gg %s\n",find_name);
     while(scan->next!=NULL){
         if(!strcmp(scan->name,find_name)){
             if(final_path){
                 return scan;
             }else
-            {   //printf("now entern dir %s\n",scan->name);
+            {   printf("now entern dir %s\n",scan->name);
                 return fs_recursive_find(scan->fs,path+i,flags,scan);
             }
         }
