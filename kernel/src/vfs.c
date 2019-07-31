@@ -304,8 +304,8 @@ int vfs_open (const char *path, int flags){
             newfile->offset = 0;
             runtask[_cpu()]->fildes[i] = newfile;
             char temp_name[16];
-            sprintf(temp_name,"/proc/%d\0",i);
-            vfs->newfile(temp_name);
+            //sprintf(temp_name,"/proc/%d\0",i);
+            //vfs->newfile(temp_name);
             return i;
         }
     }
