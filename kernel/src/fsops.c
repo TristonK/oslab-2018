@@ -102,7 +102,6 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
     file->offset += read_size;
     kmt->spin_unlock(&inode_rwlk);
     return size;
-    }
 }
 ssize_t ifs_write(file_t *file, const char *buf, size_t size){
     //MAY WRONG: PLEASE CHANGE THE SIZE AND POINTER
