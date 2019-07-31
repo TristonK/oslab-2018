@@ -32,6 +32,7 @@ void path_translation(const char* path){
         strcat(full_path,path);
     }else if(strncmp(path,"/",1)){
         strcat(full_path,current_path);
+        strcat(full_path,"/");
         strcat(full_path,path);
     } else{
         strcpy(full_path,path);
