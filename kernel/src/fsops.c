@@ -47,6 +47,7 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
                 return fs_recursive_find(scan->fs,path+i,flags,scan);
             }
         }
+        printf("%s\n",scan->name);
         scan = scan->next;
     }
     printf("Invalid path %s\n",path);
