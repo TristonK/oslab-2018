@@ -92,7 +92,7 @@ void shell_thread(void* ttyid) {
                     printf("rmmmmm\n");
                 }else {
                     char err_info[128];
-                    memset(err_info,'\0',sizeof(err_info));
+                    //memset(err_info,'\0',sizeof(err_info));
                     sprintf(err_info,"ksh : command not found %s\n",cmd);
                     vfs->write(stdout,err_info,strlen(err_info));
                 }
@@ -107,7 +107,7 @@ void shell_thread(void* ttyid) {
             //printf("222\n");
             memset(line,'\0',sizeof(line));
             nread = vfs->read(stdin, line, sizeof(line));
-            printf("%d\n",nread);
+            //printf("%d\n",nread);
             //printf("%s\n",stdin);
         }
     /* supported commands:
