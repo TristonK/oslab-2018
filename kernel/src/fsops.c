@@ -16,7 +16,7 @@ void fs_init(struct filesystem *fs, const char *name, device_t *dev){
 }
 
 static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int flags,inode_t *parent){
-    //printf("try to find %s\n",path);
+    printf("try to find %s\n",path);
     inode_t* scan = parent->child;
     if(path[0]!='/'){
         printf("BAD PATH\n");
@@ -138,7 +138,7 @@ off_t ifs_lseek(file_t *file, off_t offset, int whence){
 }
 int ifs_mkdir(inode_t *My, const char *name){
     //My: parent_inode
-    printf("sss %s\n",name);
+    //printf("sss %s\n",name);
     create_inode(My->fs,My,name,O_RDONLY,DIR_FILE);
     return 0;
 }
