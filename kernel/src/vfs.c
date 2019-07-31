@@ -65,6 +65,7 @@ void vfs_init (){
 	vfs->mkdir("/dev/ramdisk1");
     printf("shit1\n");
     vfs_ls("/");
+    vfs_ls("/dev");
 }
 
 
@@ -87,10 +88,10 @@ int vfs_unmount (const char *path){
 }
 
 int vfs_mkdir (const char *path){
-    printf("%s\n",path);
+    //printf("%s\n",path);
     kmt->spin_lock(&inode_rwlk);
     int lens = strlen(path);
-    printf("len is %d\n",lens);
+    //printf("len is %d\n",lens);
     int i=lens-1;
     //printf("is is %d and %d\n",i,lens-1);
     //printf("%s\n",(path+1));
