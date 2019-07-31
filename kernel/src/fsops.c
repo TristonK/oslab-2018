@@ -107,7 +107,7 @@ ssize_t ifs_read(file_t *file, char *buf, size_t size){
     ssize_t read_size = file->offset + size > file->inode->size?file->inode->size - file->offset:size;
     //printf("read_size is %d and we need read%d\n",read_size,size);
     inode_dev->ops->read(inode_dev,file->offset,buf,size);
-    file->offset += read_size;
+    file->offset += size;
     //kmt->spin_unlock(&inode_rwlk);
     return size;
 }
