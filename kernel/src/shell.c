@@ -59,9 +59,11 @@ void shell_thread(void* ttyid) {
                 char cmd[32];char in_path[128];
                 int path_cnt = 0;
                 for(int i=0;i<nread-1;i++){
-                    if(line[i]==' '){
+                    if(line[i]==' ' && !flag){
                         cmd[i] = '\0';
                         flag = 1;
+                    }else if(line[i]==' ' && !flag){
+                        vfs->write(stdout,"sorry\n",6);
                     }else if(!flag){
                         cmd[i] = line[i];
                         cmd_cnt++;
