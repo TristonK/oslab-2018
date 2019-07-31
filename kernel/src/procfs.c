@@ -9,6 +9,7 @@ char meminfo[256]={'\0'};
 int cpuflag = 0;
 
 int proc_cat(const char* path,int fd){
+    printf("shit\n");
     if(!strncmp(path,"/proc/cpuinfo",13)){
         if(cpuflag){
             vfs->write(fd,cpuinfo,strlen(cpuinfo));
