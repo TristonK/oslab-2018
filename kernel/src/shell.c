@@ -96,10 +96,11 @@ void shell_thread(void* ttyid) {
             sprintf(text, "(%s) :", buf);
             vfs->write(stdout, text, strlen(text));
 			vfs->write(stdout, current_path, strlen(current_path));
-            printf("shit\n");
+            //printf("shit\n");
 			vfs->write(stdout, inter, strlen(inter));
-            printf("222\n");
+            //printf("222\n");
             nread = vfs->read(stdin, line, sizeof(line));
+            printf("%d\n",nread);
         }
     /* supported commands:
     * ls
