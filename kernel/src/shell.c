@@ -23,6 +23,7 @@ void path_translation(const char* path){
         }else{
             printf("%d ss\n",i);
             printf("%s\n",current_path);
+            printf("nnn %s\n",newpath);
             strncpy(newpath,current_path,i);
         }
         printf("%s\n",newpath);
