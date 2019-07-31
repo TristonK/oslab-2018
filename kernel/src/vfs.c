@@ -70,7 +70,7 @@ void vfs_init (){
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
     //vfs_ls("/");
-    //vfs_ls("/dev");
+    vfs_ls("/dev");
 }
 
 
