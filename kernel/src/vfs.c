@@ -176,13 +176,13 @@ int vfs_mkdir (const char *path){
         }
     }
     if(flag){
-        printf("%s pathsss\n",path);
+        //printf("%s pathsss\n",path);
         inode_t* parent_inode = fs_lookup(&blkfs[0],current_path,O_RDWR,0);
         parent_inode->ops->mkdir(parent_inode,path);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     } else if(i==0){
-        printf("%s path\n",path);
+        //printf("%s path\n",path);
         root.ops->mkdir(&root,path+1);
         kmt->spin_unlock(&inode_rwlk);
         return 0;

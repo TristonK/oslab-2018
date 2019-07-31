@@ -138,6 +138,7 @@ off_t ifs_lseek(file_t *file, off_t offset, int whence){
 }
 int ifs_mkdir(inode_t *My, const char *name){
     //My: parent_inode
+    printf("sss %s\n",name);
     create_inode(My->fs,My,name,O_RDONLY,DIR_FILE);
     return 0;
 }
