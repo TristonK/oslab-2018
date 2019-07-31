@@ -54,10 +54,11 @@ void shell_thread(void* ttyid) {
         if (nread!=0) {
             //printf("chrkk\n");
             if(line[nread-1]=='\n'){
+                line[nread-1] = '\0';
                 int cmd_cnt = 0; int flag = 0; 
                 char cmd[32];char in_path[128];
                 int path_cnt = 0;
-                for(int i=0;i<nread;i++){
+                for(int i=0;i<nread-1;i++){
                     if(line[i]==' '){
                         cmd[i] = '\0';
                         flag = 1;
@@ -100,8 +101,8 @@ void shell_thread(void* ttyid) {
 			vfs->write(stdout, inter, strlen(inter));
             //printf("222\n");
             nread = vfs->read(stdin, line, sizeof(line));
-            printf("%d\n",nread);
-            printf("%s\n",stdin);
+            //printf("%d\n",nread);
+            //printf("%s\n",stdin);
         }
     /* supported commands:
     * ls
