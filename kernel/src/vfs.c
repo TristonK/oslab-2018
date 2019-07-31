@@ -52,10 +52,10 @@ void vfs_init (){
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
     printf("shit1\n");
-	vfs->mkdir("dev\0");
+	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
 	printf("**********\n");
-    vfs->mkdir("proc\0");
+    vfs->mkdir("proc");
 	//vfs->mount("/proc",&procfs,"proc");
 	vfs->mkdir("/dev/tty1");
 	vfs->mkdir("/dev/tty2");
@@ -87,9 +87,9 @@ int vfs_unmount (const char *path){
 }
 
 int vfs_mkdir (const char *path){
-    printf("%s\n",path);
-    int len = strlen(path);
-    printf("len is %d",len);
+    //printf("%s\n",path);
+    int lens = strlen(path);
+    printf("len is %d",lens);
     int i;
     for(i=len-1;i>=0;i--){
         if(path[i]=='/')
