@@ -92,10 +92,10 @@ void shell_thread(void* ttyid) {
                     printf("rmmmmm\n");
                 }else {
                     char err_info[128];
-                    //printf("%d\n",sizeof(cmd));
-                    sprintf(err_info,"ksh : command not found");
+                    printf("%d\n",sizeof(cmd));
+                    sprintf(err_info,"ksh : command not found %s",cmd);
                     printf("%s\n",err_info);
-                    vfs->write(stdout,err_info,sizeof(err_info));
+                    vfs->write(stdout,err_info,strlen(err_info));
                 }
                 nread = 0;
             }
