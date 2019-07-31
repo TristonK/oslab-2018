@@ -116,6 +116,7 @@ int vfs_mkdir (const char *path){
     {
         char parent_name[32];
         strncpy(parent_name,path,i);
+        parent_name[i]='\0';
         printf("%s\n",parent_name);
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         return parent_node->ops->mkdir(parent_node,path+i);
