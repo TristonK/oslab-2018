@@ -88,6 +88,7 @@ int vfs_unmount (const char *path){
 
 int vfs_mkdir (const char *path){
     //printf("%s\n",path);
+    kmt->spin_lock(&inode_rwlk);
     int lens = strlen(path);
     printf("len is %d\n",lens);
     int i=lens-1;
@@ -105,6 +106,7 @@ int vfs_mkdir (const char *path){
         inode_t* parent_node = fs_lookup(&blkfs[0],parent_name,O_RDWR,0);
         return parent_node->ops->mkdir(parent_node,path+i);
     }
+    kmt->spin_unlock(&inode_rwlk);
 }
 
 int vfs_rmdir (const char *path){
