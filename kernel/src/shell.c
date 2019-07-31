@@ -63,7 +63,7 @@ void shell_thread(void* ttyid) {
     int stdout = vfs->open(buf, O_WRONLY);
     char text[128];
     char line[128];
-    char inter[3] = " $ ";
+    char inter[3] = "$ ";
     ssize_t nread = 0;
     while (1) {
         if (nread!=0) {
@@ -126,7 +126,7 @@ void shell_thread(void* ttyid) {
             vfs->write(stdout, text, strlen(text));
 			vfs->write(stdout, current_path, strlen(current_path));
             //printf("shit\n");
-			vfs->write(stdout, inter,1);
+			vfs->write(stdout, inter,2);
             //printf("222\n");
             memset(line,'\0',sizeof(line));
             nread = vfs->read(stdin, line, sizeof(line));
