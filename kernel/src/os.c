@@ -3,10 +3,12 @@
 #include <devices.h>
 
 spinlock_t ostrap;
-handle* hde; 
+handle* hde;
+#define FS_test 
 //#define TTy
 
 extern ssize_t tty_write(device_t *dev, off_t offset, const void *buf, size_t count);
+extern void shell_thread(int tty_id) 
 
 void cpu_test(void *name){
   while(1){
@@ -77,7 +79,12 @@ static void os_init() {
   kmt->sem_init(&fulll, "fill", 0);
   kmt->spin_init(&p_c, "pro_consumer");
   #endif
-  
+  #ifdef FS_test
+  kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty2");
+  kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty3");
+  kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty4");
+  #endif
 }
 
 

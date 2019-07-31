@@ -15,6 +15,9 @@ inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,in
     new_inode->mode = mode;
     new_inode->refcnt = 0;
     new_inode->ops =  &blkfs_inode_op;
+    if(!strcmp(parent_node->name,"dev")){
+        new_inode->ptr = (void*) dev_lookup(name);
+    }
     if(parent_node->child == NULL){
         parent_node->child = new_inode;
     }else{

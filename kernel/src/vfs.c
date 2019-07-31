@@ -20,7 +20,7 @@ static void root_init(){
 }
 
 
-int vfs_ls(const char* path){
+int vfs_ls(const char* path,int fd){
     //!!!!!!!!!!!!!!!!!!!!!!!!change print
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
@@ -42,6 +42,13 @@ int vfs_ls(const char* path){
     return 0;
 }
 
+int vfs_cd(const char* path,int fd){
+    return 0;
+}
+
+int vfs_cat(const char* path,int fd){
+    return 0;
+}
 
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
@@ -62,8 +69,8 @@ void vfs_init (){
 	vfs->mkdir("/dev/tty4");
 	vfs->mkdir("/dev/ramdisk0");
 	vfs->mkdir("/dev/ramdisk1");
-    vfs_ls("/");
-    vfs_ls("/dev");
+    //vfs_ls("/");
+    //vfs_ls("/dev");
 }
 
 
@@ -188,4 +195,7 @@ MODULE_DEF(vfs){
     .write = vfs_write,
     .lseek = vfs_lseek,
     .close = vfs_close,
+    .ls = vfs_ls,
+    .cd = vfs_cd,
+    .cat = vfs_cat,
  };

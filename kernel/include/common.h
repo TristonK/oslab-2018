@@ -161,6 +161,9 @@ typedef struct {
   ssize_t (*write)(int fd, void *buf, size_t nbyte);
   off_t (*lseek)(int fd, off_t offset, int whence);
   int (*close)(int fd);
+  int (*ls)(const char *path,int fd);
+  int (*cd)(const char *path,int fd);
+  int (*cat)(const char *path,int fd);
 } MODULE(vfs);
 
 inode_t root;
