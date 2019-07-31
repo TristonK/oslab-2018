@@ -8,12 +8,14 @@ char memi1[64];
 char memi2[64];
 char memi3[64];
 char in_ref[32];
+char inname[16];
 char out_ref[32];
+char outname[16];
 
 int cpuflag = 0;
 
 int proc_cat(const char* path,int fd){
-    printf("shit\n");
+    //printf("shit\n");
     if(!strncmp(path,"/proc/cpuinfo",13)){
         if(cpuflag){
             vfs->write(fd,cpuino,strlen(cpuino));
@@ -38,11 +40,15 @@ int proc_cat(const char* path,int fd){
     }else{
         if(!strcmp(path,"/proc/0")){
             sprintf(in_ref,"refcnt : %d\n\0",runtask[_cpu()]->fildes[0]->refcnt);
+            sprintf(inname,"name: stdin\n");
+            vfs->write(fd,inname,strlen(inname));
             vfs->write(fd,in_ref,strlen(in_ref));
         }
-        else if (!strcmp(path,"/path/1"))
+        else if (!strcmp(path,"/proc/1"))
         {
+            sprintf(outname,"name: stdout\n");
             sprintf(out_ref,"refcnt : %d\n\0",runtask[_cpu()]->fildes[1]->refcnt);
+            vfs->write(fd,outname,strlen(outname));
             vfs->write(fd,out_ref,strlen(out_ref));
         }
         
