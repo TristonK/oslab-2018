@@ -39,6 +39,7 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
         find_name[i-1] = '\0';
     //printf("gg %s\n",find_name);
     while(scan->next!=NULL){
+         printf("%s\n",scan->name);
         if(!strcmp(scan->name,find_name)){
             if(final_path){
                 return scan;
@@ -47,7 +48,6 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
                 return fs_recursive_find(scan->fs,path+i,flags,scan);
             }
         }
-        //printf("%s\n",scan->name);
         scan = scan->next;
     }
     printf("Invalid path %s\n",path);
