@@ -10,11 +10,7 @@ void path_translation(const char* path){
     printf("before the trans the path is %s\n",path);
     #endif
     memset(full_path,'\0',sizeof(full_path));
-    if(!strncmp(path,".",1)){
-        strcat(full_path,current_path);
-        path = path+1;
-        strcat(full_path,path);
-    } else if(!strncmp(path,"..",2)){
+    if(!strncmp(path,"..",2)){
         int path_len = strlen(current_path);
         int i;
         for(i=path_len-1;i>=0;i--){
@@ -25,6 +21,10 @@ void path_translation(const char* path){
         strncpy(newpath,current_path,i);
         strcat(full_path,newpath);
         path = path+2;
+        strcat(full_path,path);
+    } else if(!strncmp(path,".",1) || strncmp(path,'/',1)){
+        strcat(full_path,current_path);
+        path = path+1;
         strcat(full_path,path);
     } else{
         strcpy(full_path,path);
