@@ -178,7 +178,7 @@ int vfs_mkdir (const char *path){
     }
 }
 
-staic void rmdir_recursive(inode_t* dele){
+static void rmdir_recursive(inode_t* dele){
     while(dele->child!=NULL){
         if(dele->child->types == DIR_FILE){
             rmdir_recursive(dele->child);
