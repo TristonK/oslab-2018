@@ -45,13 +45,13 @@ int vfs_ls(const char* path){
 
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
-    printf("shit1\n");
+    //printf("shit1\n");
     strcpy(current_path,"/");
     current_fs = &blkfs[0];
     root_init();
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
-    printf("shit1\n");
+    //printf("shit1\n");
 	vfs->mkdir("dev");
 	//vfs->mount("/dev",&devfs,"dev");
 	printf("**********\n");
@@ -91,11 +91,9 @@ int vfs_mkdir (const char *path){
     int lens = strlen(path);
     printf("len is %d\n",lens);
     int i=lens-1;
-    for(;i>=0;i--){
+    while(path[i]!='/'){
         printf("i is %d\n");
-        if(path[i]=='/'){
-            break;
-        }
+        i--;
     }
     printf("%d  \n",i);
     if(i==0){
