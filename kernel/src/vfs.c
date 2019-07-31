@@ -126,17 +126,20 @@ int vfs_open (const char *path, int flags){
 
 ssize_t vfs_read (int fd, void *buf, size_t nbyte){
     file_t node_file = runtask[_cpu()]->fildes[fd];
-    return node_file.inode->ops->read(node_file,buf,size);
+    node_file.inode->ops->read(node_file,buf,size);
+    return 0;
 }
 
 ssize_t vfs_write (int fd, void *buf, size_t nbyte){
     file_t node_file = runtask[_cpu()]->fildes[fd];
-    return node_file.inode->ops->write(node_file,buf,size);
+    node_file.inode->ops->write(node_file,buf,size);
+    return 0;
 }
 
 off_t vfs_lseek (int fd, off_t offset, int whence){
     file_t node_file = runtask[_cpu()]->fildes[fd];
-    return node_file.inode->ops->lseek(node_file,offset,whence);
+    node_file.inode->ops->lseek(node_file,offset,whence);
+    return 0;
 }
 
 int vfs_close (int fd){
