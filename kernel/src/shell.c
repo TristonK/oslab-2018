@@ -18,6 +18,7 @@ void path_translation(const char* path){
                 break;
         }
         char newpath[128];
+        memset(newpath,'\0',sizeof(newpath));
         if(i==0){
             strcpy(newpath,"/");
         }else{
