@@ -20,7 +20,7 @@ static void root_init(){
 }
 
 
-int check_ls(const char* path,int fd){
+int check_ls(const char* path){
     //!!!!!!!!!!!!!!!!!!!!!!!!change print
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
@@ -46,26 +46,26 @@ char tab[2] = " ";
 char next_line[2] = "\n";
 
 
-void vfs_ls(const char* path){
+void vfs_ls(const char* path,int fd){
     inode_t* ls_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
     if(ls_node==NULL){
         char err_info[128];
         sprintf(err_info,"ls: cannot access '%s': No such file or directory",path);
-        vfs->write(stdout,err_info,sizeof(err_info));
+        vfs->write(fd,err_info,sizeof(err_info));
         return -1;
     }
     if(ls_node->types == ORD_FILE){
-        vfs->write(stdout,ls_node->name,sizeof(ls_node->name));
+        vfs->write(fd,ls_node->name,sizeof(ls_node->name));
     } else{
         inode_t *ls_child = ls_node->child;
         if(ls_child==NULL)
             return 0;
         while(ls_child!=NULL){
-            vfs->write(stdout,ls_child->name,sizeof(ls_child->name));
-            vfs->write(stdout,&tab,2);
+            vfs->write(fd,ls_child->name,sizeof(ls_child->name));
+            vfs->write(fd,&tab,2);
             ls_child = ls_child->next;
         }
-        vfs->write(stdout,&next_line,1);
+        vfs->write(fd,&next_line,1);
     }
     return 0;
 }
