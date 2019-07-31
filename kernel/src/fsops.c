@@ -11,9 +11,8 @@ extern fsops_t blkfs_op;
 // FOR blkfs
 void fs_init(struct filesystem *fs, const char *name, device_t *dev){
     fs->dev = dev;
-    fs->dev->ops = &blkfs_op;
     strcpy(fs->name,name);
-    fs->ops = &blkfs_inode_op;
+    fs->ops = &blkfs_op;
 }
 
 static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int flags,inode_t *parent){

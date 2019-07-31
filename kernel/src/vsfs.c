@@ -3,6 +3,8 @@
 #include <klib.h>
 #include <devices.h>
 
+extern inodeops_t blkfs_inode_op;
+
 inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,int mode){
     inode_t* new_inode = pmm->alloc(sizeof(inode_t));
     new_inode->parent = parent_node;
@@ -12,6 +14,7 @@ inode_t* create_inode(filesystem_t* fs,inode_t *parent_node, const char* name,in
     new_inode->content =NULL;
     new_inode->mode = mode;
     new_inode->refcnt = 0;
+    new_inode->ops =  blkfs_inode_op;
     if(parent_node->child == NULL){
         parent_node->child = new_inode;
     }else{
