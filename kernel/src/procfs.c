@@ -3,8 +3,8 @@
 #include <devices.h>
 
 struct filesystem procfs;
-char cpuinfo[428];
-char meminfo[256];
+char cpuino[428];
+char memino[256];
 
 int cpuflag = 0;
 
@@ -12,17 +12,17 @@ int proc_cat(const char* path,int fd){
     printf("shit\n");
     if(!strncmp(path,"/proc/cpuinfo",13)){
         if(cpuflag){
-            vfs->write(fd,cpuinfo,strlen(cpuinfo));
+            vfs->write(fd,cpuino,strlen(cpuino));
         }else{
             cpuflag = 1;
-            printf("cpu is %d\n",_ncpu());
+            //printf("cpu is %d\n",_ncpu());
             for(int i=0;i<_ncpu();i++){
                 char tempss[24];
                 sprintf(tempss,"processor : %d\n",i);
-                strcat(cpuinfo,tempss);
-                strcat(cpuinfo,"vendor_id : OSintel\nmodel:17\nmodel name:OS(R) Core(TM) i0-0001HQ CPU @ 0.00GHz\n\n");
+                strcat(cpuino,tempss);
+                strcat(cpuino,"vendor_id : OSintel\nmodel:17\nmodel name:OS(R) Core(TM) i0-0001HQ CPU @ 0.00GHz\n\n");
             }
-            vfs->write(fd,cpuinfo,strlen(cpuinfo));
+            vfs->write(fd,cpuino,strlen(cpuinfo));
         }
     }else if(!strncmp(path,"/proc/meminfo",13)){
 
