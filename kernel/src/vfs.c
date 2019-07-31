@@ -85,6 +85,8 @@ int vfs_cd(const char* path,int fd){
 }
 
 int vfs_cat(const char* path,int fd){
+    char error_info[128];
+    memset(error_info,'\0',sizeof(error_info));
     if(strncmp(path,"/dev",4)==0){
 		vfs->write(fd,"Permission denied\n",18);
 		return -1;
@@ -94,7 +96,23 @@ int vfs_cat(const char* path,int fd){
 		return 0;
 //		vfs->write(sto,"Permission denied\n",18);
 //		return -1;
-	}
+	} else{
+        inode_t* cat_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
+        if(cat_node==NULL){
+            sprintf(error_info,"cat: cannot cat '%s': No such file or directory",path);
+            vfs->write(fd,error_info,strlen(error_info));
+            return -1;
+        }else if(cat_node->types == DIR_FILE){
+            sprintf(error_info,"cat: cannot cat '%s':Is a directory",path);
+            vfs->write(fd,error_info,strlen(error_info));
+            return -1;
+        }else if(cat_node->content == NULL){
+            return 0;
+        }else{
+            vfs->write(fd,cat_node->content,strlen(cat_node->content));
+            return 0;
+        }
+    }
     return 0;
 }
 
@@ -116,6 +134,15 @@ int vfs_rm(const char* path,int fd){
     return 0;
 }
 
+int vfs_addcontent(const char*path,char* content){
+    inode_t *added = fs_lookup(&blkfs[0],path,O_RDWR,0);
+    if(added == NULL || added->types == DIR_FILE){
+        return -1;
+    }
+    added->content = content;
+}
+
+
 void vfs_init (){
     kmt->spin_init(&inode_rwlk,"inode read_write lock");
     //printf("shit1\n");
@@ -125,6 +152,7 @@ void vfs_init (){
     //vfs->mount("/",&blkfs[0]);
 	//vfs->mount("/mnt",&blkfs[1],"mnt");
     //printf("shit1\n");
+    vfs->mkdir("mnt");
 	vfs->mkdir("dev");
     vfs->mkdir("proc");
 	//vfs->mount("/dev",&devfs,"dev");
@@ -137,6 +165,10 @@ void vfs_init (){
 	vfs->newfile("/dev/ramdisk1");
     vfs->newfile("/proc/cpuinfo");
     vfs->newfile("/proc/meminfo");
+    vfs->newfile("/hello.c");
+    char *added_con = pmm->alloc(128);
+    strcpy(added_con,"#include<stdio.h>\nint main(){\n  printf(\"hello world\");\n  return 0;\n}");
+    vfs_addcontent("/hello.c",added_con);
     //vfs_ls("/");
     //check_ls("/dev");
 }

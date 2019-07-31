@@ -56,6 +56,7 @@ static inode_t *fs_recursive_find(struct filesystem *fs, const char *path, int f
 }
 
 
+
 inode_t *fs_lookup(struct filesystem *fs, const char *path, int flags, int from){
     //FUll path
         /*if(strcmp(fs->name,"blkfs")){
