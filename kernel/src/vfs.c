@@ -94,13 +94,19 @@ int vfs_mkdir (const char *path){
     int i=lens-1;
     //printf("is is %d and %d\n",i,lens-1);
     //printf("%s\n",(path+1));
+    int flag=0;
     for(;i>=0;i=i-1){
-        printf("i is %d\n",i);
         if(!strncmp((path+i),"/",1))
             break;
+        else if(i==0){
+            flag = 1;
+            break;
+        }
     }
-    printf("%d  \n",i);
-    if(i==0){
+    if(flag){
+        inode_t* parent_inode = fs_lookup(&blkfs[0],current_path,O_RDWR,0);
+        return parent_inode->ops->mkdir(parent_inode,path);
+    } else if(i==0){
         return root.ops->mkdir(&root,path+1);
     }else
     {
