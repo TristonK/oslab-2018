@@ -2,17 +2,7 @@
 #include <klib.h>
 #include <devices.h>
 
-fsops_t devfs_op{
-    .init = devfs_init,
-    .lookup = devfs_lookup,
-    .close = devfs_close, 
-};
 
-struct filesystem devfs = {
-    .name = "/dev",
-    .ops = &devfs_op,
-    .dev = NULL,
-};
 
 void devfs_init(struct filesystem *fs, const char *name, device_t *dev){
     return;
@@ -23,7 +13,17 @@ inode_t *devfs_lookup(struct filesystem *fs, const char *path, int flags, int fr
 int devfs_close(inode_t *inode){
     return 0;
 }
+fsops_t devfs_op {
+    .init = devfs_init,
+    .lookup = devfs_lookup,
+    .close = devfs_close, 
+};
 
+struct filesystem devfs = {
+    .name = "/dev",
+    .ops = &devfs_op,
+    .dev = NULL,
+};
 
 /* 
 int devifs_open(file_t *file, int flags){}
