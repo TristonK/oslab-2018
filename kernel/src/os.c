@@ -81,7 +81,6 @@ static void os_init() {
   #endif
   #ifdef FS_test
   kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty1");
-  printf("***********\n");
   kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty2");
   kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty3");
   kmt->create(pmm->alloc(sizeof(task_t)), "shell", shell_thread, "tty4");
