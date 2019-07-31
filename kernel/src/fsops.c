@@ -3,7 +3,7 @@
 #include <devices.h>
 
 struct filesystem blkfs[2];
-extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, char* name,int mode);
+extern inode_t* create_inode(struct filesystem* fs,inode_t *parent_node, const char* name,int mode);
 extern int free_inode(inode_t* f_inode);
 extern inodeops_t blkfs_inode_op;
 extern fsops_t blkfs_op;
@@ -102,6 +102,7 @@ ssize_t ifs_write(file_t *file, const char *buf, size_t size){
     void* content = file->inode->content;
     memcpy((content+file->offset),(void*)buf,size);
     kmt->spin_unlock(&inode_rwlk);
+    return size;
 }
 off_t ifs_lseek(file_t *file, off_t offset, int whence){
     switch (whence)
@@ -129,7 +130,7 @@ int ifs_mkdir(inode_t *My, const char *name){
 }
 int ifs_rmdir(inode_t *My, const char *name){
     //My: the inode need to be delete
-    f_inode(My);
+    free_inode(My);
     return 0;
 }
 int ifs_link(const char *name, inode_t *inode,inode_t *new){
