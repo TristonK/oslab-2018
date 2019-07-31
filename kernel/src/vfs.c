@@ -212,11 +212,13 @@ int vfs_newfile(const char*path){
         }
     }
     if(flag){
+        printf("%s path here\n");
         inode_t* parent_inode = fs_lookup(&blkfs[0],current_path,O_RDWR,0);
         create_inode(parent_inode->fs,parent_inode,path,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
     } else if(i==0){
+        printf("%s path\n");
         create_inode(root.fs,&root,path+1,O_RDONLY,ORD_FILE);
         kmt->spin_unlock(&inode_rwlk);
         return 0;
