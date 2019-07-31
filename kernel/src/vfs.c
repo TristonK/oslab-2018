@@ -99,11 +99,11 @@ int vfs_cat(const char* path,int fd){
 	} else{
         inode_t* cat_node = fs_lookup(&blkfs[0],path,O_RDWR,0);
         if(cat_node==NULL){
-            sprintf(error_info,"cat: cannot cat '%s': No such file or directory",path);
+            sprintf(error_info,"cat: cannot cat '%s': No such file or directory\n",path);
             vfs->write(fd,error_info,strlen(error_info));
             return -1;
         }else if(cat_node->types == DIR_FILE){
-            sprintf(error_info,"cat: cannot cat '%s':Is a directory",path);
+            sprintf(error_info,"cat: cannot cat '%s':Is a directory\n",path);
             vfs->write(fd,error_info,strlen(error_info));
             return -1;
         }else if(cat_node->content == NULL){
